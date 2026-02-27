@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "track": {
+    "name": "Introduction to Cybersecurity",
+    "slug": "intro-cybersecurity",
+    "description": "Foundation track covering CIA, risk fundamentals, kill chain, MITRE ATT&CK, and compliance basics.",
+    "is_active": true
+  },
+  "xp_total": 1300,
+  "skill_progression": [
+    "Beginner",
+    "Analyst Mindset",
+    "Risk Evaluator",
+    "Threat Mapper"
+  ],
+  "badges": [
+    "Cyber Awareness",
+    "Risk Analyst",
+    "Threat Mapper",
+    "Attack Strategist"
+  ],
+  "modules": [
+    {
+      "code": "M1",
+      "order": 1,
+      "name": "CIA Triad",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m1-cia-triad-integrity-breach",
+          "title": "M1: CIA Triad - Integrity Breach",
+          "difficulty": "easy",
+          "points": 50,
+          "challenge_type": "scenario_analysis",
+          "description": "Scenario: A hospital patient database was modified by an unauthorized user. Identify the primary CIA pillar impacted and submit the canonical flag.",
+          "flag": "ZTCTF{m1-cia-triad-integrity-breach_1b4e9f}",
+          "publish": true
+        },
+        {
+          "order": 2,
+          "slug": "m1-cia-triad-multi-impact",
+          "title": "M1: CIA Triad - Multi Impact Classification",
+          "difficulty": "easy",
+          "points": 50,
+          "challenge_type": "classification",
+          "description": "Scenario bundle: data leak, website downtime, and modified logs. Identify the CIA impact sequence and submit the canonical flag.",
+          "flag": "ZTCTF{m1-cia-triad-multi-impact_84ac73}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M2",
+      "order": 2,
+      "name": "Threat, Vulnerability, Risk",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m2-threat-vulnerability-risk-classifier",
+          "title": "M2: Threat vs Vulnerability vs Risk",
+          "difficulty": "easy",
+          "points": 150,
+          "challenge_type": "simulation",
+          "description": "Given an unpatched Apache server, an active attacker, and financial loss, classify each item correctly as threat, vulnerability, or risk impact.",
+          "flag": "ZTCTF{m2-threat-vulnerability-risk-classifier_6d2c10}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M3",
+      "order": 3,
+      "name": "Attack Surface Mapping",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m3-attack-surface-map",
+          "title": "M3: Attack Surface Mapping",
+          "difficulty": "medium",
+          "points": 150,
+          "challenge_type": "interactive_mapping",
+          "description": "Analyze a target profile with web app, API, exposed SSH, and phishing vector. Map digital, physical, and human attack surfaces.",
+          "flag": "ZTCTF{m3-attack-surface-map_b70d5a}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M4",
+      "order": 4,
+      "name": "Threat Actor Identification",
+      "xp_budget": 200,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m4-threat-actor-apt-identification",
+          "title": "M4: Threat Actor - APT Identification",
+          "difficulty": "medium",
+          "points": 200,
+          "challenge_type": "scenario_classification",
+          "description": "Profile a long dwell-time supply-chain intrusion with advanced tradecraft and classify the most likely threat actor category.",
+          "flag": "ZTCTF{m4-threat-actor-apt-identification_39f2cd}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M5",
+      "order": 5,
+      "name": "Cyber Kill Chain",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m5-cyber-kill-chain-mapping",
+          "title": "M5: Cyber Kill Chain Mapping",
+          "difficulty": "medium",
+          "points": 250,
+          "challenge_type": "timeline_mapping",
+          "description": "Map an intrusion timeline to kill chain phases: delivery, exploitation, installation, command and control, and actions on objectives.",
+          "flag": "ZTCTF{m5-cyber-kill-chain-mapping_2e91ab}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M6",
+      "order": 6,
+      "name": "MITRE ATT&CK Basics",
+      "xp_budget": 300,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m6-mitre-attack-technique-mapping",
+          "title": "M6: MITRE ATT&CK Mapping",
+          "difficulty": "hard",
+          "points": 300,
+          "challenge_type": "tactic_mapping",
+          "description": "Map credential dumping, SMB lateral movement, and DNS-based exfiltration events to their ATT&CK tactics.",
+          "flag": "ZTCTF{m6-mitre-attack-technique-mapping_c4d781}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M7",
+      "order": 7,
+      "name": "Cyber Law and Compliance",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m7-cyber-law-data-protection",
+          "title": "M7: Cyber Law - Data Protection Violation",
+          "difficulty": "medium",
+          "points": 150,
+          "challenge_type": "compliance_scenario",
+          "description": "Assess a case where user data is stored without adequate protection controls and identify the violated compliance principle.",
+          "flag": "ZTCTF{m7-cyber-law-data-protection_f86e2c}",
+          "publish": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "version": 1,
+  "track": {
+    "name": "Linux",
+    "slug": "linux",
+    "description": "Linux fundamentals and system exploitation",
+    "is_active": true
+  },
+  "xp_total": 1900,
+  "modules": [
+    {
+      "code": "M11",
+      "order": 11,
+      "name": "Linux Filesystem",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m11-hidden-in-etc",
+          "title": "Hidden in /etc",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Investigate sensitive files under /etc and recover the hidden indicator left in a misconfigured config chain.",
+          "flag": "CTF{hidden_in_etc}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M12",
+      "order": 12,
+      "name": "chmod",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m12-permission-denied",
+          "title": "Permission Denied",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Analyze ownership and mode bits to fix access controls and retrieve the protected flag artifact.",
+          "flag": "CTF{permission_denied}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M13",
+      "order": 13,
+      "name": "Privilege Escalation",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m13-suid-secrets",
+          "title": "SUID Secrets",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Enumerate SUID binaries and identify an escalation path that exposes privileged execution context.",
+          "flag": "CTF{suid_secrets}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M14",
+      "order": 14,
+      "name": "Cron Abuse",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m14-cron-exploit",
+          "title": "Cron Exploit",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Review scheduled jobs, writable paths, and execution timing to exploit an unsafe cron task.",
+          "flag": "CTF{cron_exploit}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M15",
+      "order": 15,
+      "name": "Password Hash",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m15-shadow-hunter",
+          "title": "Shadow Hunter",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Inspect shadow artifacts safely, identify weak hash strategy, and recover credential evidence.",
+          "flag": "CTF{shadow_hunter}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M16",
+      "order": 16,
+      "name": "Netcat",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m16-reverse-shell-drop",
+          "title": "Reverse Shell Drop",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Trace a reverse shell deployment chain and identify the exact command sequence that enabled access.",
+          "flag": "CTF{reverse_shell_drop}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M17",
+      "order": 17,
+      "name": "Command Injection",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m17-bash-injection",
+          "title": "Bash Injection",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Exploit unsafe shell command construction and demonstrate controlled command injection output.",
+          "flag": "CTF{bash_injection}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M18",
+      "order": 18,
+      "name": "Escalation",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m18-root-me",
+          "title": "Root Me",
+          "difficulty": "hard",
+          "points": 250,
+          "description": "Chain Linux misconfigurations to escalate from a low-privilege shell to root-level access.",
+          "flag": "CTF{root_me}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M19",
+      "order": 19,
+      "name": "Kernel Exploit",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m19-kernel-panic",
+          "title": "Kernel Panic",
+          "difficulty": "hard",
+          "points": 250,
+          "description": "Analyze kernel version context and exploit feasibility signals to identify a viable privilege escalation vector.",
+          "flag": "CTF{kernel_panic}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M20",
+      "order": 20,
+      "name": "Log Analysis",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m20-log-miner",
+          "title": "Log Miner",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Mine auth and service logs to reconstruct attacker behavior and extract the hidden incident marker.",
+          "flag": "CTF{log_miner}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M21",
+      "order": 21,
+      "name": "Process Exploit",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m21-zombie-process",
+          "title": "Zombie Process",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Investigate abnormal process trees and exploit process-management weaknesses to recover target evidence.",
+          "flag": "CTF{zombie_process}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M22",
+      "order": 22,
+      "name": "Kali Tools",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m22-kali-recon-lab",
+          "title": "Kali Recon Lab",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Use core Kali reconnaissance workflow to identify services, likely weaknesses, and final target indicator.",
+          "flag": "CTF{kali_recon_lab}",
+          "publish": true
+        }
+      ]
+    }
+  ]
+}

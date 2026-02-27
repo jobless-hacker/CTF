@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "track": {
+    "name": "Networking",
+    "slug": "networking",
+    "description": "Packet analysis and protocol exploitation",
+    "is_active": true
+  },
+  "xp_total": 1700,
+  "modules": [
+    {
+      "code": "M23",
+      "order": 23,
+      "name": "TCP",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m23-tcp-handshake",
+          "title": "TCP Handshake",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Analyze packet flow and identify the exact TCP three-way handshake sequence in a connection trace.",
+          "flag": "CTF{tcp_handshake}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M24",
+      "order": 24,
+      "name": "DNS",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m24-dns-trail",
+          "title": "DNS Trail",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Follow DNS queries and responses to reconstruct the suspicious domain resolution chain.",
+          "flag": "CTF{dns_trail}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M25",
+      "order": 25,
+      "name": "ARP",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m25-arp-poison",
+          "title": "ARP Poison",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Detect ARP cache poisoning behavior by correlating MAC-IP inconsistencies in local network telemetry.",
+          "flag": "CTF{arp_poison}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M26",
+      "order": 26,
+      "name": "Subnetting",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m26-subnet-puzzle",
+          "title": "Subnet Puzzle",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Solve subnet allocation and host-range constraints to identify the correct network segment for a target asset.",
+          "flag": "CTF{subnet_puzzle}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M27",
+      "order": 27,
+      "name": "Wireshark",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m27-packet-sniffer",
+          "title": "Packet Sniffer",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Use packet-level evidence to isolate attacker traffic and recover the embedded network indicator.",
+          "flag": "CTF{packet_sniffer}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M28",
+      "order": 28,
+      "name": "MITM",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m28-mitm-attack",
+          "title": "MITM Attack",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Identify indicators of man-in-the-middle interception across traffic capture and session anomalies.",
+          "flag": "CTF{mitm_attack}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M29",
+      "order": 29,
+      "name": "DHCP",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m29-rogue-dhcp",
+          "title": "Rogue DHCP",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Pinpoint unauthorized DHCP behavior and determine the rogue server source in segmented network logs.",
+          "flag": "CTF{rogue_dhcp}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M30",
+      "order": 30,
+      "name": "Firewall",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m30-firewall-bypass",
+          "title": "Firewall Bypass",
+          "difficulty": "hard",
+          "points": 250,
+          "description": "Investigate ACL and rule-order weaknesses to identify a practical firewall evasion route.",
+          "flag": "CTF{firewall_bypass}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M31",
+      "order": 31,
+      "name": "DNS Attack",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m31-dns-spoof",
+          "title": "DNS Spoof",
+          "difficulty": "hard",
+          "points": 250,
+          "description": "Analyze DNS poisoning indicators and identify the spoofing mechanism used to redirect target traffic.",
+          "flag": "CTF{dns_spoof}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M32",
+      "order": 32,
+      "name": "Network Pivot",
+      "xp_budget": 250,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m32-lateral-pivot",
+          "title": "Lateral Pivot",
+          "difficulty": "hard",
+          "points": 250,
+          "description": "Reconstruct a lateral pivot path across internal network nodes and identify the attacker’s final pivot point.",
+          "flag": "CTF{lateral_pivot}",
+          "publish": true
+        }
+      ]
+    }
+  ]
+}

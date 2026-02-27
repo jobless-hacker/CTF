@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "track": {
+    "name": "Foundations",
+    "slug": "foundations",
+    "description": "Core cybersecurity fundamentals and analyst mindset.",
+    "is_active": true
+  },
+  "xp_total": 1200,
+  "modules": [
+    {
+      "code": "M1",
+      "order": 1,
+      "name": "CIA Triad",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m1-cia-breach",
+          "title": "CIA Breach",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A company reports unauthorized data exposure, altered records, and brief system outage. Identify the most critical CIA impact highlighted in this scenario.",
+          "flag": "CTF{cia_breach}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M2",
+      "order": 2,
+      "name": "Integrity",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m2-integrity-under-fire",
+          "title": "Integrity Under Fire",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Patient records were silently modified by an unauthorized actor. Determine which security principle was violated.",
+          "flag": "CTF{integrity_under_fire}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M3",
+      "order": 3,
+      "name": "Confidentiality",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m3-the-data-leak",
+          "title": "The Data Leak",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "An internal document repository was exposed to external users. Classify the violated CIA pillar.",
+          "flag": "CTF{data_leak}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M4",
+      "order": 4,
+      "name": "Availability",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m4-system-down",
+          "title": "System Down",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A core authentication service was knocked offline for two hours. Identify the CIA principle impacted most.",
+          "flag": "CTF{system_down}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M5",
+      "order": 5,
+      "name": "Risk Modeling",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m5-threat-vs-risk",
+          "title": "Threat vs Risk",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Classify scenario elements into threat, vulnerability, and risk impact categories using standard risk terminology.",
+          "flag": "CTF{threat_vs_risk}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M6",
+      "order": 6,
+      "name": "Vulnerability",
+      "xp_budget": 100,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m6-identify-the-vulnerability",
+          "title": "Identify the Vulnerability",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "Review a short infrastructure scenario and identify which weakness is the actual vulnerability, not the threat actor or impact.",
+          "flag": "CTF{identify_the_vulnerability}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M7",
+      "order": 7,
+      "name": "Attack Surface",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m7-attack-surface-mapping",
+          "title": "Attack Surface Mapping",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Map external and internal attack surfaces across web, API, exposed SSH, and human phishing vectors.",
+          "flag": "CTF{attack_surface_mapping}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M8",
+      "order": 8,
+      "name": "Threat Actors",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m8-insider-alert",
+          "title": "Insider Alert",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Investigate suspicious privileged activity and identify why the event pattern points to insider threat behavior.",
+          "flag": "CTF{insider_alert}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M9",
+      "order": 9,
+      "name": "Kill Chain",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m9-kill-chain-breakdown",
+          "title": "Kill Chain Breakdown",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Given an intrusion timeline, map each attacker action to the correct kill chain stage.",
+          "flag": "CTF{kill_chain_breakdown}",
+          "publish": true
+        }
+      ]
+    },
+    {
+      "code": "M10",
+      "order": 10,
+      "name": "MITRE ATT&CK",
+      "xp_budget": 150,
+      "challenges": [
+        {
+          "order": 1,
+          "slug": "m10-mitre-mapper",
+          "title": "MITRE Mapper",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Map observed attacker behavior to MITRE ATT&CK tactics and techniques at a foundational level.",
+          "flag": "CTF{mitre_mapper}",
+          "publish": true
+        }
+      ]
+    }
+  ]
+}
