@@ -22,6 +22,8 @@ export class AuthRequestError extends Error {
   }
 }
 
+const BACKEND_UNREACHABLE_MESSAGE = "Backend is unavailable right now. Please try again in a few minutes."
+
 const resolveKnownError = (context: AuthErrorContext, status: number): AuthRequestError => {
   if (context === "login") {
     if (status === 401) {
@@ -57,7 +59,7 @@ export const normalizeAuthError = (
     if (typeof status === "number") {
       return resolveKnownError(context, status)
     }
-    return new AuthRequestError("NETWORK_ERROR", "Network error. Please try again.", null)
+    return new AuthRequestError("NETWORK_ERROR", BACKEND_UNREACHABLE_MESSAGE, null)
   }
 
   if (context === "register") {

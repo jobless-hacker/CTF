@@ -15,6 +15,10 @@ Default local URL:
 - Development fallback API URL is `http://localhost:8000`.
 - Production should set `VITE_API_BASE_URL` (for GitHub Pages builds, set repository variable `VITE_API_BASE_URL`).
 - If production `VITE_API_BASE_URL` is not set, API requests use same-origin paths (for example `/auth/login`).
+- Production builds reject `VITE_API_BASE_URL` values that use `*.trycloudflare.com`.
+
+## Routing on GitHub Pages
+- In production on `github.io`, the app uses `HashRouter` to avoid deep-link refresh 404 issues.
 
 ## Build and Lint
 ```bash

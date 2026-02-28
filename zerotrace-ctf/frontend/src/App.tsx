@@ -1,12 +1,18 @@
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter, HashRouter } from "react-router-dom"
 
 import { AppRoutes } from "./app/router/routes"
 
+const shouldUseHashRouter = import.meta.env.PROD
+  && typeof window !== "undefined"
+  && window.location.hostname.endsWith("github.io")
+
 function App() {
+  const Router = shouldUseHashRouter ? HashRouter : BrowserRouter
+
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <Router basename={import.meta.env.BASE_URL}>
       <AppRoutes />
-    </BrowserRouter>
+    </Router>
   )
 }
 
