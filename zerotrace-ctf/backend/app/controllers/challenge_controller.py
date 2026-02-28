@@ -10,6 +10,8 @@ from app.models.challenge import Challenge
 from app.models.user import User
 from app.schemas.challenge import (
     ChallengeActionMessageResponse,
+    ChallengeLabCommandRequest,
+    ChallengeLabCommandResponse,
     ChallengeCreateResponse,
     ChallengeDetailResponse,
     ChallengeSummaryResponse,
@@ -29,9 +31,11 @@ from app.services.challenge_exceptions import (
     TrackNotFoundError,
 )
 from app.services.challenge_service import ChallengeService
+from app.services.challenge_lab_service import ChallengeLabService, ChallengeLabUnavailableError
 
 
 _challenge_service = ChallengeService()
+_challenge_lab_service = ChallengeLabService()
 
 
 def create_challenge(session: Session, payload: CreateChallengeRequest) -> ChallengeCreateResponse:
@@ -283,4 +287,48 @@ def submit_flag(
         correct=result["correct"],
         xp_awarded=result["xp_awarded"],
         first_blood=result["first_blood"],
+    )
+
+
+def execute_lab_command(
+    session: Session,
+    current_user: User,
+    slug: str,
+    payload: ChallengeLabCommandRequest,
+) -> ChallengeLabCommandResponse:
+    _ = current_user
+    try:
+        _challenge_service.get_public_challenge(session, slug)
+    except ChallengeNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Challenge not found.",
+        ) from None
+    except ChallengeNotPublishedError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Challenge unavailable.",
+        ) from None
+    except ChallengeServiceError:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Challenge retrieval failed.",
+        ) from None
+
+    try:
+        result = _challenge_lab_service.execute_command(
+            challenge_slug=slug,
+            command=payload.command,
+            cwd=payload.cwd,
+        )
+    except ChallengeLabUnavailableError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lab unavailable for this challenge.",
+        ) from None
+
+    return ChallengeLabCommandResponse(
+        output=result.output,
+        cwd=result.cwd,
+        exit_code=result.exit_code,
     )

@@ -97,3 +97,26 @@ export const normalizeChallengeSubmitError = (error: unknown): ChallengeRequestE
 
   return new ChallengeRequestError("UNKNOWN_ERROR", "Flag submission failed.", null)
 }
+
+export const normalizeChallengeLabError = (error: unknown): ChallengeRequestError => {
+  if (error instanceof ChallengeRequestError) {
+    return error
+  }
+
+  if (axios.isAxiosError(error)) {
+    const status = error.response?.status
+    if (status === 404) {
+      return new ChallengeRequestError("NOT_FOUND", "Lab unavailable for this challenge.", status)
+    }
+    if (status === 400) {
+      return new ChallengeRequestError("UNAVAILABLE", "Challenge unavailable.", status)
+    }
+    if (typeof status === "number") {
+      return new ChallengeRequestError("UNKNOWN_ERROR", "Lab command failed.", status)
+    }
+
+    return new ChallengeRequestError("NETWORK_ERROR", "Network error. Please try again.", null)
+  }
+
+  return new ChallengeRequestError("UNKNOWN_ERROR", "Lab command failed.", null)
+}

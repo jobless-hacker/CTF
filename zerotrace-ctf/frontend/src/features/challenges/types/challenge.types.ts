@@ -18,3 +18,14 @@ export interface SubmitFlagResponse {
   xp_awarded: number
   first_blood: boolean
 }
+
+export interface ChallengeLabCommandInput {
+  command: string
+  cwd: string
+}
+
+export interface ChallengeLabCommandResponse {
+  output: string
+  cwd: string
+  exit_code: number
+}

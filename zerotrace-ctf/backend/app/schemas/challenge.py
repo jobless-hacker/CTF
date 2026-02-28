@@ -36,6 +36,18 @@ class SubmitFlagRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class ChallengeLabCommandRequest(BaseModel):
+    command: str = Field(min_length=1, max_length=256)
+    cwd: str = Field(default="/", min_length=1, max_length=256)
+
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("command", "cwd")
+    @classmethod
+    def strip_command_fields(cls, value: str) -> str:
+        return value.strip()
+
+
 class ChallengeCreateResponse(BaseModel):
     id: UUID
     slug: str
@@ -75,6 +87,14 @@ class SubmitFlagResponse(BaseModel):
     correct: bool
     xp_awarded: int = Field(ge=0)
     first_blood: bool
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class ChallengeLabCommandResponse(BaseModel):
+    output: str
+    cwd: str
+    exit_code: int
 
     model_config = ConfigDict(extra="forbid")
 

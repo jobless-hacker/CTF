@@ -12,6 +12,8 @@ from app.dependencies.rbac import require_admin
 from app.models.user import User
 from app.schemas.challenge import (
     ChallengeActionMessageResponse,
+    ChallengeLabCommandRequest,
+    ChallengeLabCommandResponse,
     ChallengeCreateResponse,
     ChallengeDetailResponse,
     ChallengeSummaryResponse,
@@ -96,4 +98,19 @@ def submit_challenge_flag(
         current_user=current_user,
         slug=slug,
         submitted_flag=payload.flag,
+    )
+
+
+@router.post("/challenges/{slug}/lab/execute", response_model=ChallengeLabCommandResponse)
+def execute_challenge_lab_command(
+    slug: str,
+    payload: ChallengeLabCommandRequest,
+    session: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> ChallengeLabCommandResponse:
+    return challenge_controller.execute_lab_command(
+        session=session,
+        current_user=current_user,
+        slug=slug,
+        payload=payload,
     )

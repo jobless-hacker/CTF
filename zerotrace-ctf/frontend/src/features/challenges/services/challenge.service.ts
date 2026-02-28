@@ -1,7 +1,15 @@
-import type { SubmitFlagInput } from "../schemas/challenge.schemas"
+import type { ChallengeLabCommandInput, SubmitFlagInput } from "../schemas/challenge.schemas"
 import { apiClient } from "../../../services/api/client"
-import type { ChallengeDetail, SubmitFlagResponse } from "../types/challenge.types"
-import { normalizeChallengeReadError, normalizeChallengeSubmitError } from "./challenge.errors"
+import type {
+  ChallengeDetail,
+  ChallengeLabCommandResponse,
+  SubmitFlagResponse,
+} from "../types/challenge.types"
+import {
+  normalizeChallengeLabError,
+  normalizeChallengeReadError,
+  normalizeChallengeSubmitError,
+} from "./challenge.errors"
 
 const normalizeChallengeDetail = (payload: ChallengeDetail): ChallengeDetail => ({
   id: payload.id,
@@ -22,6 +30,14 @@ const normalizeSubmitResponse = (payload: SubmitFlagResponse): SubmitFlagRespons
   first_blood: payload.first_blood,
 })
 
+const normalizeLabCommandResponse = (
+  payload: ChallengeLabCommandResponse,
+): ChallengeLabCommandResponse => ({
+  output: payload.output,
+  cwd: payload.cwd,
+  exit_code: payload.exit_code,
+})
+
 export const getChallengeDetail = async (slug: string): Promise<ChallengeDetail> => {
   try {
     const { data } = await apiClient.get<ChallengeDetail>(`/challenges/${slug}`)
@@ -40,5 +56,20 @@ export const submitFlag = async (
     return normalizeSubmitResponse(data)
   } catch (error) {
     throw normalizeChallengeSubmitError(error)
+  }
+}
+
+export const executeChallengeLabCommand = async (
+  slug: string,
+  payload: ChallengeLabCommandInput,
+): Promise<ChallengeLabCommandResponse> => {
+  try {
+    const { data } = await apiClient.post<ChallengeLabCommandResponse>(
+      `/challenges/${slug}/lab/execute`,
+      payload,
+    )
+    return normalizeLabCommandResponse(data)
+  } catch (error) {
+    throw normalizeChallengeLabError(error)
   }
 }
