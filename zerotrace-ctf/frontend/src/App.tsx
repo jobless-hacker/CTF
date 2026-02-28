@@ -7,12 +7,18 @@ const shouldUseHashRouter = import.meta.env.PROD
   && window.location.hostname.endsWith("github.io")
 
 function App() {
-  const Router = shouldUseHashRouter ? HashRouter : BrowserRouter
+  if (shouldUseHashRouter) {
+    return (
+      <HashRouter>
+        <AppRoutes />
+      </HashRouter>
+    )
+  }
 
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppRoutes />
-    </Router>
+    </BrowserRouter>
   )
 }
 

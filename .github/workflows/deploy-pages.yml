@@ -35,13 +35,15 @@ jobs:
 
       - name: Build frontend
         working-directory: zerotrace-ctf/frontend
-        env:
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://identify-relatives-pda-discuss.trycloudflare.com' }}
-          VITE_ALLOW_EPHEMERAL_TUNNEL: ${{ vars.VITE_ALLOW_EPHEMERAL_TUNNEL || 'true' }}
         run: |
-          if [ -z "${{ vars.VITE_API_BASE_URL }}" ]; then
+          # Prefer repository variable. Fallback to emergency tunnel URL when missing.
+          if [ -n "${{ vars.VITE_API_BASE_URL }}" ]; then
+            export VITE_API_BASE_URL="${{ vars.VITE_API_BASE_URL }}"
+          else
+            export VITE_API_BASE_URL="https://identify-relatives-pda-discuss.trycloudflare.com"
             echo "VITE_API_BASE_URL is not set in repository variables; using emergency tunnel fallback."
           fi
+          export VITE_ALLOW_EPHEMERAL_TUNNEL="${{ vars.VITE_ALLOW_EPHEMERAL_TUNNEL || 'true' }}"
           npm run build
 
       - name: Enable SPA fallback and disable Jekyll
