@@ -5,6 +5,48 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
+    <script>
+      (() => {
+        const RELOAD_KEY = "zerotrace.asset_reload_attempt"
+
+        window.addEventListener(
+          "error",
+          (event) => {
+            const target = event.target
+            if (!(target instanceof HTMLScriptElement || target instanceof HTMLLinkElement)) {
+              return
+            }
+
+            const resourceUrl = target instanceof HTMLScriptElement ? target.src : target.href
+            if (!resourceUrl || !resourceUrl.includes("/assets/")) {
+              return
+            }
+
+            try {
+              if (window.sessionStorage.getItem(RELOAD_KEY) === "1") {
+                return
+              }
+              window.sessionStorage.setItem(RELOAD_KEY, "1")
+            } catch {
+              return
+            }
+
+            const nextUrl = new URL(window.location.href)
+            nextUrl.searchParams.set("asset_reload", String(Date.now()))
+            window.location.replace(nextUrl.toString())
+          },
+          true,
+        )
+
+        window.addEventListener("DOMContentLoaded", () => {
+          try {
+            window.sessionStorage.removeItem(RELOAD_KEY)
+          } catch {
+            return
+          }
+        })
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
