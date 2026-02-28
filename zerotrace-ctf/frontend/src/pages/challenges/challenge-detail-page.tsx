@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { useChallengeDetail } from "../../features/challenges/hooks/useChallengeDetail"
 import { useChallengeLabCommand } from "../../features/challenges/hooks/useChallengeLabCommand"
@@ -17,6 +17,7 @@ interface LabHistoryEntry {
 
 export const ChallengeDetailPage = () => {
   const { slug } = useParams<{ slug: string }>()
+  const navigate = useNavigate()
   const { data, isLoading, error } = useChallengeDetail(slug)
   const { mutateAsync, isPending, error: submitError, reset } = useSubmitFlag(slug)
   const {
@@ -142,9 +143,20 @@ export const ChallengeDetailPage = () => {
     }
   }
 
+  const handleBackClick = () => {
+    if (window.history.length > 1) {
+      navigate(-1)
+      return
+    }
+    navigate("/tracks")
+  }
+
   return (
     <div className="zt-page">
       <section className="zt-panel">
+        <button onClick={handleBackClick} className="zt-button zt-button--ghost mb-4" type="button">
+          Back
+        </button>
         <p className="zt-kicker">Mission Brief</p>
         <h1 className="zt-heading mt-2">{data.title}</h1>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -206,7 +218,7 @@ export const ChallengeDetailPage = () => {
           <input
             value={flag}
             onChange={(event) => setFlag(event.target.value)}
-            placeholder="Enter flag"
+            placeholder="Enter flag (e.g., CTF{example_flag})"
             className="zt-input flex-1"
             autoComplete="off"
           />
