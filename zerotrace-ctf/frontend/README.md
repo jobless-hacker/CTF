@@ -11,6 +11,11 @@ npm run dev
 Default local URL:
 - `http://127.0.0.1:5000`
 
+## Environment Variables
+- Development fallback API URL is `http://localhost:8000`.
+- Production should set `VITE_API_BASE_URL` (for GitHub Pages builds, set repository variable `VITE_API_BASE_URL`).
+- If production `VITE_API_BASE_URL` is not set, API requests use same-origin paths (for example `/auth/login`).
+
 ## Build and Lint
 ```bash
 npm run lint
