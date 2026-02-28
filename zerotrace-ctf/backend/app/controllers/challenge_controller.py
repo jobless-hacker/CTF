@@ -179,6 +179,7 @@ def list_track_challenges(session: Session, track_slug: str) -> list[ChallengeSu
             difficulty=challenge.difficulty,
             points=challenge.points,
             is_published=challenge.is_published,
+            lab_available=_challenge_lab_service.has_lab(challenge.slug),
         )
         for challenge in challenges
     ]
@@ -212,6 +213,7 @@ def get_public_challenge(session: Session, slug: str) -> ChallengeDetailResponse
         difficulty=public_challenge.difficulty,
         points=public_challenge.points,
         is_published=public_challenge.is_published,
+        lab_available=_challenge_lab_service.has_lab(public_challenge.slug),
         created_at=public_challenge.created_at,
         updated_at=public_challenge.updated_at,
     )

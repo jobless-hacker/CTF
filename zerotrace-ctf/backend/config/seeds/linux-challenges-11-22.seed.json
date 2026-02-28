@@ -21,7 +21,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Investigate sensitive files under /etc and recover the hidden indicator left in a misconfigured config chain.",
-          "flag": "CTF{hidden_in_etc}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -39,7 +39,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Analyze ownership and mode bits to fix access controls and retrieve the protected flag artifact.",
-          "flag": "CTF{permission_denied}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -57,7 +57,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Enumerate SUID binaries and identify an escalation path that exposes privileged execution context.",
-          "flag": "CTF{suid_secrets}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -75,7 +75,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Review scheduled jobs, writable paths, and execution timing to exploit an unsafe cron task.",
-          "flag": "CTF{cron_exploit}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -93,7 +93,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Inspect shadow artifacts safely, identify weak hash strategy, and recover credential evidence.",
-          "flag": "CTF{shadow_hunter}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -111,7 +111,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Trace a reverse shell deployment chain and identify the exact command sequence that enabled access.",
-          "flag": "CTF{reverse_shell_drop}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -129,7 +129,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Exploit unsafe shell command construction and demonstrate controlled command injection output.",
-          "flag": "CTF{bash_injection}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -147,7 +147,7 @@
           "difficulty": "hard",
           "points": 250,
           "description": "Chain Linux misconfigurations to escalate from a low-privilege shell to root-level access.",
-          "flag": "CTF{root_me}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -165,7 +165,7 @@
           "difficulty": "hard",
           "points": 250,
           "description": "Analyze kernel version context and exploit feasibility signals to identify a viable privilege escalation vector.",
-          "flag": "CTF{kernel_panic}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -183,7 +183,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Mine auth and service logs to reconstruct attacker behavior and extract the hidden incident marker.",
-          "flag": "CTF{log_miner}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -201,7 +201,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Investigate abnormal process trees and exploit process-management weaknesses to recover target evidence.",
-          "flag": "CTF{zombie_process}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -219,7 +219,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Use core Kali reconnaissance workflow to identify services, likely weaknesses, and final target indicator.",
-          "flag": "CTF{kali_recon_lab}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]

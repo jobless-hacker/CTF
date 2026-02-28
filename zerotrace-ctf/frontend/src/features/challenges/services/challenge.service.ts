@@ -20,6 +20,7 @@ const normalizeChallengeDetail = (payload: ChallengeDetail): ChallengeDetail => 
   difficulty: payload.difficulty,
   points: payload.points,
   is_published: payload.is_published,
+  lab_available: payload.lab_available,
   created_at: payload.created_at,
   updated_at: payload.updated_at,
 })

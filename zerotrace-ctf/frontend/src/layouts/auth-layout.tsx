@@ -41,7 +41,7 @@ export const AuthLayout = ({ panelTitle, panelSubtitle, children, footer }: Auth
             <div className="zt-terminal-corner zt-terminal-corner--br" aria-hidden />
 
             <img
-              src="/skull.svg"
+              src={`${import.meta.env.BASE_URL}skull.svg`}
               alt=""
               className="absolute bottom-[-40px] right-[-100px] w-72 animate-pulse opacity-10 blur-[1px] skull-glow"
               aria-hidden

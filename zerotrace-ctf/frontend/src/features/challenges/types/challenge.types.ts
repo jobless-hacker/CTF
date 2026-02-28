@@ -9,6 +9,7 @@ export interface ChallengeDetail {
   difficulty: ChallengeDifficulty
   points: number
   is_published: boolean
+  lab_available: boolean
   created_at: string
   updated_at: string
 }

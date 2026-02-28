@@ -27,8 +27,6 @@ export const ChallengeDetailPage = () => {
     reset: resetLabError,
   } = useChallengeLabCommand(slug)
 
-  const isTerminalLabChallenge = slug === "m11-hidden-in-etc"
-
   const [flag, setFlag] = useState("")
   const [result, setResult] = useState<SubmitFlagResponse | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
@@ -40,7 +38,7 @@ export const ChallengeDetailPage = () => {
       id: 1,
       cwd: "/etc",
       command: "help",
-      output: "Try: ls -la, grep -R include /etc, find /etc -name '*.conf', cat <file>",
+      output: "Type `help` to list supported commands.",
       exitCode: 0,
     },
   ])
@@ -78,6 +76,8 @@ export const ChallengeDetailPage = () => {
       </div>
     )
   }
+
+  const isTerminalLabChallenge = data.lab_available
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -170,7 +170,7 @@ export const ChallengeDetailPage = () => {
         <section className="zt-panel">
           <h2 className="zt-panel-title">Terminal Lab</h2>
           <p className="zt-subheading mt-2">
-            Read-only Linux lab for this challenge. Investigate the `/etc` chain and recover the indicator.
+            Interactive read-only lab for this challenge.
           </p>
 
           <div className="mt-4 max-h-96 overflow-y-auto rounded-lg border border-cyber-border bg-black/70 p-4 font-mono text-xs leading-6 text-cyber-text">
@@ -195,7 +195,7 @@ export const ChallengeDetailPage = () => {
             <input
               value={labCommand}
               onChange={(event) => setLabCommand(event.target.value)}
-              placeholder="Type command (example: grep -R include /etc)"
+              placeholder="Type command (example: help)"
               className="zt-input flex-1 font-mono"
               autoComplete="off"
             />

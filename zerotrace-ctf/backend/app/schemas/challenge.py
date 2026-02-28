@@ -64,6 +64,7 @@ class ChallengeSummaryResponse(BaseModel):
     difficulty: ChallengeDifficulty
     points: int
     is_published: bool
+    lab_available: bool
 
     model_config = ConfigDict(extra="forbid")
 
@@ -77,6 +78,7 @@ class ChallengeDetailResponse(BaseModel):
     difficulty: ChallengeDifficulty
     points: int
     is_published: bool
+    lab_available: bool
     created_at: datetime
     updated_at: datetime
 

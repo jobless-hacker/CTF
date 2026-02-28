@@ -21,6 +21,7 @@ const normalizeTrackChallenges = (payload: TrackChallengeSummary[]): TrackChalle
     difficulty: challenge.difficulty,
     points: challenge.points,
     is_published: challenge.is_published,
+    lab_available: challenge.lab_available,
   }))
 }
 

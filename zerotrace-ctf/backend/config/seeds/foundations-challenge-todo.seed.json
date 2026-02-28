@@ -21,7 +21,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "A company reports unauthorized data exposure, altered records, and brief system outage. Identify the most critical CIA impact highlighted in this scenario.",
-          "flag": "CTF{cia_breach}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -39,7 +39,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Patient records were silently modified by an unauthorized actor. Determine which security principle was violated.",
-          "flag": "CTF{integrity_under_fire}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -57,7 +57,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "An internal document repository was exposed to external users. Classify the violated CIA pillar.",
-          "flag": "CTF{data_leak}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -75,7 +75,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "A core authentication service was knocked offline for two hours. Identify the CIA principle impacted most.",
-          "flag": "CTF{system_down}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -93,7 +93,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Classify scenario elements into threat, vulnerability, and risk impact categories using standard risk terminology.",
-          "flag": "CTF{threat_vs_risk}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -111,7 +111,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Review a short infrastructure scenario and identify which weakness is the actual vulnerability, not the threat actor or impact.",
-          "flag": "CTF{identify_the_vulnerability}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -129,7 +129,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Map external and internal attack surfaces across web, API, exposed SSH, and human phishing vectors.",
-          "flag": "CTF{attack_surface_mapping}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -147,7 +147,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Investigate suspicious privileged activity and identify why the event pattern points to insider threat behavior.",
-          "flag": "CTF{insider_alert}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -165,7 +165,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Given an intrusion timeline, map each attacker action to the correct kill chain stage.",
-          "flag": "CTF{kill_chain_breakdown}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -183,7 +183,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Map observed attacker behavior to MITRE ATT&CK tactics and techniques at a foundational level.",
-          "flag": "CTF{mitre_mapper}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]

@@ -21,7 +21,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Analyze packet flow and identify the exact TCP three-way handshake sequence in a connection trace.",
-          "flag": "CTF{tcp_handshake}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -39,7 +39,7 @@
           "difficulty": "easy",
           "points": 100,
           "description": "Follow DNS queries and responses to reconstruct the suspicious domain resolution chain.",
-          "flag": "CTF{dns_trail}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -57,7 +57,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Detect ARP cache poisoning behavior by correlating MAC-IP inconsistencies in local network telemetry.",
-          "flag": "CTF{arp_poison}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -75,7 +75,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Solve subnet allocation and host-range constraints to identify the correct network segment for a target asset.",
-          "flag": "CTF{subnet_puzzle}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -93,7 +93,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Use packet-level evidence to isolate attacker traffic and recover the embedded network indicator.",
-          "flag": "CTF{packet_sniffer}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -111,7 +111,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Identify indicators of man-in-the-middle interception across traffic capture and session anomalies.",
-          "flag": "CTF{mitm_attack}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -129,7 +129,7 @@
           "difficulty": "medium",
           "points": 150,
           "description": "Pinpoint unauthorized DHCP behavior and determine the rogue server source in segmented network logs.",
-          "flag": "CTF{rogue_dhcp}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -147,7 +147,7 @@
           "difficulty": "hard",
           "points": 250,
           "description": "Investigate ACL and rule-order weaknesses to identify a practical firewall evasion route.",
-          "flag": "CTF{firewall_bypass}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -165,7 +165,7 @@
           "difficulty": "hard",
           "points": 250,
           "description": "Analyze DNS poisoning indicators and identify the spoofing mechanism used to redirect target traffic.",
-          "flag": "CTF{dns_spoof}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]
@@ -183,7 +183,7 @@
           "difficulty": "hard",
           "points": 250,
           "description": "Reconstruct a lateral pivot path across internal network nodes and identify the attacker’s final pivot point.",
-          "flag": "CTF{lateral_pivot}",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
       ]

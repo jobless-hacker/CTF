@@ -16,6 +16,7 @@ export interface TrackChallengeSummary {
   difficulty: ChallengeDifficulty
   points: number
   is_published: boolean
+  lab_available: boolean
 }
 
 export interface TrackChallengeModuleGroup {

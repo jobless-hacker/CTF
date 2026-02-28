@@ -154,6 +154,9 @@ class ChallengeLabService:
             "m11-hidden-in-etc": _VirtualFilesystem(self._M11_FILES),
         }
 
+    def has_lab(self, challenge_slug: str) -> bool:
+        return challenge_slug in self._labs
+
     def execute_command(self, challenge_slug: str, command: str, cwd: str) -> ChallengeLabCommandResult:
         filesystem = self._labs.get(challenge_slug)
         if filesystem is None:

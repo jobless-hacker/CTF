@@ -33,6 +33,14 @@ class SeedStats:
     challenges_skipped: int = 0
 
 
+_REDACTED_FLAG_VALUES = {
+    "REDACTED",
+    "REDACTED_USE_PRIVATE_FLAGS_FILE",
+    "__REDACTED__",
+    "__USE_PRIVATE_FLAGS_FILE__",
+}
+
+
 def _default_seed_file() -> Path:
     return BACKEND_ROOT / "config" / "seeds" / "intro-cybersecurity-track.seed.json"
 
@@ -64,6 +72,41 @@ def _parse_difficulty(value: str) -> ChallengeDifficulty:
         return ChallengeDifficulty(normalized)
     except ValueError as exc:
         raise ValueError(f"Unsupported challenge difficulty: {value}") from exc
+
+
+def _is_redacted_flag(value: str) -> bool:
+    normalized = value.strip()
+    if not normalized:
+        return True
+    if normalized in _REDACTED_FLAG_VALUES:
+        return True
+    return normalized.upper().startswith("REDACTED_")
+
+
+def _load_flag_overrides(flags_file: Path | None) -> dict[str, str]:
+    if flags_file is None:
+        return {}
+
+    if not flags_file.exists():
+        raise FileNotFoundError(f"Flags file not found: {flags_file}")
+
+    with flags_file.open("r", encoding="utf-8") as fp:
+        payload = json.load(fp)
+
+    if not isinstance(payload, dict):
+        raise ValueError("Flags file root must be an object mapping challenge slug to flag.")
+
+    overrides: dict[str, str] = {}
+    for raw_slug, raw_flag in payload.items():
+        slug = _normalize_slug(str(raw_slug))
+        flag = str(raw_flag).strip()
+        if not slug:
+            continue
+        if _is_redacted_flag(flag):
+            continue
+        overrides[slug] = flag
+
+    return overrides
 
 
 def _ensure_track(session: Session, track_payload: dict[str, Any], stats: SeedStats) -> Track:
@@ -110,6 +153,7 @@ def _upsert_challenge(
     challenge_payload: dict[str, Any],
     update_existing: bool,
     allow_publish: bool,
+    flag_overrides: dict[str, str],
     stats: SeedStats,
 ) -> None:
     slug = _normalize_slug(str(challenge_payload["slug"]))
@@ -164,6 +208,13 @@ def _upsert_challenge(
             stats.challenges_skipped += 1
 
     plaintext_flag = str(challenge_payload.get("flag", "")).strip()
+    if _is_redacted_flag(plaintext_flag):
+        plaintext_flag = ""
+
+    override_flag = flag_overrides.get(slug)
+    if override_flag:
+        plaintext_flag = override_flag
+
     if plaintext_flag and challenge.flag is None:
         challenge_service.set_flag(session, challenge, plaintext_flag)
         stats.flags_set += 1
@@ -173,13 +224,19 @@ def _upsert_challenge(
         if challenge.flag is None:
             raise ValueError(
                 f"Cannot publish challenge '{slug}' without flag. "
-                "Set a valid flag in the seed file first."
+                "Set a valid flag in --flags-file or set it later via admin API."
             )
         challenge_service.publish_challenge(session, challenge)
         stats.challenges_published += 1
 
 
-def _seed(payload: dict[str, Any], update_existing: bool, allow_publish: bool, dry_run: bool) -> SeedStats:
+def _seed(
+    payload: dict[str, Any],
+    update_existing: bool,
+    allow_publish: bool,
+    dry_run: bool,
+    flag_overrides: dict[str, str],
+) -> SeedStats:
     settings = get_settings()
     engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True, future=True)
     session_local = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False, class_=Session)
@@ -202,6 +259,7 @@ def _seed(payload: dict[str, Any], update_existing: bool, allow_publish: bool, d
                         challenge_payload=challenge_payload,
                         update_existing=update_existing,
                         allow_publish=allow_publish,
+                        flag_overrides=flag_overrides,
                         stats=stats,
                     )
 
@@ -243,6 +301,14 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Validate and execute seed logic, then rollback transaction.",
     )
+    parser.add_argument(
+        "--flags-file",
+        type=Path,
+        help=(
+            "Path to private JSON map of challenge slug to real flag. "
+            "Use this to avoid keeping plaintext flags in public seed files."
+        ),
+    )
     return parser
 
 
@@ -251,11 +317,13 @@ def main() -> int:
     args = parser.parse_args()
 
     payload = _load_seed(args.seed_file)
+    flag_overrides = _load_flag_overrides(args.flags_file)
     stats = _seed(
         payload=payload,
         update_existing=args.update_existing,
         allow_publish=not args.no_publish,
         dry_run=args.dry_run,
+        flag_overrides=flag_overrides,
     )
 
     print("Intro Cybersecurity track seed completed.")
