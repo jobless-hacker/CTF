@@ -20,7 +20,7 @@
           "title": "Hidden in /etc",
           "difficulty": "easy",
           "points": 100,
-          "description": "Investigate sensitive files under /etc and recover the hidden indicator left in a misconfigured config chain.",
+          "description": "Investigate sensitive files under /etc and recover the hidden indicator left in a misconfigured config chain.\n\nHint: Follow nginx include directives (grep -R include /etc), then inspect hidden files under /etc/.config_chain.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
