@@ -16,6 +16,7 @@ Default local URL:
 - Production should set `VITE_API_BASE_URL` (for GitHub Pages builds, set repository variable `VITE_API_BASE_URL`).
 - If production `VITE_API_BASE_URL` is not set, API requests use same-origin paths (for example `/auth/login`).
 - Production builds reject `VITE_API_BASE_URL` values that use `*.trycloudflare.com`.
+- Emergency override: set `VITE_ALLOW_EPHEMERAL_TUNNEL=true` to allow temporary tunnel URLs for short-lived recovery/testing.
 
 ## Routing on GitHub Pages
 - In production on `github.io`, the app uses `HashRouter` to avoid deep-link refresh 404 issues.
