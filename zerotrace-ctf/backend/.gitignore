@@ -4,5 +4,7 @@ __pycache__/
 venv/
 .env.*
 *.log
+*.db
+*.sqlite3
 config/seeds/private-flags*.json
 !config/seeds/private-flags.example.json
