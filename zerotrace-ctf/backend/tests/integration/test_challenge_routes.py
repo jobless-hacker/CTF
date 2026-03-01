@@ -322,6 +322,7 @@ def test_player_list_published_challenges(
     assert body[0]["slug"] == "published-challenge"
     assert body[0]["is_published"] is True
     assert body[0]["lab_available"] is False
+    assert body[0]["attachment_url"] is None
     assert "description" not in body[0]
     assert "flag_hash" not in body[0]
     assert "password_hash" not in body[0]
@@ -384,6 +385,7 @@ def test_player_view_published_success(
     assert body["points"] == 150
     assert body["is_published"] is True
     assert body["lab_available"] is False
+    assert body["attachment_url"] is None
     assert "description" in body
     assert "created_at" in body
     assert "updated_at" in body

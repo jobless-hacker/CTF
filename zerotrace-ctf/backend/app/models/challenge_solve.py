@@ -11,7 +11,6 @@ from sqlalchemy import (
     Index,
     Integer,
     UniqueConstraint,
-    func,
     text,
 )
 from sqlalchemy.dialects.postgresql import UUID
@@ -51,7 +50,7 @@ class ChallengeSolve(UUIDPrimaryKeyMixin, Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
-        server_default=func.now(),
+        server_default=text("CURRENT_TIMESTAMP"),
     )
 
     user: Mapped["User"] = relationship(

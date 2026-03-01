@@ -48,6 +48,7 @@ class PublicChallengeData:
     difficulty: str
     points: int
     is_published: bool
+    attachment_url: str | None
     created_at: datetime
     updated_at: datetime
 
@@ -401,6 +402,7 @@ class ChallengeService:
             difficulty=challenge.difficulty.value,
             points=challenge.points,
             is_published=challenge.is_published,
+            attachment_url=challenge.attachment_url,
             created_at=challenge.created_at,
             updated_at=challenge.updated_at,
         )

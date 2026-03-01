@@ -22,7 +22,8 @@
           "points": 100,
           "description": "Analyze packet flow and identify the exact TCP three-way handshake sequence in a connection trace.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m23-tcp-handshake.pcap"
         }
       ]
     },
@@ -40,7 +41,8 @@
           "points": 100,
           "description": "Follow DNS queries and responses to reconstruct the suspicious domain resolution chain.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m24-dns-trail.pcap"
         }
       ]
     },
@@ -58,7 +60,8 @@
           "points": 150,
           "description": "Detect ARP cache poisoning behavior by correlating MAC-IP inconsistencies in local network telemetry.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m25-arp-poison.pcap"
         }
       ]
     },
@@ -76,7 +79,8 @@
           "points": 150,
           "description": "Solve subnet allocation and host-range constraints to identify the correct network segment for a target asset.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m26-subnet-puzzle.pcap"
         }
       ]
     },
@@ -94,7 +98,8 @@
           "points": 150,
           "description": "Use packet-level evidence to isolate attacker traffic and recover the embedded network indicator.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m27-packet-sniffer.pcap"
         }
       ]
     },
@@ -112,7 +117,8 @@
           "points": 150,
           "description": "Identify indicators of man-in-the-middle interception across traffic capture and session anomalies.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m28-mitm-attack.pcap"
         }
       ]
     },
@@ -130,7 +136,8 @@
           "points": 150,
           "description": "Pinpoint unauthorized DHCP behavior and determine the rogue server source in segmented network logs.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m29-rogue-dhcp.pcap"
         }
       ]
     },
@@ -148,7 +155,8 @@
           "points": 250,
           "description": "Investigate ACL and rule-order weaknesses to identify a practical firewall evasion route.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m30-firewall-bypass.pcap"
         }
       ]
     },
@@ -166,7 +174,8 @@
           "points": 250,
           "description": "Analyze DNS poisoning indicators and identify the spoofing mechanism used to redirect target traffic.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m31-dns-spoof.pcap"
         }
       ]
     },
@@ -182,9 +191,10 @@
           "title": "Lateral Pivot",
           "difficulty": "hard",
           "points": 250,
-          "description": "Reconstruct a lateral pivot path across internal network nodes and identify the attacker’s final pivot point.",
+          "description": "Reconstruct a lateral pivot path across internal network nodes and identify the attacker\u00e2\u20ac\u2122s final pivot point.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "publish": true,
+          "attachment_url": "https://jobless-hacker.github.io/zerotrace-artifacts/m32-lateral-pivot.pcap"
         }
       ]
     }

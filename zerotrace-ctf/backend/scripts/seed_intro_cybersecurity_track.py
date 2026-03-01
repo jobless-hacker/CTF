@@ -160,6 +160,7 @@ def _upsert_challenge(
     title = str(challenge_payload["title"]).strip()
     difficulty = _parse_difficulty(str(challenge_payload["difficulty"]))
     points = int(challenge_payload["points"])
+    attachment_url = str(challenge_payload.get("attachment_url", "")).strip() or None
     base_description = str(challenge_payload["description"]).strip()
     module_code = str(module_payload["code"]).strip()
     module_name = str(module_payload["name"]).strip()
@@ -185,6 +186,7 @@ def _upsert_challenge(
             difficulty=difficulty,
             points=points,
         )
+        challenge.attachment_url = attachment_url
         stats.challenges_created += 1
     else:
         challenge = existing
@@ -201,6 +203,9 @@ def _upsert_challenge(
                 changed = True
             if challenge.points != points:
                 challenge.points = points
+                changed = True
+            if challenge.attachment_url != attachment_url:
+                challenge.attachment_url = attachment_url
                 changed = True
             if changed:
                 stats.challenges_updated += 1

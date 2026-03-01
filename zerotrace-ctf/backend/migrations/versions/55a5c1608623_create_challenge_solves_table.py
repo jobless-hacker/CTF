@@ -29,7 +29,7 @@ def upgrade() -> None:
     sa.Column('challenge_id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('points_awarded', sa.Integer(), nullable=False),
     sa.Column('is_first_blood', sa.Boolean(), server_default=sa.text('false'), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.CheckConstraint('points_awarded > 0', name='ck_challenge_solves_points_awarded_positive'),
     sa.ForeignKeyConstraint(['challenge_id'], ['challenges.id'], name=op.f('fk_challenge_solves_challenge_id_challenges'), ondelete='CASCADE'),

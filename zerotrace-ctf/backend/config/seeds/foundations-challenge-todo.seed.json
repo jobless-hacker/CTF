@@ -20,7 +20,7 @@
           "title": "CIA Breach",
           "difficulty": "easy",
           "points": 100,
-          "description": "A company reports unauthorized data exposure, altered records, and brief system outage. Identify the most critical CIA impact highlighted in this scenario.",
+          "description": "A company reports unauthorized data exposure, altered records, and brief system outage. Identify the most critical CIA impact highlighted in this scenario.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -38,7 +38,7 @@
           "title": "Integrity Under Fire",
           "difficulty": "easy",
           "points": 100,
-          "description": "Patient records were silently modified by an unauthorized actor. Determine which security principle was violated.",
+          "description": "Patient records were silently modified by an unauthorized actor. Determine which security principle was violated.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -56,7 +56,7 @@
           "title": "The Data Leak",
           "difficulty": "easy",
           "points": 100,
-          "description": "An internal document repository was exposed to external users. Classify the violated CIA pillar.",
+          "description": "An internal document repository was exposed to external users. Classify the violated CIA pillar.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -74,7 +74,7 @@
           "title": "System Down",
           "difficulty": "easy",
           "points": 100,
-          "description": "A core authentication service was knocked offline for two hours. Identify the CIA principle impacted most.",
+          "description": "A core authentication service was knocked offline for two hours. Identify the CIA principle impacted most.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -92,7 +92,7 @@
           "title": "Threat vs Risk",
           "difficulty": "easy",
           "points": 100,
-          "description": "Classify scenario elements into threat, vulnerability, and risk impact categories using standard risk terminology.",
+          "description": "Classify scenario elements into threat, vulnerability, and risk impact categories using standard risk terminology.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -110,7 +110,7 @@
           "title": "Identify the Vulnerability",
           "difficulty": "easy",
           "points": 100,
-          "description": "Review a short infrastructure scenario and identify which weakness is the actual vulnerability, not the threat actor or impact.",
+          "description": "Review a short infrastructure scenario and identify which weakness is the actual vulnerability, not the threat actor or impact.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -128,7 +128,7 @@
           "title": "Attack Surface Mapping",
           "difficulty": "medium",
           "points": 150,
-          "description": "Map external and internal attack surfaces across web, API, exposed SSH, and human phishing vectors.",
+          "description": "Map external and internal attack surfaces across web, API, exposed SSH, and human phishing vectors.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -146,7 +146,7 @@
           "title": "Insider Alert",
           "difficulty": "medium",
           "points": 150,
-          "description": "Investigate suspicious privileged activity and identify why the event pattern points to insider threat behavior.",
+          "description": "Investigate suspicious privileged activity and identify why the event pattern points to insider threat behavior.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -164,7 +164,7 @@
           "title": "Kill Chain Breakdown",
           "difficulty": "medium",
           "points": 150,
-          "description": "Given an intrusion timeline, map each attacker action to the correct kill chain stage.",
+          "description": "Given an intrusion timeline, map each attacker action to the correct kill chain stage.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -182,7 +182,7 @@
           "title": "MITRE Mapper",
           "difficulty": "medium",
           "points": 150,
-          "description": "Map observed attacker behavior to MITRE ATT&CK tactics and techniques at a foundational level.",
+          "description": "Map observed attacker behavior to MITRE ATT&CK tactics and techniques at a foundational level.\n\nFormat: CTF{Answer}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }

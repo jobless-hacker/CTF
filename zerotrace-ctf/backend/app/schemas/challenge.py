@@ -15,6 +15,7 @@ class CreateChallengeRequest(BaseModel):
     description: str = Field(min_length=1)
     difficulty: ChallengeDifficulty
     points: int = Field(gt=0)
+    attachment_url: str | None = None
 
     model_config = ConfigDict(extra="forbid")
 
@@ -65,6 +66,7 @@ class ChallengeSummaryResponse(BaseModel):
     points: int
     is_published: bool
     lab_available: bool
+    attachment_url: str | None
 
     model_config = ConfigDict(extra="forbid")
 
@@ -79,6 +81,7 @@ class ChallengeDetailResponse(BaseModel):
     points: int
     is_published: bool
     lab_available: bool
+    attachment_url: str | None
     created_at: datetime
     updated_at: datetime
 

@@ -43,6 +43,7 @@ class Challenge(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         default=False,
         server_default=text("false"),
     )
+    attachment_url: Mapped[str | None] = mapped_column(String(2000), nullable=True)
     track_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("tracks.id", ondelete="CASCADE"),

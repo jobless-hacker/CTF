@@ -41,8 +41,8 @@ def upgrade() -> None:
     sa.Column('is_published', sa.Boolean(), server_default=sa.text('false'), nullable=False),
     sa.Column('track_id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.CheckConstraint('points > 0', name='ck_challenges_points_positive'),
     sa.CheckConstraint('slug = lower(slug)', name='ck_challenges_slug_lowercase'),
     sa.ForeignKeyConstraint(['track_id'], ['tracks.id'], name=op.f('fk_challenges_track_id_tracks'), ondelete='CASCADE'),
@@ -54,7 +54,7 @@ def upgrade() -> None:
     sa.Column('challenge_id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('submitted_flag', sa.String(length=512), nullable=False),
     sa.Column('is_correct', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.ForeignKeyConstraint(['challenge_id'], ['challenges.id'], name=op.f('fk_challenge_attempts_challenge_id_challenges'), ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_challenge_attempts_user_id_users'), ondelete='CASCADE'),
@@ -64,7 +64,7 @@ def upgrade() -> None:
     op.create_table('challenge_flags',
     sa.Column('challenge_id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('flag_hash', sa.String(length=255), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.ForeignKeyConstraint(['challenge_id'], ['challenges.id'], name=op.f('fk_challenge_flags_challenge_id_challenges'), ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('challenge_id', name=op.f('pk_challenge_flags'))
     )
