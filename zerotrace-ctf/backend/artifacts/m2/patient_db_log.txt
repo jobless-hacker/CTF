@@ -1,0 +1,5 @@
+09:12 doctor_login user=dr_smith
+09:14 update_record patient_id=442 diagnosis=Diabetes
+09:14 update_record patient_id=442 diagnosis=Hypertension
+09:15 logout dr_smith
+09:20 audit_warning unauthorized modification detected

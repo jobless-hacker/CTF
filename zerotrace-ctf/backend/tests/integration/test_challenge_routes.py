@@ -395,6 +395,16 @@ def test_player_view_published_success(
     assert "password_hash" not in body
 
 
+def test_artifact_download_route_returns_attachment(client: TestClient) -> None:
+    response = client.get("/artifacts/m2/patient_db_log.txt")
+
+    assert response.status_code == 200
+    assert response.headers["content-disposition"].startswith("attachment;")
+    assert "patient_db_log.txt" in response.headers["content-disposition"]
+    assert "application/octet-stream" in response.headers["content-type"]
+    assert "doctor_login" in response.text
+
+
 def test_player_submit_correct_flag(
     client: TestClient,
     test_session: Session,

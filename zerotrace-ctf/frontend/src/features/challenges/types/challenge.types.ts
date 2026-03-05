@@ -10,6 +10,7 @@ export interface ChallengeDetail {
   points: number
   is_published: boolean
   lab_available: boolean
+  attachment_url: string | null
   created_at: string
   updated_at: string
 }

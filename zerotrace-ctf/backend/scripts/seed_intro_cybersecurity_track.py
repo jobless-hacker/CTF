@@ -20,6 +20,7 @@ from app.models.challenge import Challenge, ChallengeDifficulty
 from app.models.track import Track
 from app.repositories import challenge_repository
 from app.services.challenge_service import ChallengeService
+from app.services.flag_hashing import hash_flag, verify_flag
 
 
 @dataclass
@@ -29,6 +30,7 @@ class SeedStats:
     challenges_created: int = 0
     challenges_updated: int = 0
     flags_set: int = 0
+    flags_updated: int = 0
     challenges_published: int = 0
     challenges_skipped: int = 0
 
@@ -152,6 +154,7 @@ def _upsert_challenge(
     module_payload: dict[str, Any],
     challenge_payload: dict[str, Any],
     update_existing: bool,
+    overwrite_flags: bool,
     allow_publish: bool,
     flag_overrides: dict[str, str],
     stats: SeedStats,
@@ -164,12 +167,16 @@ def _upsert_challenge(
     base_description = str(challenge_payload["description"]).strip()
     module_code = str(module_payload["code"]).strip()
     module_name = str(module_payload["name"]).strip()
+    include_module_context = bool(challenge_payload.get("include_module_context", True))
+    include_submission_footer = bool(challenge_payload.get("include_submission_footer", True))
 
-    description = (
-        f"[Module {module_code} - {module_name}]\n"
-        f"{base_description}\n"
-        f"Submit flag in canonical format."
-    )
+    description_parts: list[str] = []
+    if include_module_context:
+        description_parts.append(f"[Module {module_code} - {module_name}]")
+    description_parts.append(base_description)
+    if include_submission_footer:
+        description_parts.append("Submit flag in canonical format.")
+    description = "\n".join(description_parts)
 
     existing = challenge_repository.get_by_slug(session, slug)
     if existing is not None and existing.track_id != track.id:
@@ -220,9 +227,14 @@ def _upsert_challenge(
     if override_flag:
         plaintext_flag = override_flag
 
-    if plaintext_flag and challenge.flag is None:
-        challenge_service.set_flag(session, challenge, plaintext_flag)
-        stats.flags_set += 1
+    if plaintext_flag:
+        normalized_plaintext_flag = plaintext_flag.strip()
+        if challenge.flag is None:
+            challenge_service.set_flag(session, challenge, normalized_plaintext_flag)
+            stats.flags_set += 1
+        elif overwrite_flags and not verify_flag(normalized_plaintext_flag, challenge.flag.flag_hash):
+            challenge.flag.flag_hash = hash_flag(normalized_plaintext_flag)
+            stats.flags_updated += 1
 
     seed_publish = bool(challenge_payload.get("publish", False))
     if allow_publish and seed_publish and not challenge.is_published:
@@ -238,6 +250,7 @@ def _upsert_challenge(
 def _seed(
     payload: dict[str, Any],
     update_existing: bool,
+    overwrite_flags: bool,
     allow_publish: bool,
     dry_run: bool,
     flag_overrides: dict[str, str],
@@ -263,6 +276,7 @@ def _seed(
                         module_payload=module_payload,
                         challenge_payload=challenge_payload,
                         update_existing=update_existing,
+                        overwrite_flags=overwrite_flags,
                         allow_publish=allow_publish,
                         flag_overrides=flag_overrides,
                         stats=stats,
@@ -297,6 +311,11 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Update title/description/difficulty/points for existing challenge slugs.",
     )
     parser.add_argument(
+        "--overwrite-flags",
+        action="store_true",
+        help="When a flag exists, replace it if it differs from seed or --flags-file value.",
+    )
+    parser.add_argument(
         "--no-publish",
         action="store_true",
         help="Create and set flags but skip publish actions.",
@@ -326,6 +345,7 @@ def main() -> int:
     stats = _seed(
         payload=payload,
         update_existing=args.update_existing,
+        overwrite_flags=args.overwrite_flags,
         allow_publish=not args.no_publish,
         dry_run=args.dry_run,
         flag_overrides=flag_overrides,
@@ -337,6 +357,7 @@ def main() -> int:
     print(f"challenges_created={stats.challenges_created}")
     print(f"challenges_updated={stats.challenges_updated}")
     print(f"flags_set={stats.flags_set}")
+    print(f"flags_updated={stats.flags_updated}")
     print(f"challenges_published={stats.challenges_published}")
     print(f"challenges_skipped={stats.challenges_skipped}")
     print(f"dry_run={args.dry_run}")

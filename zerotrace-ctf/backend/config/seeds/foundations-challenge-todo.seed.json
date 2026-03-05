@@ -17,10 +17,10 @@
         {
           "order": 1,
           "slug": "m1-cia-breach",
-          "title": "CIA Breach",
+          "title": "CIA Breach Investigation",
           "difficulty": "easy",
           "points": 100,
-          "description": "A company reports three events: (1) unauthorized data exposure, (2) altered records, and (3) brief system outage. For this challenge, classify only event (1) using the CIA triad.\n\nSubmit format: CTF{pillar} where pillar is one of confidentiality, integrity, availability.",
+          "description": "A security team detected multiple suspicious events:\n\n1. A public S3 bucket leaked customer data.\n2. Financial records were modified in the database.\n3. The company website was unavailable for 20 minutes.\n\nFor this challenge, identify the CIA pillar affected by event (1).\n\nFlag Format\nCTF{pillar}",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -35,10 +35,12 @@
         {
           "order": 1,
           "slug": "m2-integrity-under-fire",
-          "title": "Integrity Under Fire",
+          "title": "Incident Review",
           "difficulty": "easy",
           "points": 100,
-          "description": "Patient records were silently modified by an unauthorized actor. For this event, identify which CIA pillar was violated.\n\nSubmit format: CTF{pillar} where pillar is one of confidentiality, integrity, availability.",
+          "description": "Analyze the provided artifact and determine which CIA pillar was impacted.\n\nFlag Format\nCTF{pillar}",
+          "include_module_context": false,
+          "attachment_url": "/artifacts/m2/patient_db_log.txt",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }

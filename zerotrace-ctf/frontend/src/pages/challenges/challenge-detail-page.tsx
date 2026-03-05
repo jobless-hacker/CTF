@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
+import { ENV } from "../../config/environment"
 import { useChallengeDetail } from "../../features/challenges/hooks/useChallengeDetail"
 import { useChallengeLabCommand } from "../../features/challenges/hooks/useChallengeLabCommand"
 import { useSubmitFlag } from "../../features/challenges/hooks/useSubmitFlag"
@@ -78,6 +79,9 @@ export const ChallengeDetailPage = () => {
   }
 
   const isTerminalLabChallenge = data.lab_available
+  const resolvedAttachmentUrl = data.attachment_url
+    ? new URL(data.attachment_url, `${ENV.API_BASE_URL.replace(/\/+$/, "")}/`).toString()
+    : null
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -163,6 +167,20 @@ export const ChallengeDetailPage = () => {
           <span className="zt-pill">Difficulty: {data.difficulty}</span>
           <span className="zt-pill">{data.points} pts</span>
         </div>
+        {resolvedAttachmentUrl ? (
+          <div className="mt-5 rounded-lg border border-cyber-border bg-black/40 p-4">
+            <p className="zt-subheading">Attachment</p>
+            <a
+              href={resolvedAttachmentUrl}
+              target="_blank"
+              rel="noreferrer"
+              download
+              className="zt-button zt-button--ghost mt-3 inline-flex"
+            >
+              Download artifact
+            </a>
+          </div>
+        ) : null}
         <p className="mt-5 whitespace-pre-wrap text-sm leading-7 text-[color:var(--zt-text)]">{data.description}</p>
       </section>
 

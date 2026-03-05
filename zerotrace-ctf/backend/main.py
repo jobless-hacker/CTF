@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from app.core.settings import get_settings
 from app.middleware import register_middleware
@@ -8,6 +11,11 @@ from app.routes import api_router
 
 
 settings = get_settings()
+_BACKEND_ROOT = Path(__file__).resolve().parent
+_ARTIFACTS_DIR = _BACKEND_ROOT / "artifacts"
+_ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+_ARTIFACTS_ROOT = _ARTIFACTS_DIR.resolve()
+
 app = FastAPI(title="ZeroTrace CTF Backend")
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +26,24 @@ app.add_middleware(
 )
 register_middleware(app)
 app.include_router(api_router)
+
+
+@app.get("/artifacts/{artifact_path:path}")
+def download_artifact(artifact_path: str) -> FileResponse:
+    candidate = (_ARTIFACTS_ROOT / artifact_path).resolve()
+    if not candidate.is_file():
+        raise HTTPException(status_code=404, detail="Artifact not found.")
+
+    try:
+        candidate.relative_to(_ARTIFACTS_ROOT)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Artifact not found.") from None
+
+    return FileResponse(
+        path=candidate,
+        filename=candidate.name,
+        media_type="application/octet-stream",
+    )
 
 
 @app.on_event("startup")
