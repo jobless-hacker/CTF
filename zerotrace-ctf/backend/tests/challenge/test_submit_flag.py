@@ -15,6 +15,7 @@ from app.models.challenge_solve import ChallengeSolve
 from app.models.submission_rate_limit import SubmissionRateLimit
 from app.models.track import Track
 from app.models.user import User
+from app.repositories.challenge_repository import REDACTED_SUBMITTED_FLAG
 from app.services.challenge_exceptions import (
     ChallengeRateLimitedError,
     ChallengeNotPublishedError,
@@ -108,7 +109,7 @@ def test_submit_correct_flag(
     attempts = _attempts_for_challenge(session, challenge.id)
     assert len(attempts) == 1
     assert attempts[0].is_correct is True
-    assert attempts[0].submitted_flag == "ZTCTF{correct-flag}"
+    assert attempts[0].submitted_flag == REDACTED_SUBMITTED_FLAG
 
     solves = _solves_for_challenge(session, challenge.id)
     assert len(solves) == 1
@@ -188,8 +189,8 @@ def test_submit_records_attempt_even_if_incorrect(
     assert len(attempts) == 2
     assert [attempt.is_correct for attempt in attempts] == [False, False]
     assert sorted(attempt.submitted_flag for attempt in attempts) == [
-        "ZTCTF{first-wrong}",
-        "ZTCTF{second-wrong}",
+        REDACTED_SUBMITTED_FLAG,
+        REDACTED_SUBMITTED_FLAG,
     ]
 
 
@@ -216,7 +217,7 @@ def test_submit_empty_flag_records_attempt_and_raises(
     attempts = _attempts_for_challenge(session, challenge.id)
     assert len(attempts) == 1
     assert attempts[0].is_correct is False
-    assert attempts[0].submitted_flag == "   "
+    assert attempts[0].submitted_flag == REDACTED_SUBMITTED_FLAG
     assert _solves_for_challenge(session, challenge.id) == []
 
 
@@ -519,7 +520,7 @@ def test_blocked_submission_does_not_create_challenge_attempt_or_solve(
 
     attempts = _attempts_for_challenge(session, challenge.id)
     assert len(attempts) == 1
-    assert attempts[0].submitted_flag == "ZTCTF{wrong-1}"
+    assert attempts[0].submitted_flag == REDACTED_SUBMITTED_FLAG
     assert _solves_for_challenge(session, challenge.id) == []
     assert len(_rate_limit_rows_for_challenge(session, challenge.id)) == 1
     get_settings.cache_clear()

@@ -33,7 +33,7 @@
           "difficulty": "easy",
           "points": 50,
           "challenge_type": "scenario_analysis",
-          "description": "Scenario: A hospital patient database was modified by an unauthorized user. Identify the primary CIA pillar impacted and submit the canonical flag.",
+          "description": "Scenario: A hospital patient database was modified by an unauthorized user. Identify the primary CIA pillar impacted.\n\nSubmit format: CTF{pillar} where pillar is one of confidentiality, integrity, availability.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         },
@@ -44,7 +44,7 @@
           "difficulty": "easy",
           "points": 50,
           "challenge_type": "classification",
-          "description": "Scenario bundle: data leak, website downtime, and modified logs. Identify the CIA impact sequence and submit the canonical flag.",
+          "description": "Scenario bundle: data leak, website downtime, and modified logs. Identify the CIA impact sequence in the exact event order given.\n\nSubmit format: CTF{pillar1_pillar2_pillar3} using confidentiality, integrity, availability.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -63,7 +63,7 @@
           "difficulty": "easy",
           "points": 150,
           "challenge_type": "simulation",
-          "description": "Given an unpatched Apache server, an active attacker, and financial loss, classify each item correctly as threat, vulnerability, or risk impact.",
+          "description": "Given three items in this exact order: (1) unpatched Apache server, (2) active attacker, (3) financial loss. Classify each item as vulnerability, threat, or risk.\n\nSubmit format: CTF{token1_token2_token3} using tokens vulnerability, threat, risk.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }

@@ -1,4 +1,15 @@
 {
   "m1-cia-breach": "CTF{replace_with_private_flag}",
-  "m11-hidden-in-etc": "CTF{replace_with_private_flag}"
+  "m11-hidden-in-etc": "CTF{replace_with_private_flag}",
+  "m12-permission-denied": "CTF{replace_with_private_flag}",
+  "m13-suid-secrets": "CTF{replace_with_private_flag}",
+  "m14-cron-exploit": "CTF{replace_with_private_flag}",
+  "m15-shadow-hunter": "CTF{replace_with_private_flag}",
+  "m16-reverse-shell-drop": "CTF{replace_with_private_flag}",
+  "m17-bash-injection": "CTF{replace_with_private_flag}",
+  "m18-root-me": "CTF{replace_with_private_flag}",
+  "m19-kernel-panic": "CTF{replace_with_private_flag}",
+  "m20-log-miner": "CTF{replace_with_private_flag}",
+  "m21-zombie-process": "CTF{replace_with_private_flag}",
+  "m22-kali-recon-lab": "CTF{replace_with_private_flag}"
 }

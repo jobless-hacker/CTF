@@ -12,6 +12,8 @@ from app.models.challenge_solve import ChallengeSolve
 from app.models.track import Track
 from app.models.user import User
 
+REDACTED_SUBMITTED_FLAG = "[REDACTED]"
+
 
 def create_challenge(
     session: Session,
@@ -74,11 +76,16 @@ def record_attempt(
     attempt = ChallengeAttempt(
         user=user,
         challenge=challenge,
-        submitted_flag=submitted_flag,
+        submitted_flag=_redact_submitted_flag(submitted_flag),
         is_correct=is_correct,
     )
     session.add(attempt)
     return attempt
+
+
+def _redact_submitted_flag(submitted_flag: str) -> str:
+    _ = submitted_flag
+    return REDACTED_SUBMITTED_FLAG
 
 
 def create_challenge_solve(

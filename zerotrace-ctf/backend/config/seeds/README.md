@@ -13,3 +13,12 @@ cd zerotrace-ctf/backend
 
 `--flags-file` format is a JSON object that maps challenge slug to plaintext flag.
 See `private-flags.example.json` for structure.
+
+The terminal lab service also reads private flags from runtime-only JSON.
+By default it uses:
+
+`config/seeds/private-flags.json`
+
+Override with environment variable:
+
+`LAB_PRIVATE_FLAGS_FILE=/absolute/or/relative/path/to/private-flags.json`

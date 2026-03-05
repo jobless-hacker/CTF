@@ -6,6 +6,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.core.settings import get_settings
 from app.models.challenge import Challenge
 from app.models.user import User
 from app.schemas.challenge import (
@@ -32,6 +33,7 @@ from app.services.challenge_exceptions import (
 )
 from app.services.challenge_service import ChallengeService
 from app.services.challenge_lab_service import ChallengeLabService, ChallengeLabUnavailableError
+from app.services.in_memory_rate_limiter import lab_command_rate_limiter
 
 
 _challenge_service = ChallengeService()
@@ -300,7 +302,6 @@ def execute_lab_command(
     slug: str,
     payload: ChallengeLabCommandRequest,
 ) -> ChallengeLabCommandResponse:
-    _ = current_user
     try:
         _challenge_service.get_public_challenge(session, slug)
     except ChallengeNotFoundError:
@@ -318,6 +319,24 @@ def execute_lab_command(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Challenge retrieval failed.",
         ) from None
+
+    settings = get_settings()
+    if settings.LAB_COMMAND_RATE_LIMIT_ENABLED:
+        normalized_slug = slug.strip()
+        user_key = str(current_user.id) if current_user.id is not None else "unknown-user"
+        decision = lab_command_rate_limiter.check_and_consume(
+            key=f"lab:{user_key}:{normalized_slug}",
+            max_attempts=settings.LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS,
+            window_seconds=settings.LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS,
+            lock_seconds=settings.LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS,
+        )
+        if not decision.allowed:
+            retry_after = decision.retry_after_seconds or 1
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail="Too many lab commands. Try again later.",
+                headers={"Retry-After": str(retry_after)},
+            )
 
     try:
         result = _challenge_lab_service.execute_command(

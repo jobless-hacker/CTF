@@ -28,10 +28,22 @@ class Settings(BaseSettings):
     XP_FIRST_BLOOD_ENABLED: bool = True
     XP_FIRST_BLOOD_BONUS_MODE: Literal["fixed", "percent"] = "percent"
     XP_FIRST_BLOOD_BONUS_VALUE: int = Field(default=20, ge=0)
+    AUTH_RATE_LIMIT_ENABLED: bool = True
+    AUTH_RATE_LIMIT_MAX_ATTEMPTS: int = 20
+    AUTH_RATE_LIMIT_WINDOW_SECONDS: int = 60
+    AUTH_RATE_LIMIT_LOCK_SECONDS: int = 60
+    RATE_LIMIT_BACKEND: Literal["memory", "redis"] = "redis"
+    RATE_LIMIT_REDIS_URL: str = "redis://localhost:6379/0"
+    RATE_LIMIT_REDIS_KEY_PREFIX: str = "zerotrace:rate_limit"
+    RATE_LIMIT_REDIS_SOCKET_TIMEOUT_MS: int = Field(default=200, ge=10, le=10000)
     SUBMISSION_RATE_LIMIT_ENABLED: bool = True
     SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS: int = 15
     SUBMISSION_RATE_LIMIT_WINDOW_SECONDS: int = 60
     SUBMISSION_RATE_LIMIT_LOCK_SECONDS: int = 60
+    LAB_COMMAND_RATE_LIMIT_ENABLED: bool = True
+    LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS: int = 30
+    LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS: int = 60
+    LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS: int = 30
     CORS_ALLOWED_ORIGINS: str = (
         "http://localhost:5000,"
         "http://127.0.0.1:5000,"
@@ -103,20 +115,81 @@ class Settings(BaseSettings):
             if self.XP_FIRST_BLOOD_BONUS_VALUE > 100000:
                 raise ValueError("XP_FIRST_BLOOD_BONUS_VALUE must not exceed 100000 in fixed mode.")
 
-        if self.SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS < 1:
-            raise ValueError("SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS must be at least 1.")
-        if self.SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS > 100000:
-            raise ValueError("SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS must not exceed 100000.")
-        if self.SUBMISSION_RATE_LIMIT_WINDOW_SECONDS < 1:
-            raise ValueError("SUBMISSION_RATE_LIMIT_WINDOW_SECONDS must be at least 1.")
-        if self.SUBMISSION_RATE_LIMIT_WINDOW_SECONDS > 86400:
-            raise ValueError("SUBMISSION_RATE_LIMIT_WINDOW_SECONDS must not exceed 86400.")
-        if self.SUBMISSION_RATE_LIMIT_LOCK_SECONDS < 1:
-            raise ValueError("SUBMISSION_RATE_LIMIT_LOCK_SECONDS must be at least 1.")
-        if self.SUBMISSION_RATE_LIMIT_LOCK_SECONDS > 86400:
-            raise ValueError("SUBMISSION_RATE_LIMIT_LOCK_SECONDS must not exceed 86400.")
+        self._validate_rate_limit_field(
+            value=self.AUTH_RATE_LIMIT_MAX_ATTEMPTS,
+            min_value=1,
+            max_value=100000,
+            field_name="AUTH_RATE_LIMIT_MAX_ATTEMPTS",
+        )
+        self._validate_rate_limit_field(
+            value=self.AUTH_RATE_LIMIT_WINDOW_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="AUTH_RATE_LIMIT_WINDOW_SECONDS",
+        )
+        self._validate_rate_limit_field(
+            value=self.AUTH_RATE_LIMIT_LOCK_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="AUTH_RATE_LIMIT_LOCK_SECONDS",
+        )
+        if self.RATE_LIMIT_BACKEND == "redis":
+            redis_url = self.RATE_LIMIT_REDIS_URL.strip()
+            if not redis_url:
+                raise ValueError("RATE_LIMIT_REDIS_URL must not be empty when RATE_LIMIT_BACKEND=redis.")
+            if not self.RATE_LIMIT_REDIS_KEY_PREFIX.strip():
+                raise ValueError("RATE_LIMIT_REDIS_KEY_PREFIX must not be empty.")
+        self._validate_rate_limit_field(
+            value=self.SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS,
+            min_value=1,
+            max_value=100000,
+            field_name="SUBMISSION_RATE_LIMIT_MAX_ATTEMPTS",
+        )
+        self._validate_rate_limit_field(
+            value=self.SUBMISSION_RATE_LIMIT_WINDOW_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="SUBMISSION_RATE_LIMIT_WINDOW_SECONDS",
+        )
+        self._validate_rate_limit_field(
+            value=self.SUBMISSION_RATE_LIMIT_LOCK_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="SUBMISSION_RATE_LIMIT_LOCK_SECONDS",
+        )
+        self._validate_rate_limit_field(
+            value=self.LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS,
+            min_value=1,
+            max_value=100000,
+            field_name="LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS",
+        )
+        self._validate_rate_limit_field(
+            value=self.LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS",
+        )
+        self._validate_rate_limit_field(
+            value=self.LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS,
+            min_value=1,
+            max_value=86400,
+            field_name="LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS",
+        )
 
         return self
+
+    @staticmethod
+    def _validate_rate_limit_field(
+        *,
+        value: int,
+        min_value: int,
+        max_value: int,
+        field_name: str,
+    ) -> None:
+        if value < min_value:
+            raise ValueError(f"{field_name} must be at least {min_value}.")
+        if value > max_value:
+            raise ValueError(f"{field_name} must not exceed {max_value}.")
 
 
 @lru_cache(maxsize=1)

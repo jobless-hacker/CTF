@@ -19,6 +19,7 @@ if str(BACKEND_ROOT) not in sys.path:
 from app.core.settings import get_settings
 from app.models import Base
 from app.models.role import Role
+from app.services.in_memory_rate_limiter import auth_rate_limiter, lab_command_rate_limiter
 
 
 @pytest.fixture(autouse=True)
@@ -32,9 +33,21 @@ def settings_override(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, 
     monkeypatch.setenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
     monkeypatch.setenv("ENVIRONMENT", "test")
     monkeypatch.setenv("OBSERVABILITY_ENABLED", "false")
+    monkeypatch.setenv("AUTH_RATE_LIMIT_ENABLED", "false")
+    monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_ENABLED", "false")
+    monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
+
+
+@pytest.fixture(autouse=True)
+def reset_in_memory_rate_limiters() -> Generator[None, None, None]:
+    auth_rate_limiter.reset()
+    lab_command_rate_limiter.reset()
+    yield
+    auth_rate_limiter.reset()
+    lab_command_rate_limiter.reset()
 
 
 @pytest.fixture(scope="session")

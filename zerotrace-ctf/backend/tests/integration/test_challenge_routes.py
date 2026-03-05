@@ -7,12 +7,14 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.settings import get_settings
 from app.models.challenge import Challenge
 from app.models.challenge_attempt import ChallengeAttempt
 from app.models.challenge_flag import ChallengeFlag
 from app.models.role import Role
 from app.models.track import Track
 from app.models.user import User
+from app.repositories.challenge_repository import REDACTED_SUBMITTED_FLAG
 
 
 def register_user(client: TestClient, email: str, password: str) -> None:
@@ -654,4 +656,46 @@ def test_submit_records_attempt_via_http(
 
     assert len(attempts) == 1
     assert attempts[0].is_correct is False
-    assert attempts[0].submitted_flag == "ZTCTF{wrong_attempt}"
+    assert attempts[0].submitted_flag == REDACTED_SUBMITTED_FLAG
+
+
+def test_lab_execute_rate_limited_per_user_and_challenge(
+    client: TestClient,
+    test_session: Session,
+    seed_roles: dict[str, object],
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_ENABLED", "true")
+    monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS", "1")
+    monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS", "60")
+    monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS", "5")
+    get_settings.cache_clear()
+
+    track = _seed_track(test_session)
+    auth_data = _create_admin_and_player_tokens(client, test_session, seed_roles)
+    created = _create_challenge(
+        client,
+        auth_data["admin_token"],
+        str(track.id),
+        slug="m12-permission-denied",
+        title="Permission Denied",
+    )
+    _set_flag(client, auth_data["admin_token"], created["id"], "ZTCTF{runtime-m12}")
+    _publish_challenge(client, auth_data["admin_token"], created["id"])
+
+    first = client.post(
+        "/challenges/m12-permission-denied/lab/execute",
+        json={"command": "pwd", "cwd": "/"},
+        headers=auth_headers(auth_data["player_token"]),
+    )
+    second = client.post(
+        "/challenges/m12-permission-denied/lab/execute",
+        json={"command": "ls", "cwd": "/"},
+        headers=auth_headers(auth_data["player_token"]),
+    )
+
+    assert first.status_code == 200
+    assert second.status_code == 429
+    assert second.json() == {"detail": "Too many lab commands. Try again later."}
+    assert second.headers.get("retry-after") == "5"
+    get_settings.cache_clear()

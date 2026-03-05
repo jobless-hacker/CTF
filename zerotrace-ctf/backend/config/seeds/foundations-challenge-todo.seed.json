@@ -20,7 +20,7 @@
           "title": "CIA Breach",
           "difficulty": "easy",
           "points": 100,
-          "description": "A company reports unauthorized data exposure, altered records, and brief system outage. Identify the most critical CIA impact highlighted in this scenario.\n\nFormat: CTF{Answer}",
+          "description": "A company reports three events: (1) unauthorized data exposure, (2) altered records, and (3) brief system outage. For this challenge, classify only event (1) using the CIA triad.\n\nSubmit format: CTF{pillar} where pillar is one of confidentiality, integrity, availability.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -38,7 +38,7 @@
           "title": "Integrity Under Fire",
           "difficulty": "easy",
           "points": 100,
-          "description": "Patient records were silently modified by an unauthorized actor. Determine which security principle was violated.\n\nFormat: CTF{Answer}",
+          "description": "Patient records were silently modified by an unauthorized actor. For this event, identify which CIA pillar was violated.\n\nSubmit format: CTF{pillar} where pillar is one of confidentiality, integrity, availability.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }

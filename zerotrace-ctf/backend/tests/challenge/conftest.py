@@ -41,6 +41,7 @@ def test_engine() -> Generator[Engine, None, None]:
 def settings_override(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, None]:
     monkeypatch.setenv("ENVIRONMENT", "test")
     monkeypatch.setenv("OBSERVABILITY_ENABLED", "false")
+    monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
