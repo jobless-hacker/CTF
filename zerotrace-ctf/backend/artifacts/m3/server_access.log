@@ -1,0 +1,5 @@
+08:11:22 user=admin action=login status=success
+08:14:10 user=guest action=download file=finance_report.pdf
+08:14:12 user=guest action=download file=employee_salaries.xlsx
+08:14:20 user=guest action=download file=confidential_strategy.docx
+08:14:45 system warning: unauthorized access detected

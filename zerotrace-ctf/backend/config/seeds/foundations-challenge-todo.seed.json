@@ -58,7 +58,9 @@
           "title": "The Data Leak",
           "difficulty": "easy",
           "points": 100,
-          "description": "An internal document repository was exposed to external users. Classify the violated CIA pillar.\n\nFormat: CTF{Answer}",
+          "description": "The SOC team detected suspicious activity in the company document server.\n\nInvestigate the server logs and determine which CIA pillar was violated.\n\nDownloadable File\nserver_access.log\n\nSubmit the flag in format:\nCTF{pillar}",
+          "include_module_context": false,
+          "attachment_url": "/artifacts/m3/server_access.log",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
