@@ -6,6 +6,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 
 - `m1-01-public-bucket-exposure.json`
 - `m1-02-sniffed-credentials.json`
+- `m1-03-modified-database-record.json`
 
 ## How to migrate next challenges
 
