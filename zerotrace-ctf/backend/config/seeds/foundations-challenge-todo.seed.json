@@ -63,17 +63,7 @@
           "source_file": "modules/m1/m1-16-api-data-exposure.json"
         },
         {
-          "order": 17,
-          "slug": "m1-unauthorized-git-commit",
-          "title": "Unexpected Verification Logic Change",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "A repository shows an unplanned change in payment verification behavior after a main-branch update.\n\nDownload the case pack, review the incident handoff, inspect the commit and review evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-17-unauthorized-git-commit.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-17-unauthorized-git-commit.json"
         },
         {
           "order": 18,

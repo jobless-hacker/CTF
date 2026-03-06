@@ -20,6 +20,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-14-docker-misconfiguration.json`
 - `m1-15-ransomware-lock.json`
 - `m1-16-api-data-exposure.json`
+- `m1-17-unauthorized-git-commit.json`
 
 ## How to migrate next challenges
 
