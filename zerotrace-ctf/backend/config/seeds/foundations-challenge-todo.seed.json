@@ -39,17 +39,7 @@
           "source_file": "modules/m1/m1-08-config-file-tampering.json"
         },
         {
-          "order": 9,
-          "slug": "m1-firewall-ddos-alert",
-          "title": "Firewall DDoS Alert",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A firewall reported a large inbound surge before the customer portal began failing health checks.\n\nDownload the case pack, review the incident handoff, correlate the perimeter and service-health evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-09-firewall-ddos-alert.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-09-firewall-ddos-alert.json"
         },
         {
           "order": 10,
