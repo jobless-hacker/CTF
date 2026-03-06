@@ -1,0 +1,13 @@
+{
+  "order": 11,
+  "slug": "m1-aws-public-snapshot",
+  "title": "Unexpected Snapshot Sharing",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A cloud database snapshot shows an unexpected sharing configuration change.\n\nDownload the case pack, review the incident handoff, inspect the snapshot attributes and cloud audit evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m1/m1-11-aws-public-snapshot.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

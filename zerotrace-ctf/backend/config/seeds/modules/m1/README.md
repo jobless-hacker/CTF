@@ -14,6 +14,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-08-config-file-tampering.json`
 - `m1-09-firewall-ddos-alert.json`
 - `m1-10-backup-corruption.json`
+- `m1-11-aws-public-snapshot.json`
 
 ## How to migrate next challenges
 
