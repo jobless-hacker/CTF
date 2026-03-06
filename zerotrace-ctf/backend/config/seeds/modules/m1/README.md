@@ -5,6 +5,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 ## Current modular challenge
 
 - `m1-01-public-bucket-exposure.json`
+- `m1-02-sniffed-credentials.json`
 
 ## How to migrate next challenges
 

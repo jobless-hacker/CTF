@@ -18,17 +18,7 @@
           "source_file": "modules/m1/m1-01-public-bucket-exposure.json"
         },
         {
-          "order": 2,
-          "slug": "m1-sniffed-credentials",
-          "title": "Sniffed Credentials",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A network analyst captured suspicious login traffic from an internal network.\n\nDownload the case pack, review the analyst handoff, asset mapping, and packet capture, then determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-02-sniffed-credentials.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-02-sniffed-credentials.json"
         },
         {
           "order": 3,
