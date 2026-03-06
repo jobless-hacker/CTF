@@ -3,6 +3,7 @@ import axios from "axios"
 export type ChallengeErrorCode =
   | "NOT_FOUND"
   | "UNAVAILABLE"
+  | "ATTEMPT_LIMIT_REACHED"
   | "INVALID_SUBMISSION"
   | "RATE_LIMITED"
   | "NETWORK_ERROR"
@@ -80,6 +81,17 @@ export const normalizeChallengeSubmitError = (error: unknown): ChallengeRequestE
     }
     if (status === 404) {
       return new ChallengeRequestError("NOT_FOUND", "Challenge not found.", status)
+    }
+    if (status === 403) {
+      const detail = error.response?.data?.detail
+      if (typeof detail === "string" && detail === "Only one attempt is allowed for this challenge.") {
+        return new ChallengeRequestError(
+          "ATTEMPT_LIMIT_REACHED",
+          "Only one attempt is allowed for this challenge.",
+          status,
+        )
+      }
+      return new ChallengeRequestError("UNKNOWN_ERROR", "Flag submission failed.", status)
     }
     if (status === 400) {
       const detail = error.response?.data?.detail

@@ -18,6 +18,7 @@ from app.observability.logger import log_event
 from app.observability.metrics import metrics
 from app.repositories import challenge_repository
 from app.services.challenge_exceptions import (
+    ChallengeAttemptLimitReachedError,
     ChallengeAlreadyHasFlagError,
     ChallengeAlreadyPublishedError,
     ChallengeNotFoundError,
@@ -54,6 +55,8 @@ class PublicChallengeData:
 
 
 class ChallengeService:
+    _M1_SINGLE_ATTEMPT_PREFIX = "m1-"
+
     def __init__(self, rate_limiter: SubmissionRateLimiter | None = None) -> None:
         self._rate_limiter = rate_limiter or DbSubmissionRateLimiter()
 
@@ -165,6 +168,33 @@ class ChallengeService:
                 latency_ms=self._elapsed_millis(started),
             )
             raise FlagNotSetError("Challenge flag is not set.")
+
+        if self._is_single_attempt_m1_challenge(challenge) and challenge_repository.has_attempt_for_user_and_challenge(
+            session=session,
+            user_id=user.id,
+            challenge_id=challenge.id,
+        ):
+            metrics.increment(
+                "zerotrace_submission_attempt_limit_blocked_total",
+                labels={"track_slug": challenge.track.slug, "difficulty": challenge.difficulty.value},
+            )
+            log_event(
+                "submission_blocked",
+                outcome="attempt_limit_reached",
+                user_id=user.id,
+                challenge_id=challenge.id,
+                track_id=challenge.track_id,
+                latency_ms=self._elapsed_millis(started),
+            )
+            log_event(
+                "submission_outcome",
+                outcome="attempt_limit_reached",
+                user_id=user.id,
+                challenge_id=challenge.id,
+                track_id=challenge.track_id,
+                latency_ms=self._elapsed_millis(started),
+            )
+            raise ChallengeAttemptLimitReachedError("Only one attempt is allowed for this challenge.")
 
         log_event(
             "submission_attempt",
@@ -495,3 +525,7 @@ class ChallengeService:
     @staticmethod
     def _elapsed_millis(started: float) -> float:
         return round((perf_counter() - started) * 1000, 3)
+
+    @classmethod
+    def _is_single_attempt_m1_challenge(cls, challenge: Challenge) -> bool:
+        return challenge.slug.lower().startswith(cls._M1_SINGLE_ATTEMPT_PREFIX)

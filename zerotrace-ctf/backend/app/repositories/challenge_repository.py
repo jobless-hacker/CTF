@@ -83,6 +83,32 @@ def record_attempt(
     return attempt
 
 
+def has_attempt_for_user_and_challenge(
+    session: Session,
+    user_id: UUID,
+    challenge_id: UUID,
+) -> bool:
+    for pending in session.new:
+        if not isinstance(pending, ChallengeAttempt):
+            continue
+        pending_user_id = pending.user_id or (pending.user.id if pending.user is not None else None)
+        pending_challenge_id = pending.challenge_id or (
+            pending.challenge.id if pending.challenge is not None else None
+        )
+        if pending_user_id == user_id and pending_challenge_id == challenge_id:
+            return True
+
+    stmt = (
+        select(ChallengeAttempt.id)
+        .where(
+            ChallengeAttempt.user_id == user_id,
+            ChallengeAttempt.challenge_id == challenge_id,
+        )
+        .limit(1)
+    )
+    return session.execute(stmt).scalar_one_or_none() is not None
+
+
 def _redact_submitted_flag(submitted_flag: str) -> str:
     _ = submitted_flag
     return REDACTED_SUBMITTED_FLAG

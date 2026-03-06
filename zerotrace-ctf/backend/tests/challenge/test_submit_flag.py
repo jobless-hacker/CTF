@@ -17,6 +17,7 @@ from app.models.track import Track
 from app.models.user import User
 from app.repositories.challenge_repository import REDACTED_SUBMITTED_FLAG
 from app.services.challenge_exceptions import (
+    ChallengeAttemptLimitReachedError,
     ChallengeRateLimitedError,
     ChallengeNotPublishedError,
     InvalidFlagSubmissionError,
@@ -192,6 +193,40 @@ def test_submit_records_attempt_even_if_incorrect(
         REDACTED_SUBMITTED_FLAG,
         REDACTED_SUBMITTED_FLAG,
     ]
+
+
+def test_m1_challenge_allows_only_one_attempt(
+    session: OrmSession,
+    seed_user: User,
+    challenge_service: ChallengeService,
+    create_basic_challenge,
+) -> None:
+    challenge = create_basic_challenge(
+        slug="m1-single-attempt-only",
+        published=True,
+        flag_value="ZTCTF{m1-single-attempt}",
+    )
+
+    first_result = challenge_service.submit_flag(
+        session=session,
+        user=seed_user,
+        challenge_slug=challenge.slug,
+        submitted_flag="ZTCTF{wrong-first}",
+    )
+    with pytest.raises(ChallengeAttemptLimitReachedError):
+        challenge_service.submit_flag(
+            session=session,
+            user=seed_user,
+            challenge_slug=challenge.slug,
+            submitted_flag="ZTCTF{m1-single-attempt}",
+        )
+    session.flush()
+
+    assert first_result == {"correct": False, "xp_awarded": 0, "first_blood": False}
+    attempts = _attempts_for_challenge(session, challenge.id)
+    assert len(attempts) == 1
+    assert attempts[0].is_correct is False
+    assert _solves_for_challenge(session, challenge.id) == []
 
 
 def test_submit_empty_flag_records_attempt_and_raises(

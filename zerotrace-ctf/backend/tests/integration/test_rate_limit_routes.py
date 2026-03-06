@@ -228,6 +228,35 @@ def test_exceed_limit_returns_429_with_retry_after(
     assert int(retry_after) > 0
 
 
+def test_m1_challenge_second_submission_returns_403(
+    client: TestClient,
+    test_session: Session,
+    seed_roles: dict[str, object],
+) -> None:
+    auth_data = _create_admin_and_player_tokens(client, test_session, seed_roles)
+    ready = _create_ready_challenge(
+        client,
+        auth_data["admin_token"],
+        test_session,
+        slug_prefix="m1-one-attempt-route",
+    )
+
+    first_response = client.post(
+        f"/challenges/{ready['slug']}/submit",
+        json={"flag": "ZTCTF{wrong-1}"},
+        headers=auth_headers(auth_data["player_token"]),
+    )
+    second_response = client.post(
+        f"/challenges/{ready['slug']}/submit",
+        json={"flag": "ZTCTF{wrong-2}"},
+        headers=auth_headers(auth_data["player_token"]),
+    )
+
+    assert first_response.status_code == 200
+    assert second_response.status_code == 403
+    assert second_response.json() == {"detail": "Only one attempt is allowed for this challenge."}
+
+
 def test_missing_auth_still_returns_401(
     monkeypatch: pytest.MonkeyPatch,
     client: TestClient,

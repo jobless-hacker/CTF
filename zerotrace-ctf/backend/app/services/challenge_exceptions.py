@@ -47,3 +47,7 @@ class ChallengeRateLimitedError(ChallengeServiceError):
     def __init__(self, retry_after_seconds: int) -> None:
         super().__init__("Challenge submission rate limit exceeded.")
         self.retry_after_seconds = retry_after_seconds
+
+
+class ChallengeAttemptLimitReachedError(ChallengeServiceError):
+    """Raised when a challenge has a hard attempt cap and the user already used it."""
