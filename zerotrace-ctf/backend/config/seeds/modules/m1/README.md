@@ -23,6 +23,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-17-unauthorized-git-commit.json`
 - `m1-18-cloudtrail-incident.json`
 - `m1-19-kubernetes-crash.json`
+- `m1-20-dns-amplification-attack.json`
 
 ## How to migrate next challenges
 
