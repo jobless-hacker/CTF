@@ -11,6 +11,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-05-web-server-crash.json`
 - `m1-06-github-secret-leak.json`
 - `m1-07-mis-sent-email.json`
+- `m1-08-config-file-tampering.json`
 
 ## How to migrate next challenges
 
