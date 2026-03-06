@@ -1,12 +1,15 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { ENV } from "../../config/environment"
+import { useAuth } from "../../context/use-auth"
 import { useChallengeDetail } from "../../features/challenges/hooks/useChallengeDetail"
 import { useChallengeLabCommand } from "../../features/challenges/hooks/useChallengeLabCommand"
 import { useSubmitFlag } from "../../features/challenges/hooks/useSubmitFlag"
 import { challengeLabCommandSchema, submitFlagSchema } from "../../features/challenges/schemas/challenge.schemas"
+import { ChallengeRequestError } from "../../features/challenges/services/challenge.errors"
 import type { SubmitFlagResponse } from "../../features/challenges/types/challenge.types"
+import { getAccessToken } from "../../services/auth-session/token"
 
 interface LabHistoryEntry {
   id: number
@@ -16,8 +19,73 @@ interface LabHistoryEntry {
   exitCode: number
 }
 
+const getAttemptLockStorageKey = (slug: string, userId?: string) =>
+  `zerotrace.m1_attempt_locked.${(userId ?? "anon").trim().toLowerCase()}.${slug.trim().toLowerCase()}`
+
+const decodeJwtSub = (token: string): string | null => {
+  const parts = token.split(".")
+  if (parts.length < 2) {
+    return null
+  }
+
+  try {
+    const encodedPayload = parts[1].replace(/-/g, "+").replace(/_/g, "/")
+    const paddingLength = (4 - (encodedPayload.length % 4)) % 4
+    const paddedPayload = `${encodedPayload}${"=".repeat(paddingLength)}`
+    const payload = JSON.parse(window.atob(paddedPayload)) as { sub?: unknown }
+    if (typeof payload.sub !== "string") {
+      return null
+    }
+    const normalized = payload.sub.trim()
+    return normalized.length > 0 ? normalized : null
+  } catch {
+    return null
+  }
+}
+
+const getSessionUserId = () => {
+  if (typeof window === "undefined") {
+    return null
+  }
+
+  const token = getAccessToken()
+  if (!token) {
+    return null
+  }
+
+  return decodeJwtSub(token)
+}
+
+const readAttemptLocked = (slug: string, userId?: string) => {
+  if (typeof window === "undefined") {
+    return false
+  }
+  try {
+    return window.localStorage.getItem(getAttemptLockStorageKey(slug, userId)) === "1"
+  } catch {
+    return false
+  }
+}
+
+const writeAttemptLocked = (slug: string, userId: string | undefined, isLocked: boolean) => {
+  if (typeof window === "undefined") {
+    return
+  }
+  try {
+    const storageKey = getAttemptLockStorageKey(slug, userId)
+    if (isLocked) {
+      window.localStorage.setItem(storageKey, "1")
+      return
+    }
+    window.localStorage.removeItem(storageKey)
+  } catch {
+    return
+  }
+}
+
 export const ChallengeDetailPage = () => {
   const { slug } = useParams<{ slug: string }>()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const { data, isLoading, error } = useChallengeDetail(slug)
   const { mutateAsync, isPending, error: submitError, reset } = useSubmitFlag(slug)
@@ -28,7 +96,11 @@ export const ChallengeDetailPage = () => {
     reset: resetLabError,
   } = useChallengeLabCommand(slug)
 
+  const lockIdentity = (user?.id?.trim() || getSessionUserId() || "anon").toLowerCase()
   const [flag, setFlag] = useState("")
+  const [isLocallyAttemptLocked, setIsLocallyAttemptLocked] = useState(() =>
+    slug ? readAttemptLocked(slug, lockIdentity) : false,
+  )
   const [result, setResult] = useState<SubmitFlagResponse | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [labCwd, setLabCwd] = useState("/etc")
@@ -43,6 +115,37 @@ export const ChallengeDetailPage = () => {
       exitCode: 0,
     },
   ])
+
+  useEffect(() => {
+    if (!slug) {
+      setIsLocallyAttemptLocked(false)
+      return
+    }
+
+    const lockedForIdentity = readAttemptLocked(slug, lockIdentity)
+    if (lockedForIdentity) {
+      setIsLocallyAttemptLocked(true)
+      return
+    }
+
+    // Migrate prior anonymous lock entry to stable authenticated identity.
+    if (lockIdentity !== "anon" && readAttemptLocked(slug, "anon")) {
+      writeAttemptLocked(slug, lockIdentity, true)
+      writeAttemptLocked(slug, "anon", false)
+      setIsLocallyAttemptLocked(true)
+      return
+    }
+
+    setIsLocallyAttemptLocked(false)
+  }, [slug, lockIdentity])
+
+  useEffect(() => {
+    if (!slug || !data?.attempt_locked) {
+      return
+    }
+    writeAttemptLocked(slug, lockIdentity, true)
+    setIsLocallyAttemptLocked(true)
+  }, [slug, lockIdentity, data?.attempt_locked])
 
   if (!slug) {
     return (
@@ -81,7 +184,9 @@ export const ChallengeDetailPage = () => {
   const isTerminalLabChallenge = data.lab_available
   const isM1SingleAttemptChallenge = data.slug.toLowerCase().startsWith("m1-")
   const isAttemptLocked =
-    isM1SingleAttemptChallenge && (result !== null || submitError?.code === "ATTEMPT_LIMIT_REACHED")
+    Boolean(data.attempt_locked)
+    || isLocallyAttemptLocked
+    || (isM1SingleAttemptChallenge && (result !== null || submitError?.code === "ATTEMPT_LIMIT_REACHED"))
   const resolvedAttachmentUrl = data.attachment_url
     ? new URL(data.attachment_url, `${ENV.API_BASE_URL.replace(/\/+$/, "")}/`).toString()
     : null
@@ -101,8 +206,20 @@ export const ChallengeDetailPage = () => {
     try {
       const response = await mutateAsync(parsed.data)
       setResult(response)
+      if (isM1SingleAttemptChallenge) {
+        setIsLocallyAttemptLocked(true)
+        writeAttemptLocked(data.slug, lockIdentity, true)
+      }
       setFlag("")
-    } catch {
+    } catch (requestError) {
+      if (
+        isM1SingleAttemptChallenge
+        && requestError instanceof ChallengeRequestError
+        && requestError.code === "ATTEMPT_LIMIT_REACHED"
+      ) {
+        setIsLocallyAttemptLocked(true)
+        writeAttemptLocked(data.slug, lockIdentity, true)
+      }
       return
     }
   }
