@@ -396,13 +396,13 @@ def test_player_view_published_success(
 
 
 def test_artifact_download_route_returns_attachment(client: TestClient) -> None:
-    response = client.get("/artifacts/m2/patient_db_log.txt")
+    response = client.get("/artifacts/m2/m2-01-after-hours-access.zip")
 
     assert response.status_code == 200
     assert response.headers["content-disposition"].startswith("attachment;")
-    assert "patient_db_log.txt" in response.headers["content-disposition"]
+    assert "m2-01-after-hours-access.zip" in response.headers["content-disposition"]
     assert "application/octet-stream" in response.headers["content-type"]
-    assert "doctor_login" in response.text
+    assert response.content.startswith(b"PK")
 
 
 def test_player_submit_correct_flag(
