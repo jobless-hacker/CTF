@@ -3,6 +3,7 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urlsplit
 
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -100,11 +101,16 @@ class Settings(BaseSettings):
         if self.CORS_ALLOWED_ORIGINS.strip() == "*":
             return ["*"]
 
-        return [
-            origin.strip()
-            for origin in self.CORS_ALLOWED_ORIGINS.split(",")
-            if origin.strip()
-        ]
+        origins: list[str] = []
+        seen: set[str] = set()
+        for origin in self.CORS_ALLOWED_ORIGINS.split(","):
+            normalized = self._normalize_cors_origin(origin)
+            if not normalized or normalized in seen:
+                continue
+            origins.append(normalized)
+            seen.add(normalized)
+
+        return origins
 
     @model_validator(mode="after")
     def validate_xp_first_blood_bonus_config(self) -> "Settings":
@@ -190,6 +196,18 @@ class Settings(BaseSettings):
             raise ValueError(f"{field_name} must be at least {min_value}.")
         if value > max_value:
             raise ValueError(f"{field_name} must not exceed {max_value}.")
+
+    @staticmethod
+    def _normalize_cors_origin(origin: str) -> str:
+        value = origin.strip()
+        if not value or value == "*":
+            return value
+
+        parsed = urlsplit(value)
+        if parsed.scheme and parsed.netloc:
+            return f"{parsed.scheme}://{parsed.netloc}".rstrip("/")
+
+        return value.rstrip("/")
 
 
 @lru_cache(maxsize=1)

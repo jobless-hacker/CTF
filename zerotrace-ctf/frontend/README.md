@@ -17,6 +17,7 @@ Default local URL:
 - If production `VITE_API_BASE_URL` is not set, API requests use same-origin paths (for example `/auth/login`).
 - Production builds reject `VITE_API_BASE_URL` values that use `*.trycloudflare.com`.
 - Emergency override: set `VITE_ALLOW_EPHEMERAL_TUNNEL=true` to allow temporary tunnel URLs for short-lived recovery/testing.
+- Runtime override for already-deployed GitHub Pages builds: open the app with `?api=https://your-backend.example.com` or `#/login?api=https://your-backend.example.com`. The frontend stores that value in local storage under `zerotrace.apiBaseUrl`.
 
 ## Routing on GitHub Pages
 - In production on `github.io`, the app uses `HashRouter` to avoid deep-link refresh 404 issues.
