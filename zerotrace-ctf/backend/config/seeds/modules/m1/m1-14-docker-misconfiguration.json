@@ -1,0 +1,13 @@
+{
+  "order": 14,
+  "slug": "m1-docker-misconfiguration",
+  "title": "Unexpected Database Reachability",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A staging database service became reachable from outside its expected container network.\n\nDownload the case pack, review the incident handoff, inspect the container and host evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m1/m1-14-docker-misconfiguration.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

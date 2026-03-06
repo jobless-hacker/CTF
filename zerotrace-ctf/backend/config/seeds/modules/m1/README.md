@@ -17,6 +17,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-11-aws-public-snapshot.json`
 - `m1-12-packet-replay-attack.json`
 - `m1-13-siem-alert-investigation.json`
+- `m1-14-docker-misconfiguration.json`
 
 ## How to migrate next challenges
 
