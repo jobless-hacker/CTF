@@ -8,6 +8,7 @@ Use this folder to keep M1 challenge content in separate JSON files so updates d
 - `m1-02-sniffed-credentials.json`
 - `m1-03-modified-database-record.json`
 - `m1-04-deleted-logs.json`
+- `m1-05-web-server-crash.json`
 
 ## How to migrate next challenges
 

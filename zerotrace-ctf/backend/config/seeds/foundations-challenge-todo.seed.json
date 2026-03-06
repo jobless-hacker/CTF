@@ -27,17 +27,7 @@
           "source_file": "modules/m1/m1-04-deleted-logs.json"
         },
         {
-          "order": 5,
-          "slug": "m1-web-server-crash",
-          "title": "Web Server Crash",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A web service became unavailable after overload errors.\n\nDownload the case pack, review the outage ticket, correlate the monitoring and host evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-05-web-server-crash.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-05-web-server-crash.json"
         },
         {
           "order": 6,
