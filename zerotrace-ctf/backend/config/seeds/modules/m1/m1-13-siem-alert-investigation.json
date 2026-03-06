@@ -1,0 +1,13 @@
+{
+  "order": 13,
+  "slug": "m1-siem-alert-investigation",
+  "title": "Unusual SIEM Event Sequence",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A SIEM alert highlights an unusual change in security-event behavior on a production server.\n\nDownload the case pack, review the incident handoff, correlate the SIEM and host evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m1/m1-13-siem-alert-investigation.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}
