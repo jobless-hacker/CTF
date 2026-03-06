@@ -79,6 +79,9 @@ export const ChallengeDetailPage = () => {
   }
 
   const isTerminalLabChallenge = data.lab_available
+  const isM1SingleAttemptChallenge = data.slug.toLowerCase().startsWith("m1-")
+  const isAttemptLocked =
+    isM1SingleAttemptChallenge && (result !== null || submitError?.code === "ATTEMPT_LIMIT_REACHED")
   const resolvedAttachmentUrl = data.attachment_url
     ? new URL(data.attachment_url, `${ENV.API_BASE_URL.replace(/\/+$/, "")}/`).toString()
     : null
@@ -231,6 +234,11 @@ export const ChallengeDetailPage = () => {
 
       <section className="zt-panel">
         <h2 className="zt-panel-title">Flag Submission</h2>
+        {isM1SingleAttemptChallenge ? (
+          <div className="zt-alert zt-alert--warn mt-3">
+            One attempt only for this challenge. Your first submission is final.
+          </div>
+        ) : null}
 
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 md:flex-row">
           <input
@@ -239,8 +247,9 @@ export const ChallengeDetailPage = () => {
             placeholder="Enter flag (e.g., CTF{example_flag})"
             className="zt-input flex-1"
             autoComplete="off"
+            disabled={isPending || isAttemptLocked}
           />
-          <button disabled={isPending} className="zt-button zt-button--primary md:min-w-40">
+          <button disabled={isPending || isAttemptLocked} className="zt-button zt-button--primary md:min-w-40">
             {isPending ? "Submitting..." : "Submit"}
           </button>
         </form>
@@ -269,6 +278,9 @@ export const ChallengeDetailPage = () => {
           ) : null}
 
           {result && !result.correct ? <div className="zt-alert zt-alert--error">Incorrect flag.</div> : null}
+          {isAttemptLocked ? (
+            <div className="zt-alert zt-alert--warn">Attempt used. Further submissions are disabled.</div>
+          ) : null}
         </div>
       </section>
     </div>
