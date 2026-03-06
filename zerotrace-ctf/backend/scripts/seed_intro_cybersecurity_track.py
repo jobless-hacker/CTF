@@ -61,7 +61,78 @@ def _load_seed(seed_file: Path) -> dict[str, Any]:
     if not isinstance(payload["modules"], list) or not payload["modules"]:
         raise ValueError("'modules' must be a non-empty list.")
 
+    _resolve_challenge_sources(payload=payload, seed_file=seed_file)
+
     return payload
+
+
+def _read_json_object(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as fp:
+        loaded = json.load(fp)
+    if not isinstance(loaded, dict):
+        raise ValueError(f"Challenge source file must contain a JSON object: {path}")
+    return loaded
+
+
+def _resolve_challenge_sources(payload: dict[str, Any], seed_file: Path) -> None:
+    seed_root = seed_file.parent.resolve()
+    for module_payload in payload["modules"]:
+        if not isinstance(module_payload, dict):
+            raise ValueError("Each module must be a JSON object.")
+        challenges = module_payload.get("challenges", [])
+        if not isinstance(challenges, list):
+            raise ValueError(f"Module '{module_payload.get('code', 'unknown')}' has invalid challenges list.")
+
+        resolved_challenges: list[dict[str, Any]] = []
+        for challenge_payload in challenges:
+            if not isinstance(challenge_payload, dict):
+                raise ValueError("Each challenge must be a JSON object.")
+            resolved_challenges.append(
+                _resolve_challenge_payload(
+                    challenge_payload=challenge_payload,
+                    seed_root=seed_root,
+                    visited_sources=set(),
+                )
+            )
+        module_payload["challenges"] = resolved_challenges
+
+
+def _resolve_challenge_payload(
+    challenge_payload: dict[str, Any],
+    seed_root: Path,
+    visited_sources: set[Path],
+) -> dict[str, Any]:
+    source_file = challenge_payload.get("source_file")
+    if not source_file:
+        return dict(challenge_payload)
+
+    source_path = (seed_root / str(source_file)).resolve()
+    try:
+        source_path.relative_to(seed_root)
+    except ValueError as exc:
+        raise ValueError(f"Challenge source_file escapes seed directory: {source_file}") from exc
+
+    if source_path in visited_sources:
+        raise ValueError(f"Circular challenge source_file reference detected: {source_path}")
+    visited_sources = set(visited_sources)
+    visited_sources.add(source_path)
+
+    if not source_path.exists():
+        raise FileNotFoundError(f"Challenge source file not found: {source_path}")
+
+    source_payload = _read_json_object(source_path)
+    resolved_source = _resolve_challenge_payload(
+        challenge_payload=source_payload,
+        seed_root=seed_root,
+        visited_sources=visited_sources,
+    )
+
+    merged = dict(resolved_source)
+    for key, value in challenge_payload.items():
+        if key == "source_file":
+            continue
+        merged[key] = value
+    return merged
 
 
 def _normalize_slug(value: str) -> str:

@@ -15,17 +15,7 @@
       "xp_budget": 2500,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m1-public-bucket-exposure",
-          "title": "Public Bucket Exposure",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A cloud storage bucket may be reachable from the internet.\n\nDownload the case pack, review the bucket inventory, access policy, and object-access logs, then determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-01-public-bucket-exposure.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-01-public-bucket-exposure.json"
         },
         {
           "order": 2,
