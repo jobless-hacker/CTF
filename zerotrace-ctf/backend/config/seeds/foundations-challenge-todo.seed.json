@@ -60,17 +60,7 @@
           "source_file": "modules/m1/m1-15-ransomware-lock.json"
         },
         {
-          "order": 16,
-          "slug": "m1-api-data-exposure",
-          "title": "Unexpected API Response Fields",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "An API response included user fields that were not expected for this client context.\n\nDownload the case pack, review the incident handoff, inspect the request and response evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m1/m1-16-api-data-exposure.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m1/m1-16-api-data-exposure.json"
         },
         {
           "order": 17,
