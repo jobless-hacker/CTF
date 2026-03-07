@@ -20,7 +20,6 @@ export const TrackDetailPage = () => {
   const { data: tracks } = useTracks()
   const [query, setQuery] = useState("")
   const [activeDifficultyTab, setActiveDifficultyTab] = useState<"all" | "easy" | "medium">("all")
-  const [activeModuleKey, setActiveModuleKey] = useState<string | null>(null)
 
   const safeModuleGroups = moduleGroups ?? []
   const safeChallenges = challenges ?? []
@@ -50,52 +49,28 @@ export const TrackDetailPage = () => {
     [normalizedQuery, safeModuleGroups],
   )
 
-  useEffect(() => {
+  const activeModule = useMemo(() => {
     if (filteredModuleGroups.length === 0) {
-      setActiveModuleKey(null)
-      return
+      return null
     }
 
-    if (routeModuleParam) {
-      const fromRoute = filteredModuleGroups.find(
-        (moduleGroup) =>
-          moduleGroup.moduleCode.toUpperCase() === routeModuleParam || moduleGroup.moduleKey.toUpperCase() === routeModuleParam,
-      )
-      if (fromRoute) {
-        if (activeModuleKey !== fromRoute.moduleKey) {
-          setActiveModuleKey(fromRoute.moduleKey)
-        }
-        return
+    const resolveModule = (param: string | null) => {
+      if (!param) {
+        return null
       }
-    }
-
-    if (moduleQueryParam) {
-      const fromQuery = filteredModuleGroups.find(
+      return filteredModuleGroups.find(
         (moduleGroup) =>
-          moduleGroup.moduleCode.toUpperCase() === moduleQueryParam || moduleGroup.moduleKey.toUpperCase() === moduleQueryParam,
-      )
-      if (fromQuery) {
-        if (activeModuleKey !== fromQuery.moduleKey) {
-          setActiveModuleKey(fromQuery.moduleKey)
-        }
-        return
-      }
+          moduleGroup.moduleCode.toUpperCase() === param || moduleGroup.moduleKey.toUpperCase() === param,
+      ) ?? null
     }
 
-    const hasActive = activeModuleKey
-      ? filteredModuleGroups.some((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
-      : false
-    if (hasActive) {
-      return
-    }
-
-    setActiveModuleKey(filteredModuleGroups[0]?.moduleKey ?? null)
-  }, [activeModuleKey, filteredModuleGroups, moduleQueryParam, routeModuleParam])
-
-  const activeModule =
-    filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
-    ?? filteredModuleGroups[0]
-    ?? null
+    return (
+      resolveModule(routeModuleParam)
+      ?? resolveModule(moduleQueryParam)
+      ?? filteredModuleGroups[0]
+      ?? null
+    )
+  }, [filteredModuleGroups, moduleQueryParam, routeModuleParam])
 
   useEffect(() => {
     if (!activeModule) {
@@ -152,7 +127,9 @@ export const TrackDetailPage = () => {
     if (!selectedModule || !slug) {
       return
     }
-    setActiveModuleKey(moduleKey)
+    const next = new URLSearchParams(searchParams)
+    next.set("module", selectedModule.moduleCode)
+    setSearchParams(next, { replace: true })
     navigate(`/tracks/${slug}/module/${selectedModule.moduleCode}`)
   }
 
