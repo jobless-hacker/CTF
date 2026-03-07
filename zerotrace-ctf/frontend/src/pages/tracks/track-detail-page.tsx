@@ -56,20 +56,15 @@ export const TrackDetailPage = () => {
       return
     }
 
-    const hasActive = activeModuleKey
-      ? filteredModuleGroups.some((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
-      : false
-    if (hasActive) {
-      return
-    }
-
     if (routeModuleParam) {
       const fromRoute = filteredModuleGroups.find(
         (moduleGroup) =>
           moduleGroup.moduleCode.toUpperCase() === routeModuleParam || moduleGroup.moduleKey.toUpperCase() === routeModuleParam,
       )
       if (fromRoute) {
-        setActiveModuleKey(fromRoute.moduleKey)
+        if (activeModuleKey !== fromRoute.moduleKey) {
+          setActiveModuleKey(fromRoute.moduleKey)
+        }
         return
       }
     }
@@ -80,9 +75,18 @@ export const TrackDetailPage = () => {
           moduleGroup.moduleCode.toUpperCase() === moduleQueryParam || moduleGroup.moduleKey.toUpperCase() === moduleQueryParam,
       )
       if (fromQuery) {
-        setActiveModuleKey(fromQuery.moduleKey)
+        if (activeModuleKey !== fromQuery.moduleKey) {
+          setActiveModuleKey(fromQuery.moduleKey)
+        }
         return
       }
+    }
+
+    const hasActive = activeModuleKey
+      ? filteredModuleGroups.some((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
+      : false
+    if (hasActive) {
+      return
     }
 
     setActiveModuleKey(filteredModuleGroups[0]?.moduleKey ?? null)
