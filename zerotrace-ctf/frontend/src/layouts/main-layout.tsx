@@ -30,11 +30,14 @@ export const MainLayout = () => {
               <div className="zt-nav">
                 {isAuthenticated ? (
                   <>
-                    <NavLink to="/leaderboard" className={({ isActive }) => `zt-nav-link ${isActive ? "zt-nav-link--active" : ""}`}>
-                      Leaderboard
+                    <NavLink to="/" end className={({ isActive }) => `zt-nav-link ${isActive ? "zt-nav-link--active" : ""}`}>
+                      Dashboard
                     </NavLink>
                     <NavLink to="/tracks" className={({ isActive }) => `zt-nav-link ${isActive ? "zt-nav-link--active" : ""}`}>
                       Tracks
+                    </NavLink>
+                    <NavLink to="/leaderboard" className={({ isActive }) => `zt-nav-link ${isActive ? "zt-nav-link--active" : ""}`}>
+                      Leaderboard
                     </NavLink>
                   </>
                 ) : null}
@@ -51,7 +54,9 @@ export const MainLayout = () => {
               {isAuthenticated ? (
                 <>
                   <XPSummaryBadge />
-                  <span className="zt-pill">{user?.email}</span>
+                  <span className="zt-user-chip" title={user?.email ?? ""}>
+                    {user?.email}
+                  </span>
                   <button onClick={handleLogout} className="zt-button zt-button--ghost">
                     Logout
                   </button>

@@ -106,6 +106,7 @@ export const ChallengeDetailPage = () => {
   const [labCwd, setLabCwd] = useState("/etc")
   const [labCommand, setLabCommand] = useState("")
   const [labValidationError, setLabValidationError] = useState<string | null>(null)
+  const [copyStatus, setCopyStatus] = useState<string | null>(null)
   const [labHistory, setLabHistory] = useState<LabHistoryEntry[]>([
     {
       id: 1,
@@ -146,6 +147,10 @@ export const ChallengeDetailPage = () => {
     writeAttemptLocked(slug, lockIdentity, true)
     setIsLocallyAttemptLocked(true)
   }, [slug, lockIdentity, data?.attempt_locked])
+
+  useEffect(() => {
+    setCopyStatus(null)
+  }, [slug])
 
   if (!slug) {
     return (
@@ -275,6 +280,23 @@ export const ChallengeDetailPage = () => {
     navigate("/tracks")
   }
 
+  const handleInsertTemplate = () => {
+    setFlag("CTF{}")
+  }
+
+  const handleCopySlug = async () => {
+    if (!navigator?.clipboard) {
+      setCopyStatus("Clipboard unavailable in this browser.")
+      return
+    }
+    try {
+      await navigator.clipboard.writeText(data.slug)
+      setCopyStatus("Challenge slug copied.")
+    } catch {
+      setCopyStatus("Unable to copy slug.")
+    }
+  }
+
   return (
     <div className="zt-page">
       <section className="zt-panel">
@@ -286,7 +308,14 @@ export const ChallengeDetailPage = () => {
         <div className="mt-3 flex flex-wrap gap-2">
           <span className="zt-pill">Difficulty: {data.difficulty}</span>
           <span className="zt-pill">{data.points} pts</span>
+          <span className="zt-pill">Slug: {data.slug}</span>
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button type="button" className="zt-button zt-button--ghost" onClick={handleCopySlug}>
+            Copy Slug
+          </button>
+        </div>
+        {copyStatus ? <div className="zt-alert zt-alert--info mt-3">{copyStatus}</div> : null}
         {resolvedAttachmentUrl ? (
           <div className="mt-5 rounded-lg border border-cyber-border bg-black/40 p-4">
             <p className="zt-subheading">Attachment</p>
@@ -356,6 +385,12 @@ export const ChallengeDetailPage = () => {
             One attempt only for this challenge. Your first submission is final.
           </div>
         ) : null}
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button type="button" className="zt-button zt-button--ghost" onClick={handleInsertTemplate} disabled={isAttemptLocked}>
+            Insert CTF Template
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 md:flex-row">
           <input

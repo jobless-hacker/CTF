@@ -9,26 +9,32 @@ export const DashboardPage = () => {
 
   return (
     <div className="zt-page">
-      <div>
+      <div className="zt-hero">
         <p className="zt-kicker">Mission Console</p>
         <h1 className="zt-heading mt-1">Dashboard</h1>
         <p className="zt-subheading">Welcome back, {user?.email ?? "player"}.</p>
+        <div className="zt-hero-meta mt-4">
+          <span className="zt-pill">Track: Foundations</span>
+          <span className="zt-pill">Status: Live</span>
+          <span className="zt-pill">Mode: Investigate</span>
+        </div>
       </div>
 
       <div className="zt-grid-3">
         <div className="zt-stat-card">
           <h2 className="zt-stat-label">Total XP</h2>
           <p className="zt-stat-value">{isLoading ? "..." : xp?.total_xp ?? 0}</p>
+          <p className="zt-subheading mt-2">Earn XP by solving published challenges.</p>
         </div>
         <Link to="/tracks" className="zt-card-link">
           <p className="zt-kicker">Recon</p>
           <h2 className="mt-1 text-lg font-semibold">Tracks</h2>
-          <p className="zt-subheading mt-2">Browse all available tracks.</p>
+          <p className="zt-subheading mt-2">Browse modules, filter challenges, and start quickly.</p>
         </Link>
         <Link to="/leaderboard" className="zt-card-link">
           <p className="zt-kicker">Intel</p>
           <h2 className="mt-1 text-lg font-semibold">Leaderboard</h2>
-          <p className="zt-subheading mt-2">Monitor ranking and score drift.</p>
+          <p className="zt-subheading mt-2">Track rank changes and compare XP with other players.</p>
         </Link>
       </div>
     </div>
