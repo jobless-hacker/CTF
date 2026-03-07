@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 
 import { useTrackChallengeModules } from "../../features/tracks/hooks/useTrackChallengeModules"
 import { useTracks } from "../../features/tracks/hooks/useTracks"
@@ -14,17 +14,18 @@ const getChallengeCode = (slug: string) => {
 
 export const TrackDetailPage = () => {
   const { slug } = useParams<{ slug: string }>()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { moduleGroups, challenges, isLoading, error } = useTrackChallengeModules(slug)
   const { data: tracks } = useTracks()
   const [query, setQuery] = useState("")
   const [difficultyFilter, setDifficultyFilter] = useState<"all" | "easy" | "medium" | "hard">("all")
   const [activeModuleKey, setActiveModuleKey] = useState<string | null>(null)
-  const [collapsedModules, setCollapsedModules] = useState<Set<string>>(new Set())
 
   const safeModuleGroups = moduleGroups ?? []
   const safeChallenges = challenges ?? []
   const currentTrack = tracks?.find((track) => track.slug === slug)
   const normalizedQuery = query.trim().toLowerCase()
+  const moduleQueryParam = searchParams.get("module")?.trim().toUpperCase() ?? null
 
   const filteredModuleGroups = useMemo(
     () =>
@@ -53,44 +54,68 @@ export const TrackDetailPage = () => {
       setActiveModuleKey(null)
       return
     }
-    const hasActive = filteredModuleGroups.some((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
-    if (!hasActive) {
-      setActiveModuleKey(filteredModuleGroups[0]?.moduleKey ?? null)
+
+    const hasActive = activeModuleKey
+      ? filteredModuleGroups.some((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
+      : false
+    if (hasActive) {
+      return
     }
-  }, [activeModuleKey, filteredModuleGroups])
+
+    if (moduleQueryParam) {
+      const fromQuery = filteredModuleGroups.find(
+        (moduleGroup) =>
+          moduleGroup.moduleCode.toUpperCase() === moduleQueryParam || moduleGroup.moduleKey.toUpperCase() === moduleQueryParam,
+      )
+      if (fromQuery) {
+        setActiveModuleKey(fromQuery.moduleKey)
+        return
+      }
+    }
+
+    setActiveModuleKey(filteredModuleGroups[0]?.moduleKey ?? null)
+  }, [activeModuleKey, filteredModuleGroups, moduleQueryParam])
+
+  useEffect(() => {
+    if (!activeModuleKey) {
+      return
+    }
+
+    const activeModule = filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
+    if (!activeModule) {
+      return
+    }
+
+    const currentParam = searchParams.get("module")?.trim().toUpperCase() ?? ""
+    const targetParam = activeModule.moduleCode.toUpperCase()
+    if (currentParam === targetParam) {
+      return
+    }
+
+    const next = new URLSearchParams(searchParams)
+    next.set("module", activeModule.moduleCode)
+    setSearchParams(next, { replace: true })
+  }, [activeModuleKey, filteredModuleGroups, searchParams, setSearchParams])
+
+  const activeModule =
+    filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
+    ?? filteredModuleGroups[0]
+    ?? null
+
+  const activeModuleIndex = activeModule
+    ? filteredModuleGroups.findIndex((moduleGroup) => moduleGroup.moduleKey === activeModule.moduleKey)
+    : -1
+  const previousModule = activeModuleIndex > 0 ? filteredModuleGroups[activeModuleIndex - 1] : null
+  const nextModule =
+    activeModuleIndex >= 0 && activeModuleIndex < filteredModuleGroups.length - 1
+      ? filteredModuleGroups[activeModuleIndex + 1]
+      : null
 
   const visibleChallengeCount = filteredModuleGroups.reduce((sum, moduleGroup) => sum + moduleGroup.challenges.length, 0)
-  const firstVisibleChallenge = filteredModuleGroups[0]?.challenges[0] ?? null
+  const firstVisibleChallenge = activeModule?.challenges[0] ?? null
 
-  const moduleIds = filteredModuleGroups.map((moduleGroup) => moduleGroup.moduleKey)
-  const areAllCollapsed = moduleIds.length > 0 && moduleIds.every((moduleId) => collapsedModules.has(moduleId))
-
-  const handleToggleModule = (moduleKey: string) => {
-    setCollapsedModules((previous) => {
-      const next = new Set(previous)
-      if (next.has(moduleKey)) {
-        next.delete(moduleKey)
-      } else {
-        next.add(moduleKey)
-      }
-      return next
-    })
-  }
-
-  const handleModuleJump = (moduleKey: string) => {
+  const handleSelectModule = (moduleKey: string) => {
     setActiveModuleKey(moduleKey)
-    const element = document.getElementById(`module-${moduleKey}`)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
-  }
-
-  const handleCollapseAll = () => {
-    setCollapsedModules(new Set(moduleIds))
-  }
-
-  const handleExpandAll = () => {
-    setCollapsedModules(new Set())
   }
 
   if (!slug) {
@@ -125,9 +150,7 @@ export const TrackDetailPage = () => {
         <div>
           <p className="zt-kicker">CTF Mission Board</p>
           <h1 className="zt-heading mt-1">{currentTrack?.name ?? "Challenges"}</h1>
-          <p className="zt-subheading mt-2">
-            Foundations challenges are now grouped as operations modules with quick navigation and visual priority cues.
-          </p>
+          <p className="zt-subheading mt-2">Selecting a module now loads that module board directly instead of scrolling the page.</p>
           <div className="zt-hero-meta mt-4">
             <span className="zt-pill">{filteredModuleGroups.length} modules</span>
             <span className="zt-pill">{visibleChallengeCount} challenges visible</span>
@@ -136,7 +159,7 @@ export const TrackDetailPage = () => {
           <div className="mt-4 flex flex-wrap gap-2">
             {firstVisibleChallenge ? (
               <Link to={`/challenges/${firstVisibleChallenge.slug}`} className="zt-button zt-button--primary">
-                Start First Visible Challenge
+                Start Active Module
               </Link>
             ) : null}
             {currentTrack ? (
@@ -192,29 +215,22 @@ export const TrackDetailPage = () => {
             >
               Reset Filters
             </button>
-            <button
-              type="button"
-              className="zt-button zt-button--ghost"
-              onClick={areAllCollapsed ? handleExpandAll : handleCollapseAll}
-            >
-              {areAllCollapsed ? "Expand All Modules" : "Collapse All Modules"}
-            </button>
           </div>
         </div>
       </section>
 
-      {filteredModuleGroups.length > 0 ? (
+      {filteredModuleGroups.length > 0 && activeModule ? (
         <div className="zt-vector-layout">
           <aside className="zt-module-rail">
             <p className="zt-kicker">Module Navigator</p>
             <div className="mt-3 space-y-2">
               {filteredModuleGroups.map((moduleGroup) => {
-                const isActive = activeModuleKey === moduleGroup.moduleKey
+                const isActive = activeModule.moduleKey === moduleGroup.moduleKey
                 return (
                   <button
                     key={moduleGroup.moduleKey}
                     type="button"
-                    onClick={() => handleModuleJump(moduleGroup.moduleKey)}
+                    onClick={() => handleSelectModule(moduleGroup.moduleKey)}
                     className={`zt-module-node ${isActive ? "zt-module-node--active" : ""}`}
                   >
                     <span className="zt-module-node-code">{moduleGroup.moduleCode}</span>
@@ -228,59 +244,54 @@ export const TrackDetailPage = () => {
             </div>
           </aside>
 
-          <div className="space-y-5">
-            {filteredModuleGroups.map((moduleGroup) => {
-              const moduleId = `module-${moduleGroup.moduleKey}`
-              const isCollapsed = collapsedModules.has(moduleGroup.moduleKey)
+          <section key={activeModule.moduleKey} className="zt-panel zt-module-panel zt-module-panel--active">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="zt-kicker">{activeModule.moduleCode}</p>
+                <h2 className="zt-panel-title mt-1">{activeModule.moduleName}</h2>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="zt-pill">{activeModule.challengeCount} challenges</span>
+                <span className="zt-pill">{activeModule.totalXP} XP</span>
+              </div>
+            </div>
 
-              return (
-                <section
-                  key={moduleGroup.moduleKey}
-                  id={moduleId}
-                  className={`zt-panel zt-module-panel ${activeModuleKey === moduleGroup.moduleKey ? "zt-module-panel--active" : ""}`}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="zt-kicker">{moduleGroup.moduleCode}</p>
-                      <h2 className="zt-panel-title mt-1">{moduleGroup.moduleName}</h2>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="zt-pill">{moduleGroup.challengeCount} challenges</span>
-                      <span className="zt-pill">{moduleGroup.totalXP} XP</span>
-                      <button
-                        type="button"
-                        onClick={() => handleToggleModule(moduleGroup.moduleKey)}
-                        className="zt-button zt-button--ghost"
-                      >
-                        {isCollapsed ? "Expand" : "Collapse"}
-                      </button>
-                    </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="zt-button zt-button--ghost"
+                onClick={() => previousModule && handleSelectModule(previousModule.moduleKey)}
+                disabled={!previousModule}
+              >
+                Previous Module
+              </button>
+              <button
+                type="button"
+                className="zt-button zt-button--ghost"
+                onClick={() => nextModule && handleSelectModule(nextModule.moduleKey)}
+                disabled={!nextModule}
+              >
+                Next Module
+              </button>
+            </div>
+
+            <div className="zt-challenge-grid mt-4">
+              {activeModule.challenges.map((challenge) => (
+                <Link key={challenge.slug} to={`/challenges/${challenge.slug}`} className="zt-challenge-card">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className={`zt-difficulty-chip zt-difficulty-chip--${challenge.difficulty}`}>{challenge.difficulty}</span>
+                    <span className="zt-pill">{challenge.points} pts</span>
                   </div>
-
-                  {!isCollapsed ? (
-                    <div className="zt-challenge-grid mt-4">
-                      {moduleGroup.challenges.map((challenge) => (
-                        <Link key={challenge.slug} to={`/challenges/${challenge.slug}`} className="zt-challenge-card">
-                          <div className="flex items-start justify-between gap-3">
-                            <span className={`zt-difficulty-chip zt-difficulty-chip--${challenge.difficulty}`}>
-                              {challenge.difficulty}
-                            </span>
-                            <span className="zt-pill">{challenge.points} pts</span>
-                          </div>
-                          <h3 className="mt-3 text-base font-semibold text-cyber-text">{challenge.title}</h3>
-                          <p className="zt-subheading mt-2">{challenge.slug}</p>
-                          <div className="mt-4 flex items-center justify-between">
-                            <span className="zt-kicker">{getChallengeCode(challenge.slug)}</span>
-                            <span className="text-sm text-cyber-neon">Enter Challenge</span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  ) : null}
-                </section>
-              )
-            })}
-          </div>
+                  <h3 className="mt-3 text-base font-semibold text-cyber-text">{challenge.title}</h3>
+                  <p className="zt-subheading mt-2">{challenge.slug}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="zt-kicker">{getChallengeCode(challenge.slug)}</span>
+                    <span className="text-sm text-cyber-neon">Enter Challenge</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
       ) : (
         <div className="zt-alert zt-alert--info">
