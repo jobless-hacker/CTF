@@ -6,6 +6,17 @@ import { useTracks } from "../../features/tracks/hooks/useTracks"
 export const TrackListPage = () => {
   const { data, isLoading, error } = useTracks()
   const [query, setQuery] = useState("")
+  const tracks = data ?? []
+  const normalizedQuery = query.trim().toLowerCase()
+  const filteredTracks = useMemo(() => {
+    if (!normalizedQuery) {
+      return tracks
+    }
+    return tracks.filter((track) => {
+      const searchable = `${track.name} ${track.slug} ${track.description ?? ""}`.toLowerCase()
+      return searchable.includes(normalizedQuery)
+    })
+  }, [normalizedQuery, tracks])
 
   if (isLoading) {
     return (
@@ -24,18 +35,6 @@ export const TrackListPage = () => {
       </div>
     )
   }
-
-  const tracks = data ?? []
-  const normalizedQuery = query.trim().toLowerCase()
-  const filteredTracks = useMemo(() => {
-    if (!normalizedQuery) {
-      return tracks
-    }
-    return tracks.filter((track) => {
-      const searchable = `${track.name} ${track.slug} ${track.description ?? ""}`.toLowerCase()
-      return searchable.includes(normalizedQuery)
-    })
-  }, [normalizedQuery, tracks])
 
   return (
     <div className="zt-page">

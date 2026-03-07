@@ -21,38 +21,14 @@ export const TrackDetailPage = () => {
   const [activeModuleKey, setActiveModuleKey] = useState<string | null>(null)
   const [collapsedModules, setCollapsedModules] = useState<Set<string>>(new Set())
 
-  if (!slug) {
-    return (
-      <div className="zt-page">
-        <div className="zt-alert zt-alert--error">Invalid track.</div>
-      </div>
-    )
-  }
-
-  if (isLoading) {
-    return (
-      <div className="zt-page">
-        <div className="zt-panel">
-          <div className="zt-alert zt-alert--info">Loading challenges...</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="zt-page">
-        <div className="zt-alert zt-alert--error">{error.message}</div>
-      </div>
-    )
-  }
-
+  const safeModuleGroups = moduleGroups ?? []
+  const safeChallenges = challenges ?? []
   const currentTrack = tracks?.find((track) => track.slug === slug)
   const normalizedQuery = query.trim().toLowerCase()
 
   const filteredModuleGroups = useMemo(
     () =>
-      moduleGroups
+      safeModuleGroups
         .map((moduleGroup) => {
           const filteredChallenges = moduleGroup.challenges.filter((challenge) => {
             const matchesDifficulty = difficultyFilter === "all" || challenge.difficulty === difficultyFilter
@@ -69,7 +45,7 @@ export const TrackDetailPage = () => {
           }
         })
         .filter((moduleGroup) => moduleGroup.challenges.length > 0),
-    [difficultyFilter, moduleGroups, normalizedQuery],
+    [difficultyFilter, normalizedQuery, safeModuleGroups],
   )
 
   useEffect(() => {
@@ -117,6 +93,32 @@ export const TrackDetailPage = () => {
     setCollapsedModules(new Set())
   }
 
+  if (!slug) {
+    return (
+      <div className="zt-page">
+        <div className="zt-alert zt-alert--error">Invalid track.</div>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="zt-page">
+        <div className="zt-panel">
+          <div className="zt-alert zt-alert--info">Loading challenges...</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="zt-page">
+        <div className="zt-alert zt-alert--error">{error.message}</div>
+      </div>
+    )
+  }
+
   return (
     <div className="zt-page zt-page--vector">
       <div className="zt-hero">
@@ -129,7 +131,7 @@ export const TrackDetailPage = () => {
           <div className="zt-hero-meta mt-4">
             <span className="zt-pill">{filteredModuleGroups.length} modules</span>
             <span className="zt-pill">{visibleChallengeCount} challenges visible</span>
-            <span className="zt-pill">{challenges.length} total in track</span>
+            <span className="zt-pill">{safeChallenges.length} total in track</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {firstVisibleChallenge ? (
@@ -218,7 +220,7 @@ export const TrackDetailPage = () => {
                     <span className="zt-module-node-code">{moduleGroup.moduleCode}</span>
                     <span className="zt-module-node-name">{moduleGroup.moduleName}</span>
                     <span className="zt-module-node-meta">
-                      {moduleGroup.challengeCount} challenges • {moduleGroup.totalXP} XP
+                      {moduleGroup.challengeCount} challenges | {moduleGroup.totalXP} XP
                     </span>
                   </button>
                 )
@@ -282,7 +284,7 @@ export const TrackDetailPage = () => {
         </div>
       ) : (
         <div className="zt-alert zt-alert--info">
-          {challenges.length > 0 ? "No challenges match your filters." : "No published challenges available."}
+          {safeChallenges.length > 0 ? "No challenges match your filters." : "No published challenges available."}
         </div>
       )}
     </div>
