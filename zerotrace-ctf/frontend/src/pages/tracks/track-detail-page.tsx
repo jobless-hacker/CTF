@@ -18,7 +18,7 @@ export const TrackDetailPage = () => {
   const { moduleGroups, challenges, isLoading, error } = useTrackChallengeModules(slug)
   const { data: tracks } = useTracks()
   const [query, setQuery] = useState("")
-  const [difficultyFilter, setDifficultyFilter] = useState<"all" | "easy" | "medium" | "hard">("all")
+  const [activeDifficultyTab, setActiveDifficultyTab] = useState<"all" | "easy" | "medium">("all")
   const [activeModuleKey, setActiveModuleKey] = useState<string | null>(null)
 
   const safeModuleGroups = moduleGroups ?? []
@@ -32,10 +32,9 @@ export const TrackDetailPage = () => {
       safeModuleGroups
         .map((moduleGroup) => {
           const filteredChallenges = moduleGroup.challenges.filter((challenge) => {
-            const matchesDifficulty = difficultyFilter === "all" || challenge.difficulty === difficultyFilter
             const matchesQuery =
               !normalizedQuery || `${challenge.title} ${challenge.slug} ${moduleGroup.moduleName}`.toLowerCase().includes(normalizedQuery)
-            return matchesDifficulty && matchesQuery
+            return matchesQuery
           })
 
           return {
@@ -46,7 +45,7 @@ export const TrackDetailPage = () => {
           }
         })
         .filter((moduleGroup) => moduleGroup.challenges.length > 0),
-    [difficultyFilter, normalizedQuery, safeModuleGroups],
+    [normalizedQuery, safeModuleGroups],
   )
 
   useEffect(() => {
@@ -102,6 +101,16 @@ export const TrackDetailPage = () => {
     ?? filteredModuleGroups[0]
     ?? null
 
+  const activeModuleVisibleChallenges = useMemo(() => {
+    if (!activeModule) {
+      return []
+    }
+    if (activeDifficultyTab === "all") {
+      return activeModule.challenges
+    }
+    return activeModule.challenges.filter((challenge) => challenge.difficulty === activeDifficultyTab)
+  }, [activeDifficultyTab, activeModule])
+
   const activeModuleIndex = activeModule
     ? filteredModuleGroups.findIndex((moduleGroup) => moduleGroup.moduleKey === activeModule.moduleKey)
     : -1
@@ -112,7 +121,7 @@ export const TrackDetailPage = () => {
       : null
 
   const visibleChallengeCount = filteredModuleGroups.reduce((sum, moduleGroup) => sum + moduleGroup.challenges.length, 0)
-  const firstVisibleChallenge = activeModule?.challenges[0] ?? null
+  const firstVisibleChallenge = activeModuleVisibleChallenges[0] ?? null
 
   const handleSelectModule = (moduleKey: string) => {
     setActiveModuleKey(moduleKey)
@@ -188,20 +197,8 @@ export const TrackDetailPage = () => {
           </div>
 
           <div className="w-full lg:w-64">
-            <label htmlFor="challenge-difficulty" className="zt-field-label">
-              Difficulty
-            </label>
-            <select
-              id="challenge-difficulty"
-              value={difficultyFilter}
-              onChange={(event) => setDifficultyFilter(event.target.value as "all" | "easy" | "medium" | "hard")}
-              className="zt-select"
-            >
-              <option value="all">All</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
+            <label className="zt-field-label">Difficulty</label>
+            <div className="zt-alert zt-alert--info">Use module tabs below</div>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -210,7 +207,7 @@ export const TrackDetailPage = () => {
               className="zt-button zt-button--ghost"
               onClick={() => {
                 setQuery("")
-                setDifficultyFilter("all")
+                setActiveDifficultyTab("all")
               }}
             >
               Reset Filters
@@ -275,8 +272,32 @@ export const TrackDetailPage = () => {
               </button>
             </div>
 
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="button"
+                className={`zt-button ${activeDifficultyTab === "all" ? "zt-button--primary" : "zt-button--ghost"}`}
+                onClick={() => setActiveDifficultyTab("all")}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                className={`zt-button ${activeDifficultyTab === "easy" ? "zt-button--primary" : "zt-button--ghost"}`}
+                onClick={() => setActiveDifficultyTab("easy")}
+              >
+                Easy
+              </button>
+              <button
+                type="button"
+                className={`zt-button ${activeDifficultyTab === "medium" ? "zt-button--primary" : "zt-button--ghost"}`}
+                onClick={() => setActiveDifficultyTab("medium")}
+              >
+                Medium
+              </button>
+            </div>
+
             <div className="zt-challenge-grid mt-4">
-              {activeModule.challenges.map((challenge) => (
+              {activeModuleVisibleChallenges.map((challenge) => (
                 <Link key={challenge.slug} to={`/challenges/${challenge.slug}`} className="zt-challenge-card">
                   <div className="flex items-start justify-between gap-3">
                     <span className={`zt-difficulty-chip zt-difficulty-chip--${challenge.difficulty}`}>{challenge.difficulty}</span>
@@ -291,6 +312,10 @@ export const TrackDetailPage = () => {
                 </Link>
               ))}
             </div>
+
+            {activeModuleVisibleChallenges.length === 0 ? (
+              <div className="zt-alert zt-alert--info mt-4">No challenges in this module for selected difficulty.</div>
+            ) : null}
           </section>
         </div>
       ) : (
