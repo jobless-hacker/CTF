@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { Link, useParams, useSearchParams } from "react-router-dom"
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 
 import { useTrackChallengeModules } from "../../features/tracks/hooks/useTrackChallengeModules"
 import { useTracks } from "../../features/tracks/hooks/useTracks"
@@ -13,7 +13,8 @@ const getChallengeCode = (slug: string) => {
 }
 
 export const TrackDetailPage = () => {
-  const { slug } = useParams<{ slug: string }>()
+  const { slug, moduleCode } = useParams<{ slug: string; moduleCode?: string }>()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const { moduleGroups, challenges, isLoading, error } = useTrackChallengeModules(slug)
   const { data: tracks } = useTracks()
@@ -25,6 +26,7 @@ export const TrackDetailPage = () => {
   const safeChallenges = challenges ?? []
   const currentTrack = tracks?.find((track) => track.slug === slug)
   const normalizedQuery = query.trim().toLowerCase()
+  const routeModuleParam = moduleCode?.trim().toUpperCase() ?? null
   const moduleQueryParam = searchParams.get("module")?.trim().toUpperCase() ?? null
 
   const filteredModuleGroups = useMemo(
@@ -61,6 +63,17 @@ export const TrackDetailPage = () => {
       return
     }
 
+    if (routeModuleParam) {
+      const fromRoute = filteredModuleGroups.find(
+        (moduleGroup) =>
+          moduleGroup.moduleCode.toUpperCase() === routeModuleParam || moduleGroup.moduleKey.toUpperCase() === routeModuleParam,
+      )
+      if (fromRoute) {
+        setActiveModuleKey(fromRoute.moduleKey)
+        return
+      }
+    }
+
     if (moduleQueryParam) {
       const fromQuery = filteredModuleGroups.find(
         (moduleGroup) =>
@@ -73,14 +86,14 @@ export const TrackDetailPage = () => {
     }
 
     setActiveModuleKey(filteredModuleGroups[0]?.moduleKey ?? null)
-  }, [activeModuleKey, filteredModuleGroups, moduleQueryParam])
+  }, [activeModuleKey, filteredModuleGroups, moduleQueryParam, routeModuleParam])
+
+  const activeModule =
+    filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
+    ?? filteredModuleGroups[0]
+    ?? null
 
   useEffect(() => {
-    if (!activeModuleKey) {
-      return
-    }
-
-    const activeModule = filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
     if (!activeModule) {
       return
     }
@@ -94,12 +107,19 @@ export const TrackDetailPage = () => {
     const next = new URLSearchParams(searchParams)
     next.set("module", activeModule.moduleCode)
     setSearchParams(next, { replace: true })
-  }, [activeModuleKey, filteredModuleGroups, searchParams, setSearchParams])
+  }, [activeModule, searchParams, setSearchParams])
 
-  const activeModule =
-    filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === activeModuleKey)
-    ?? filteredModuleGroups[0]
-    ?? null
+  useEffect(() => {
+    if (!slug || !activeModule) {
+      return
+    }
+    const currentRouteModule = moduleCode?.trim().toUpperCase() ?? ""
+    const targetRouteModule = activeModule.moduleCode.toUpperCase()
+    if (currentRouteModule === targetRouteModule) {
+      return
+    }
+    navigate(`/tracks/${slug}/module/${targetRouteModule}`, { replace: true })
+  }, [activeModule, moduleCode, navigate, slug])
 
   const activeModuleVisibleChallenges = useMemo(() => {
     if (!activeModule) {
@@ -124,7 +144,12 @@ export const TrackDetailPage = () => {
   const firstVisibleChallenge = activeModuleVisibleChallenges[0] ?? null
 
   const handleSelectModule = (moduleKey: string) => {
+    const selectedModule = filteredModuleGroups.find((moduleGroup) => moduleGroup.moduleKey === moduleKey)
+    if (!selectedModule || !slug) {
+      return
+    }
     setActiveModuleKey(moduleKey)
+    navigate(`/tracks/${slug}/module/${selectedModule.moduleCode}`)
   }
 
   if (!slug) {

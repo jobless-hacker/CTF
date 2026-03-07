@@ -57,6 +57,14 @@ export const AppRoutes = () => {
           }
         />
         <Route
+          path="/tracks/:slug/module/:moduleCode"
+          element={
+            <ProtectedRoute>
+              <TrackDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/challenges/:slug"
           element={
             <ProtectedRoute>
