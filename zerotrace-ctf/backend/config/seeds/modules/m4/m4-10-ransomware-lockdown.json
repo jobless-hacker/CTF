@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m4-10-ransomware-lockdown",
+  "title": "Ransomware Lockdown",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A ransomware incident disrupted production workloads and prevented access to business-critical files.\n\nDownload the investigation pack and correlate endpoint security logs, file access failures, ransom note evidence, backup restore behavior, service availability checks, EDR alerts, policy/runbook guidance, and SIEM timeline to identify the primary impact caused by the attack.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-10-ransomware-lockdown.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

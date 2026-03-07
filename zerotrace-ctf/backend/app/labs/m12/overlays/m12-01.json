@@ -1,0 +1,8 @@
+{
+  "/": {
+    "etc": {
+      "shadow": "root:*:19000:0:99999:7:::\nplayer:*:19000:0:99999:7:::\n",
+      "debug.conf": "debug=true\n"
+    }
+  }
+}

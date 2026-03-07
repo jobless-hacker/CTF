@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m7-06-file-upload-abuse",
+  "title": "File Upload Abuse",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Upload security telemetry indicates a suspicious script bypassed controls and may have executed after upload.\n\nDownload the investigation pack and correlate upload audit logs, web access logs, WAF alerts, upload inventory, AV scan output, request capture, security alerts, SIEM timeline, and policy/runbook context to identify the malicious uploaded file.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-06-file-upload-abuse.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

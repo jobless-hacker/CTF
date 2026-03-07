@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m8-05-exposed-api-key",
+  "title": "Exposed API Key",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Cloud and AppSec telemetry indicates a production payment API key may be exposed in plaintext deployment config.\n\nDownload the investigation pack and correlate app config history, repository scan logs, CI pipeline audit logs, payment API usage logs, security alerts, SIEM timeline, and policy/runbook context to identify the leaked API key.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-05-exposed-api-key.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

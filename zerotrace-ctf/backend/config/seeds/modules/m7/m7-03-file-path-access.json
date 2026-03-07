@@ -1,0 +1,13 @@
+{
+  "order": 3,
+  "slug": "m7-03-file-path-access",
+  "title": "File Path Access",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Download endpoint telemetry indicates crafted file parameters attempting access to system files through traversal sequences.\n\nDownload the investigation pack and correlate request logs, access logs, download-handler traces, file-access audit records, WAF events, response snapshot, security alerts, SIEM timeline, and policy/runbook context to identify the exploited vulnerability class.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-03-file-path-access.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

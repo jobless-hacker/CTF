@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m9-07-hidden-image-info",
+  "title": "Hidden Image Info",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "An image under investigation contains hidden metadata useful for camera attribution.\n\nDownload the investigation pack and correlate image inventory records, EXIF parser logs, XMP extraction output, camera fingerprinting data, SIEM timeline events, and analyst notes to identify the camera model.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-07-hidden-image-info.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

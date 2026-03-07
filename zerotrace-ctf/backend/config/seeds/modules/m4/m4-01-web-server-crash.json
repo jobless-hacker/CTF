@@ -1,0 +1,13 @@
+{
+  "order": 1,
+  "slug": "m4-01-web-server-crash",
+  "title": "Web Server Crash",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Production monitoring detected a major availability outage with backend saturation and degraded load balancer health.\n\nDownload the investigation pack and correlate nginx error logs, web status timeseries, load balancer checks, host resource metrics, alert feed, runtime config, runbook guidance, and SIEM timeline to identify the HTTP error code returned by the web service.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-01-web-server-crash.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,16 @@
+{
+  "/": {
+    "var": {
+      "log": {
+        "archive": {
+          "bigfile.log": "2026-03-08T00:00:00Z archive rotation started\n2026-03-08T00:00:01Z snapshot segment=001 size=64KB\n2026-03-08T00:00:02Z snapshot segment=002 size=64KB\n2026-03-08T00:00:03Z snapshot segment=003 size=64KB\n2026-03-08T00:00:04Z snapshot segment=004 size=64KB\n2026-03-08T00:00:05Z snapshot segment=005 size=64KB\n2026-03-08T00:00:06Z snapshot segment=006 size=64KB\n2026-03-08T00:00:07Z snapshot segment=007 size=64KB\n2026-03-08T00:00:08Z snapshot segment=008 size=64KB\n2026-03-08T00:00:09Z snapshot segment=009 size=64KB\n2026-03-08T00:00:10Z snapshot segment=010 size=64KB\n2026-03-08T00:00:11Z snapshot segment=011 size=64KB\n2026-03-08T00:00:12Z snapshot segment=012 size=64KB\n2026-03-08T00:00:13Z snapshot segment=013 size=64KB\n2026-03-08T00:00:14Z snapshot segment=014 size=64KB\n2026-03-08T00:00:15Z snapshot segment=015 size=64KB\n2026-03-08T00:00:16Z snapshot segment=016 size=64KB\n2026-03-08T00:00:17Z snapshot segment=017 size=64KB\n2026-03-08T00:00:18Z snapshot segment=018 size=64KB\n2026-03-08T00:00:19Z snapshot segment=019 size=64KB\n2026-03-08T00:00:20Z snapshot segment=020 size=64KB\n2026-03-08T00:00:21Z snapshot segment=021 size=64KB\n2026-03-08T00:00:22Z snapshot segment=022 size=64KB\n2026-03-08T00:00:23Z snapshot segment=023 size=64KB\n2026-03-08T00:00:24Z snapshot segment=024 size=64KB\n2026-03-08T00:00:25Z snapshot segment=025 size=64KB\n2026-03-08T00:00:26Z snapshot segment=026 size=64KB\n2026-03-08T00:00:27Z snapshot segment=027 size=64KB\n2026-03-08T00:00:28Z snapshot segment=028 size=64KB\n2026-03-08T00:00:29Z snapshot segment=029 size=64KB\n2026-03-08T00:00:30Z snapshot segment=030 size=64KB\n2026-03-08T00:00:31Z forensic marker placeholder\n"
+        }
+      }
+    },
+    "home": {
+      "player": {
+        "notes.txt": "A larger-than-normal archived log often contains the answer.\n"
+      }
+    }
+  }
+}

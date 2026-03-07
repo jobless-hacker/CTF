@@ -6,21 +6,91 @@
     "description": "Linux fundamentals and system exploitation",
     "is_active": true
   },
-  "xp_total": 1900,
+  "xp_total": 3500,
   "modules": [
     {
       "code": "M11",
       "order": 11,
       "name": "Linux Filesystem",
-      "xp_budget": 100,
+      "xp_budget": 900,
       "challenges": [
         {
           "order": 1,
           "slug": "m11-hidden-in-etc",
-          "title": "Hidden in /etc",
+          "title": "Misconfigured Include Chain",
           "difficulty": "easy",
           "points": 100,
-          "description": "Investigate sensitive files under /etc and recover the hidden indicator left in a misconfigured config chain.\n\nHint: Follow nginx include directives (grep -R include /etc), then inspect hidden files under /etc/.config_chain.",
+          "description": "The security team suspects a misconfigured nginx deployment that accidentally exposed an internal config chain. Investigate /etc and follow include directives until you find the sensitive indicator.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 2,
+          "slug": "m11-forgotten-config",
+          "title": "Forgotten MySQL Backup",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A developer left a temporary MySQL backup config while troubleshooting. Investigate /etc/mysql and recover the leaked credential from hidden backup files.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 3,
+          "slug": "m11-lost-backup",
+          "title": "Forgotten Production Backup",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "During an audit, several old backup archives were found under /opt/backups. Identify the production configuration backup artifact.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 4,
+          "slug": "m11-strange-include",
+          "title": "Suspicious Application Config",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A custom internal application loads layered configs. Trace /etc/app include directives and identify the secret configuration value.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 5,
+          "slug": "m11-webroot-secret",
+          "title": "Exposed Webroot File",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "The web server appears to host a sensitive internal file in the public web directory. Investigate /var/www/html and recover the exposed secret.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 6,
+          "slug": "m11-temporary-clue",
+          "title": "Temporary Session Artifact",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "An attacker may have left temporary artifacts during brief access. Investigate /tmp and recover the hidden session token.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 7,
+          "slug": "m11-large-file",
+          "title": "Large Log File",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Disk usage increased suddenly. Investigate /var/log and identify the suspicious large log file linked to the incident.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 8,
+          "slug": "m11-hidden-environment",
+          "title": "Developer Environment Leak",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "Developers often leave secrets in hidden environment files. Investigate /home/dev and recover the exposed API key from .env.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }
@@ -29,16 +99,86 @@
     {
       "code": "M12",
       "order": 12,
-      "name": "chmod",
-      "xp_budget": 100,
+      "name": "Linux Permissions Investigation",
+      "xp_budget": 900,
       "challenges": [
         {
           "order": 1,
-          "slug": "m12-permission-denied",
-          "title": "Permission Denied",
+          "slug": "m12-01-world-writable-file",
+          "title": "World Writable File",
           "difficulty": "easy",
           "points": 100,
-          "description": "Analyze ownership and mode bits to fix access controls and retrieve the protected flag artifact.",
+          "description": "During a system audit, a world-writable file was found under /etc. Use permission inspection to identify the risky file.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 2,
+          "slug": "m12-02-suid-binary-discovery",
+          "title": "SUID Binary Discovery",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A penetration tester suspects a risky SUID helper binary is present. Use find permission predicates to locate it.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 3,
+          "slug": "m12-03-exposed-private-key",
+          "title": "Exposed Private Key",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A developer's SSH private key was left with unsafe permissions. Investigate /home/dev/.ssh and identify the exposed key.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 4,
+          "slug": "m12-04-misconfigured-cron-script",
+          "title": "Misconfigured Cron Script",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "An hourly cron script is writable by all users. Investigate /etc/cron.hourly and identify the vulnerable script.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 5,
+          "slug": "m12-05-writable-web-configuration",
+          "title": "Writable Web Configuration",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A web configuration file under /var/www/html is writable by non-privileged users. Identify the risky file.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 6,
+          "slug": "m12-06-suspicious-log-permissions",
+          "title": "Suspicious Log Permissions",
+          "difficulty": "easy",
+          "points": 100,
+          "description": "A debug log file storing sensitive activity is writable by everyone. Investigate /var/log and identify it.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 7,
+          "slug": "m12-07-writable-system-binary",
+          "title": "Writable System Binary",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "A system binary in /usr/bin appears writable by regular users. Identify the binary and assess privilege risk.",
+          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+          "publish": true
+        },
+        {
+          "order": 8,
+          "slug": "m12-08-misconfigured-sudo-access",
+          "title": "Misconfigured Sudo Access",
+          "difficulty": "medium",
+          "points": 150,
+          "description": "A sudoers snippet allows passwordless execution of a script. Inspect /etc/sudoers.d and identify the allowed script.",
           "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
           "publish": true
         }

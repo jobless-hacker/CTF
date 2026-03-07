@@ -1,0 +1,13 @@
+{
+  "/": {
+    "usr": {
+      "local": {
+        "bin": {
+          "backup": "#!/bin/sh\necho backup\n",
+          "monitor": "#!/bin/sh\necho monitor\n",
+          "admin_helper": "#!/bin/sh\necho admin helper\n"
+        }
+      }
+    }
+  }
+}

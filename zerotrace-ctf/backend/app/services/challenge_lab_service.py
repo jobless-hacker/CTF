@@ -6,7 +6,9 @@ import json
 import os
 from pathlib import Path
 import posixpath
-import shlex
+
+from app.services.challenge_loader import ChallengeLoader
+from app.services.linux_shell_engine import LinuxShellEngine, ShellSession
 
 
 class ChallengeLabServiceError(Exception):
@@ -25,9 +27,22 @@ class ChallengeLabCommandResult:
 
 
 class _VirtualFilesystem:
-    def __init__(self, files: dict[str, str]) -> None:
+    def __init__(self, files: dict[str, str], permissions: dict[str, str] | None = None) -> None:
         self._files = {self.normalize_path(path): content for path, content in files.items()}
         self._directories = self._derive_directories(self._files)
+        self._permission_bits: dict[str, int] = {}
+        for directory in self._directories:
+            self._permission_bits[directory] = 0o755
+        for file_path in self._files:
+            self._permission_bits[file_path] = 0o644
+        for raw_path, raw_mode in (permissions or {}).items():
+            normalized_path = self.normalize_path(raw_path)
+            if normalized_path not in self._permission_bits:
+                continue
+            parsed_mode = self._parse_permission_mode(raw_mode)
+            if parsed_mode is None:
+                continue
+            self._permission_bits[normalized_path] = parsed_mode
 
     @staticmethod
     def normalize_path(path: str) -> str:
@@ -53,6 +68,10 @@ class _VirtualFilesystem:
 
     def read_file(self, path: str) -> str:
         return self._files[self.normalize_path(path)]
+
+    def file_size_bytes(self, path: str) -> int:
+        content = self.read_file(path)
+        return len(content.encode("utf-8"))
 
     def list_dir(self, path: str, show_all: bool) -> list[str]:
         normalized = self.normalize_path(path)
@@ -111,6 +130,15 @@ class _VirtualFilesystem:
                 nodes.append(file_path)
         return nodes
 
+    def permission_bits(self, path: str) -> int:
+        normalized = self.normalize_path(path)
+        return self._permission_bits.get(normalized, 0o644)
+
+    def permission_string(self, path: str) -> str:
+        normalized = self.normalize_path(path)
+        bits = self.permission_bits(normalized)
+        return self._render_permission_string(bits, is_dir=self.is_dir(normalized))
+
     @staticmethod
     def _derive_directories(files: dict[str, str]) -> set[str]:
         directories = {"/"}
@@ -122,6 +150,35 @@ class _VirtualFilesystem:
                     break
                 parent = posixpath.dirname(parent)
         return directories
+
+    @staticmethod
+    def _parse_permission_mode(raw_mode: str) -> int | None:
+        candidate = str(raw_mode).strip()
+        if not candidate:
+            return None
+        try:
+            if candidate.startswith("0o"):
+                return int(candidate, 8)
+            return int(candidate, 8)
+        except ValueError:
+            return None
+
+    @classmethod
+    def _render_permission_string(cls, bits: int, *, is_dir: bool) -> str:
+        file_type = "d" if is_dir else "-"
+        user = cls._triplet((bits >> 6) & 0b111, execute_special=bits & 0o4000, special_char="s")
+        group = cls._triplet((bits >> 3) & 0b111, execute_special=bits & 0o2000, special_char="s")
+        other = cls._triplet(bits & 0b111, execute_special=bits & 0o1000, special_char="t")
+        return f"{file_type}{user}{group}{other}"
+
+    @staticmethod
+    def _triplet(value: int, *, execute_special: int, special_char: str) -> str:
+        read = "r" if value & 0b100 else "-"
+        write = "w" if value & 0b010 else "-"
+        execute = "x" if value & 0b001 else "-"
+        if execute_special:
+            execute = special_char if execute == "x" else special_char.upper()
+        return f"{read}{write}{execute}"
 
 
 class ChallengeLabService:
@@ -135,31 +192,21 @@ class ChallengeLabService:
         "__USE_PRIVATE_FLAGS_FILE__",
     }
 
-    _M11_FILES: dict[str, str] = {
-        "/etc/motd": "Authorized access only.",
-        "/etc/nginx/nginx.conf": (
-            "user nginx;\n"
-            "worker_processes auto;\n"
-            "include /etc/nginx/conf.d/site.conf;\n"
-        ),
-        "/etc/nginx/conf.d/site.conf": (
-            "server_name internal-app.local;\n"
-            "include /etc/nginx/conf.d/.legacy.conf;\n"
-        ),
-        "/etc/nginx/conf.d/.legacy.conf": (
-            "# Temporary migration include chain\n"
-            "include /etc/.config_chain/.indicator.conf;\n"
-        ),
-        "/etc/.config_chain/.indicator.conf": (
-            "indicator_file=/etc/.config_chain/.indicator.txt\n"
-            "mode=legacy\n"
-        ),
-        "/etc/.config_chain/.indicator.txt": "indicator=ready\n",
-        "/etc/ssh/sshd_config": (
-            "PermitRootLogin no\n"
-            "PasswordAuthentication no\n"
-        ),
+    _BLOCKED_COMMANDS = {
+        "rm",
+        "mv",
+        "cp",
+        "sudo",
+        "chmod",
+        "chown",
+        "curl",
+        "wget",
+        "ssh",
+        "vi",
+        "nano",
+        "touch",
     }
+    _BLOCKED_SHELL_TOKENS = {">", ">>", "1>", "1>>", "2>", "2>>", "<", "<<", "|", ";", "&&", "||"}
 
     _M12_FILES: dict[str, str] = {
         "/home/user/notes.txt": "I left the flag in /var/lib/secret/flag.txt\n",
@@ -209,9 +256,6 @@ class ChallengeLabService:
     }
 
     _LAB_FLAG_TEMPLATES: dict[str, dict[str, str]] = {
-        "m11-hidden-in-etc": {
-            "/etc/.config_chain/.indicator.txt": "{flag}",
-        },
         "m12-permission-denied": {
             "/var/lib/secret/flag.txt": "{flag}\n",
         },
@@ -248,8 +292,11 @@ class ChallengeLabService:
     }
 
     def __init__(self) -> None:
+        challenge_loader = ChallengeLoader()
+        structured_definitions = []
+        for module_code in ("m11", "m12"):
+            structured_definitions.extend(challenge_loader.load_module(module_code))
         lab_files: dict[str, dict[str, str]] = {
-            "m11-hidden-in-etc": dict(self._M11_FILES),
             "m12-permission-denied": dict(self._M12_FILES),
             "m13-suid-secrets": dict(self._M13_FILES),
             "m14-cron-exploit": dict(self._M14_FILES),
@@ -262,16 +309,37 @@ class ChallengeLabService:
             "m21-zombie-process": dict(self._M21_FILES),
             "m22-kali-recon-lab": dict(self._M22_FILES),
         }
-        self._inject_runtime_flags(lab_files, self._load_private_flags())
-        self._labs = {slug: _VirtualFilesystem(files) for slug, files in lab_files.items()}
+        lab_permissions: dict[str, dict[str, str]] = {}
+        flag_templates = dict(self._LAB_FLAG_TEMPLATES)
+        self._default_cwds: dict[str, str] = {}
+        self._lab_hints: dict[str, list[str]] = {}
+
+        for definition in structured_definitions:
+            lab_files[definition.slug] = dict(definition.files)
+            flag_templates[definition.slug] = dict(definition.flag_templates)
+            lab_permissions[definition.slug] = dict(definition.permissions)
+            self._default_cwds[definition.slug] = definition.start_path
+            self._lab_hints[definition.slug] = list(definition.hints)
+
+        self._inject_runtime_flags(lab_files, self._load_private_flags(), flag_templates)
+        self._labs = {
+            slug: _VirtualFilesystem(files, permissions=lab_permissions.get(slug))
+            for slug, files in lab_files.items()
+        }
+        self._shell_engine = LinuxShellEngine()
+
+        for slug, filesystem in self._labs.items():
+            configured = _VirtualFilesystem.normalize_path(self._default_cwds.get(slug, "/"))
+            self._default_cwds[slug] = configured if filesystem.is_dir(configured) else "/"
 
     @classmethod
     def _inject_runtime_flags(
         cls,
         lab_files: dict[str, dict[str, str]],
         private_flags: dict[str, str],
+        flag_templates: dict[str, dict[str, str]],
     ) -> None:
-        for slug, templates in cls._LAB_FLAG_TEMPLATES.items():
+        for slug, templates in flag_templates.items():
             files = lab_files.get(slug)
             if files is None:
                 continue
@@ -335,6 +403,15 @@ class ChallengeLabService:
     def has_lab(self, challenge_slug: str) -> bool:
         return challenge_slug in self._labs
 
+    def get_default_cwd(self, challenge_slug: str) -> str:
+        return self._default_cwds.get(challenge_slug, "/")
+
+    def get_lab_hints(self, challenge_slug: str) -> list[str] | None:
+        hints = self._lab_hints.get(challenge_slug)
+        if hints is None:
+            return None
+        return list(hints)
+
     def execute_command(self, challenge_slug: str, command: str, cwd: str) -> ChallengeLabCommandResult:
         filesystem = self._labs.get(challenge_slug)
         if filesystem is None:
@@ -342,53 +419,33 @@ class ChallengeLabService:
 
         normalized_cwd = filesystem.normalize_path(cwd or "/")
         if not filesystem.is_dir(normalized_cwd):
-            normalized_cwd = "/"
+            normalized_cwd = self.get_default_cwd(challenge_slug)
 
-        command_text = command.strip()
-        if not command_text:
-            return ChallengeLabCommandResult(output="", cwd=normalized_cwd, exit_code=0)
-
-        try:
-            tokens = shlex.split(command_text)
-        except ValueError as exc:
-            return ChallengeLabCommandResult(output=f"parse error: {exc}", cwd=normalized_cwd, exit_code=1)
-
-        if not tokens:
-            return ChallengeLabCommandResult(output="", cwd=normalized_cwd, exit_code=0)
-
-        name = tokens[0]
-        args = tokens[1:]
-
-        if name == "help":
-            return ChallengeLabCommandResult(
-                output=(
-                    "Supported commands: help, pwd, ls, cd, cat, grep, find\n"
-                    "Examples:\n"
-                    "  ls -la /etc\n"
-                    "  grep -R include /etc\n"
-                    "  find /etc -name '*.conf'"
-                ),
-                cwd=normalized_cwd,
-                exit_code=0,
-            )
-        if name == "pwd":
-            return ChallengeLabCommandResult(output=normalized_cwd, cwd=normalized_cwd, exit_code=0)
-        if name == "cd":
-            return self._cmd_cd(filesystem, normalized_cwd, args)
-        if name == "ls":
-            return self._cmd_ls(filesystem, normalized_cwd, args)
-        if name == "cat":
-            return self._cmd_cat(filesystem, normalized_cwd, args)
-        if name == "grep":
-            return self._cmd_grep(filesystem, normalized_cwd, args)
-        if name == "find":
-            return self._cmd_find(filesystem, normalized_cwd, args)
-
+        session = ShellSession(filesystem=filesystem, cwd=normalized_cwd)
+        result = self._shell_engine.run(command, session)
         return ChallengeLabCommandResult(
-            output=f"{name}: command not found",
-            cwd=normalized_cwd,
-            exit_code=127,
+            output=result.output,
+            cwd=result.cwd,
+            exit_code=result.exit_code,
         )
+
+    @classmethod
+    def _is_blocked_command(cls, name: str, tokens: list[str]) -> bool:
+        normalized_name = posixpath.basename(name)
+        if normalized_name in cls._BLOCKED_COMMANDS:
+            return True
+
+        if any(token in cls._BLOCKED_SHELL_TOKENS for token in tokens):
+            return True
+
+        if any(fragment in token for token in tokens for fragment in (";", "&&", "||", "`", "$(", ">", "<", "|")):
+            return True
+
+        # Keep echo read-only; redirection-like payloads should never be accepted.
+        if normalized_name == "echo" and len(tokens) > 1:
+            return True
+
+        return False
 
     def _cmd_cd(self, filesystem: _VirtualFilesystem, cwd: str, args: list[str]) -> ChallengeLabCommandResult:
         target = "/" if not args else args[0]
@@ -596,3 +653,63 @@ class ChallengeLabService:
             results.append(candidate)
 
         return ChallengeLabCommandResult(output="\n".join(results), cwd=cwd, exit_code=0)
+
+    def _cmd_du(self, filesystem: _VirtualFilesystem, cwd: str, args: list[str]) -> ChallengeLabCommandResult:
+        human_readable = False
+        target: str | None = None
+
+        for arg in args:
+            if arg.startswith("-"):
+                for flag in arg[1:]:
+                    if flag == "h":
+                        human_readable = True
+                        continue
+                    if flag in {"s", "a"}:
+                        # Accepted for familiarity; output stays summary-only.
+                        continue
+                    return ChallengeLabCommandResult(
+                        output=f"du: invalid option -- '{flag}'",
+                        cwd=cwd,
+                        exit_code=1,
+                    )
+                continue
+
+            if target is not None:
+                return ChallengeLabCommandResult(
+                    output="du: extra operand",
+                    cwd=cwd,
+                    exit_code=1,
+                )
+            target = arg
+
+        path = filesystem.resolve(cwd, target or ".")
+        if not filesystem.exists(path):
+            return ChallengeLabCommandResult(
+                output=f"du: cannot access '{target or '.'}': No such file or directory",
+                cwd=cwd,
+                exit_code=1,
+            )
+
+        if filesystem.is_file(path):
+            size = filesystem.file_size_bytes(path)
+        else:
+            size = sum(filesystem.file_size_bytes(file_path) for file_path in filesystem.iter_files_under(path, recursive=True))
+
+        rendered_size = self._format_size(size, human_readable=human_readable)
+        return ChallengeLabCommandResult(output=f"{rendered_size}\t{path}", cwd=cwd, exit_code=0)
+
+    @staticmethod
+    def _format_size(size: int, *, human_readable: bool) -> str:
+        if not human_readable:
+            return str(size)
+
+        units = ["B", "K", "M", "G", "T"]
+        value = float(size)
+        unit_index = 0
+        while value >= 1024 and unit_index < len(units) - 1:
+            value /= 1024
+            unit_index += 1
+
+        if unit_index == 0:
+            return f"{int(value)}{units[unit_index]}"
+        return f"{value:.1f}{units[unit_index]}"

@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m10-09-stego-image",
+  "title": "Stego Image",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Steganography investigation telemetry indicates hidden content embedded in a picture artifact.\n\nDownload the investigation pack and correlate picture evidence, image-intake exports, stego scan logs, LSB probe records, keyword-correlation telemetry, SIEM timeline events, and analyst notes to identify the hidden keyword.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-09-stego-image.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

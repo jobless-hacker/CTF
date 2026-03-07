@@ -22,3 +22,10 @@ By default it uses:
 Override with environment variable:
 
 `LAB_PRIVATE_FLAGS_FILE=/absolute/or/relative/path/to/private-flags.json`
+
+M11 Linux lab definitions are stored separately for modular updates:
+
+`app/labs/m11/challenges/*.json`
+`app/labs/m11/overlays/*.json`
+
+`ChallengeLoader` merges `app/labs/base_filesystem.json` with each overlay at runtime.

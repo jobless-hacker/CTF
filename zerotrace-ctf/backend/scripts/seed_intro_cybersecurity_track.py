@@ -29,6 +29,7 @@ class SeedStats:
     track_updated: bool = False
     challenges_created: int = 0
     challenges_updated: int = 0
+    challenges_pruned: int = 0
     flags_set: int = 0
     flags_updated: int = 0
     challenges_published: int = 0
@@ -47,7 +48,7 @@ def _default_seed_file() -> Path:
     return BACKEND_ROOT / "config" / "seeds" / "intro-cybersecurity-track.seed.json"
 
 
-def _load_seed(seed_file: Path) -> dict[str, Any]:
+def _load_seed(seed_file: Path, strict_missing_source_files: bool = False) -> dict[str, Any]:
     if not seed_file.exists():
         raise FileNotFoundError(f"Seed file not found: {seed_file}")
 
@@ -61,7 +62,11 @@ def _load_seed(seed_file: Path) -> dict[str, Any]:
     if not isinstance(payload["modules"], list) or not payload["modules"]:
         raise ValueError("'modules' must be a non-empty list.")
 
-    _resolve_challenge_sources(payload=payload, seed_file=seed_file)
+    _resolve_challenge_sources(
+        payload=payload,
+        seed_file=seed_file,
+        strict_missing_source_files=strict_missing_source_files,
+    )
 
     return payload
 
@@ -74,7 +79,11 @@ def _read_json_object(path: Path) -> dict[str, Any]:
     return loaded
 
 
-def _resolve_challenge_sources(payload: dict[str, Any], seed_file: Path) -> None:
+def _resolve_challenge_sources(
+    payload: dict[str, Any],
+    seed_file: Path,
+    strict_missing_source_files: bool,
+) -> None:
     seed_root = seed_file.parent.resolve()
     for module_payload in payload["modules"]:
         if not isinstance(module_payload, dict):
@@ -87,13 +96,15 @@ def _resolve_challenge_sources(payload: dict[str, Any], seed_file: Path) -> None
         for challenge_payload in challenges:
             if not isinstance(challenge_payload, dict):
                 raise ValueError("Each challenge must be a JSON object.")
-            resolved_challenges.append(
-                _resolve_challenge_payload(
-                    challenge_payload=challenge_payload,
-                    seed_root=seed_root,
-                    visited_sources=set(),
-                )
+            resolved = _resolve_challenge_payload(
+                challenge_payload=challenge_payload,
+                seed_root=seed_root,
+                visited_sources=set(),
+                strict_missing_source_files=strict_missing_source_files,
             )
+            if resolved is None:
+                continue
+            resolved_challenges.append(resolved)
         module_payload["challenges"] = resolved_challenges
 
 
@@ -101,7 +112,8 @@ def _resolve_challenge_payload(
     challenge_payload: dict[str, Any],
     seed_root: Path,
     visited_sources: set[Path],
-) -> dict[str, Any]:
+    strict_missing_source_files: bool,
+) -> dict[str, Any] | None:
     source_file = challenge_payload.get("source_file")
     if not source_file:
         return dict(challenge_payload)
@@ -118,14 +130,23 @@ def _resolve_challenge_payload(
     visited_sources.add(source_path)
 
     if not source_path.exists():
-        raise FileNotFoundError(f"Challenge source file not found: {source_path}")
+        if strict_missing_source_files:
+            raise FileNotFoundError(f"Challenge source file not found: {source_path}")
+        print(
+            f"WARN: Missing challenge source file skipped during seed sync: {source_path}",
+            file=sys.stderr,
+        )
+        return None
 
     source_payload = _read_json_object(source_path)
     resolved_source = _resolve_challenge_payload(
         challenge_payload=source_payload,
         seed_root=seed_root,
         visited_sources=visited_sources,
+        strict_missing_source_files=strict_missing_source_files,
     )
+    if resolved_source is None:
+        return None
 
     merged = dict(resolved_source)
     for key, value in challenge_payload.items():
@@ -318,11 +339,45 @@ def _upsert_challenge(
         stats.challenges_published += 1
 
 
+def _collect_seed_challenge_slugs(payload: dict[str, Any]) -> set[str]:
+    challenge_slugs: set[str] = set()
+    for module_payload in payload["modules"]:
+        challenges = module_payload.get("challenges", [])
+        if not isinstance(challenges, list):
+            raise ValueError(f"Invalid module challenge list in {module_payload.get('code', 'unknown')}")
+        for challenge_payload in challenges:
+            slug = _normalize_slug(str(challenge_payload["slug"]))
+            if slug in challenge_slugs:
+                raise ValueError(f"Duplicate challenge slug detected in seed payload: {slug}")
+            challenge_slugs.add(slug)
+    return challenge_slugs
+
+
+def _prune_missing_challenges(
+    session: Session,
+    challenge_service: ChallengeService,
+    track: Track,
+    desired_slugs: set[str],
+    stats: SeedStats,
+) -> None:
+    existing_track_challenges = session.execute(
+        select(Challenge).where(Challenge.track_id == track.id)
+    ).scalars().all()
+    for challenge in existing_track_challenges:
+        if challenge.slug in desired_slugs:
+            continue
+        if not challenge.is_published:
+            continue
+        challenge_service.unpublish_challenge(session, challenge)
+        stats.challenges_pruned += 1
+
+
 def _seed(
     payload: dict[str, Any],
     update_existing: bool,
     overwrite_flags: bool,
     allow_publish: bool,
+    prune_missing: bool,
     dry_run: bool,
     flag_overrides: dict[str, str],
 ) -> SeedStats:
@@ -335,6 +390,7 @@ def _seed(
     with session_local() as session:
         try:
             track = _ensure_track(session, payload["track"], stats)
+            desired_slugs = _collect_seed_challenge_slugs(payload)
             for module_payload in payload["modules"]:
                 challenges = module_payload.get("challenges", [])
                 if not isinstance(challenges, list):
@@ -352,6 +408,15 @@ def _seed(
                         flag_overrides=flag_overrides,
                         stats=stats,
                     )
+
+            if prune_missing:
+                _prune_missing_challenges(
+                    session=session,
+                    challenge_service=challenge_service,
+                    track=track,
+                    desired_slugs=desired_slugs,
+                    stats=stats,
+                )
 
             if dry_run:
                 session.rollback()
@@ -392,6 +457,29 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Create and set flags but skip publish actions.",
     )
     parser.add_argument(
+        "--prune-missing",
+        action="store_true",
+        help=(
+            "Explicitly enable unpublish for track challenges whose slugs are not present in current seed snapshot. "
+            "This is already enabled by default."
+        ),
+    )
+    parser.add_argument(
+        "--no-prune-missing",
+        dest="prune_missing",
+        action="store_false",
+        help="Disable automatic unpublish of challenges missing from current seed snapshot.",
+    )
+    parser.set_defaults(prune_missing=True)
+    parser.add_argument(
+        "--strict-missing-source-files",
+        action="store_true",
+        help=(
+            "Fail immediately if a source_file path is missing. "
+            "By default, missing modular source files are skipped during sync."
+        ),
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Validate and execute seed logic, then rollback transaction.",
@@ -411,13 +499,17 @@ def main() -> int:
     parser = _build_parser()
     args = parser.parse_args()
 
-    payload = _load_seed(args.seed_file)
+    payload = _load_seed(
+        args.seed_file,
+        strict_missing_source_files=args.strict_missing_source_files,
+    )
     flag_overrides = _load_flag_overrides(args.flags_file)
     stats = _seed(
         payload=payload,
         update_existing=args.update_existing,
         overwrite_flags=args.overwrite_flags,
         allow_publish=not args.no_publish,
+        prune_missing=bool(args.prune_missing),
         dry_run=args.dry_run,
         flag_overrides=flag_overrides,
     )
@@ -427,6 +519,7 @@ def main() -> int:
     print(f"track_updated={stats.track_updated}")
     print(f"challenges_created={stats.challenges_created}")
     print(f"challenges_updated={stats.challenges_updated}")
+    print(f"challenges_pruned={stats.challenges_pruned}")
     print(f"flags_set={stats.flags_set}")
     print(f"flags_updated={stats.flags_updated}")
     print(f"challenges_published={stats.challenges_published}")

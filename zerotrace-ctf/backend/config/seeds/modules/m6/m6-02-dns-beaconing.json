@@ -1,0 +1,13 @@
+{
+  "order": 2,
+  "slug": "m6-02-dns-beaconing",
+  "title": "DNS Beaconing",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Network analytics detected near-constant DNS lookup bursts from an internal workstation, suggesting beaconing behavior.\n\nDownload the investigation pack and correlate DNS query logs, beaconing summary analytics, firewall DNS egress telemetry, host process DNS activity, security alerts, SIEM timeline, and policy/runbook context to identify the suspicious domain.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-02-dns-beaconing.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,19 @@
+{
+  "/": {
+    "var": {
+      "www": {
+        "html": {
+          "secret.txt": "internal debug flag\n\nplaceholder\n"
+        }
+      },
+      "log": {
+        "app.log": "2026-03-08T12:03:01Z warn webroot includes non-public file secret.txt\n"
+      }
+    },
+    "home": {
+      "player": {
+        "notes.txt": "Check web files for accidental exposure.\n"
+      }
+    }
+  }
+}

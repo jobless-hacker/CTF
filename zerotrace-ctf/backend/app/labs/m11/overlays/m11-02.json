@@ -1,0 +1,16 @@
+{
+  "/": {
+    "etc": {
+      "mysql": {
+        "mysql.conf": "bind-address = 127.0.0.1\nport = 3306\n",
+        "mysqld.cnf": "[mysqld]\nuser=mysql\nsocket=/var/run/mysqld/mysqld.sock\n",
+        ".dev_backup": "# dev troubleshooting backup\ndb_user=root\ndb_pass=placeholder\n"
+      }
+    },
+    "home": {
+      "player": {
+        "notes.txt": "A hidden MySQL backup file may contain leaked credentials.\n"
+      }
+    }
+  }
+}

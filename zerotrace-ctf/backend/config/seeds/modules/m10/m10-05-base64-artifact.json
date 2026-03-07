@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m10-05-base64-artifact",
+  "title": "Base64 Artifact",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A suspicious encoded indicator was recovered from forensic telemetry and must be decoded through evidence correlation.\n\nDownload the investigation pack and correlate encoded payload records, decode-queue exports, base64 scan logs, decode analytics output, correlation telemetry, SIEM timeline events, and analyst notes to recover the decoded message.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-05-base64-artifact.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

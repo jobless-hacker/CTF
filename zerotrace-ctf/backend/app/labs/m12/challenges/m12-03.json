@@ -1,0 +1,19 @@
+{
+  "id": "m12-03",
+  "slug": "m12-03-exposed-private-key",
+  "title": "Exposed Private Key",
+  "startPath": "/home/dev",
+  "flag": {
+    "path": "/home/dev/.ssh/id_rsa",
+    "template": "-----BEGIN OPENSSH PRIVATE KEY-----\nplaceholder\n-----END OPENSSH PRIVATE KEY-----\n"
+  },
+  "hints": [
+    "Inspect SSH keys in /home/dev/.ssh.",
+    "Use ls -la /home/dev/.ssh.",
+    "Find the private key with weak permissions."
+  ],
+  "permissions": {
+    "/home/dev/.ssh/id_rsa": "0666",
+    "/home/dev/.ssh/id_rsa.pub": "0644"
+  }
+}

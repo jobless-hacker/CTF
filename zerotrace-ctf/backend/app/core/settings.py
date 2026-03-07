@@ -45,6 +45,13 @@ class Settings(BaseSettings):
     LAB_COMMAND_RATE_LIMIT_MAX_ATTEMPTS: int = 30
     LAB_COMMAND_RATE_LIMIT_WINDOW_SECONDS: int = 60
     LAB_COMMAND_RATE_LIMIT_LOCK_SECONDS: int = 30
+    SEED_SYNC_WATCH_ENABLED: bool = False
+    SEED_SYNC_WATCH_INTERVAL_SECONDS: float = Field(default=2.0, gt=0, le=300)
+    SEED_SYNC_WATCH_DEBOUNCE_SECONDS: float = Field(default=1.0, ge=0, le=60)
+    SEED_SYNC_SYNC_ON_STARTUP: bool = True
+    SEED_SYNC_SEED_FILE: str = "config/seeds/foundations-challenge-todo.seed.json"
+    SEED_SYNC_FLAGS_FILE: str = "config/seeds/private-flags.json"
+    SEED_SYNC_MODULES_DIR: str = "config/seeds/modules"
     CORS_ALLOWED_ORIGINS: str = (
         "http://localhost:5000,"
         "http://127.0.0.1:5000,"

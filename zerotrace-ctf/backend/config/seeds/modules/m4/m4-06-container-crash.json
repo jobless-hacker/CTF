@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m4-06-container-crash",
+  "title": "Container Crash",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A production service degraded after a container runtime failure and restart loop on one node.\n\nDownload the investigation pack and correlate docker daemon logs, container event stream, inventory state, service probe results, resource metrics, alert feed, compose config, runbook guidance, and SIEM timeline to identify which container crashed.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-06-container-crash.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

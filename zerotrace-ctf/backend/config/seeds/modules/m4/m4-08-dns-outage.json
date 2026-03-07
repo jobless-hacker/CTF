@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m4-08-dns-outage",
+  "title": "DNS Outage",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Resolver instability caused widespread name lookup failures across production services.\n\nDownload the investigation pack and correlate named logs, resolver timeseries, systemctl snapshots, dig probe outcomes, DNS packet summaries, alert feed, configuration context, runbook guidance, and SIEM timeline to identify which DNS service failed.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-08-dns-outage.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

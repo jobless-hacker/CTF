@@ -1,0 +1,21 @@
+{
+  "id": "m12-01",
+  "slug": "m12-01-world-writable-file",
+  "title": "World Writable File",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/debug.conf",
+    "template": "# debug profile for diagnostics\n"
+  },
+  "hints": [
+    "Audit permissions in /etc.",
+    "Use ls -la /etc.",
+    "Identify the world-writable file."
+  ],
+  "permissions": {
+    "/etc/hosts": "0644",
+    "/etc/passwd": "0644",
+    "/etc/shadow": "0640",
+    "/etc/debug.conf": "0666"
+  }
+}

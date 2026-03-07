@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m4-05-database-overload",
+  "title": "Database Overload",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Database pressure during an outage caused connection rejections across multiple applications.\n\nDownload the investigation pack and correlate postgres logs, connection timeseries, pool statistics, application DB errors, slow-query summaries, alert feed, runtime config, runbook guidance, and SIEM timeline to identify the underlying problem.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-05-database-overload.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,4 @@
+﻿Threat Intel Snapshot
+
+Observed cloud data exposure pattern: publicly accessible full historical backup archives.
+Current incident normalized exposed full backup archive: full_backup_2025.zip

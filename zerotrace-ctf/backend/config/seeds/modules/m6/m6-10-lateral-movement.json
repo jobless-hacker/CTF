@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m6-10-lateral-movement",
+  "title": "Lateral Movement",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "East-west SMB telemetry indicates a compromised host is attempting lateral movement inside the network.\n\nDownload the investigation pack and correlate SMB packet export, east-west flow records, Windows security events, endpoint SMB activity, security alerts, SIEM timeline, and policy/runbook context to identify the attacked internal host IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-10-lateral-movement.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

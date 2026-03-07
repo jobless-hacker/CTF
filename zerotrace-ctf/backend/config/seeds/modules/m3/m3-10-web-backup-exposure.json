@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m3-10-web-backup-exposure",
+  "title": "Web Backup Exposure",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Web monitoring detected backup-path misconfiguration (`autoindex`) exposing backup artifacts and confirmed an external download of a full backup object.\n\nDownload the investigation pack and correlate web access logs, directory listing snapshot, backup object inventory, exposure scanner findings, CDN edge requests, web server config, policy controls, and SIEM timeline to identify the full website backup filename.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-10-web-backup-exposure.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

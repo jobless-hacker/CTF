@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m7-09-insecure-cookie",
+  "title": "Insecure Cookie",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Login flow telemetry indicates session cookies may be sent without required hardening attributes.\n\nDownload the investigation pack and correlate gateway logs, response header captures, browser security scan results, session config audit logs, security alerts, SIEM timeline, and policy/runbook context to identify the missing cookie security flag.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-09-insecure-cookie.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

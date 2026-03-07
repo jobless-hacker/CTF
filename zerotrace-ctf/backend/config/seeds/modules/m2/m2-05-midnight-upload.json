@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m2-05-midnight-upload",
+  "title": "Midnight Upload",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "SOC monitoring detected abnormal high-volume outbound transfer activity from a finance workstation during off-hours.\n\nDownload the investigation pack and correlate network flow records, proxy egress metadata, endpoint file access audit, DLP alerts, user context, transfer policy, and SIEM timeline to identify the file that was exfiltrated.\n\nFlag Format\nCTF{filename}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-05-midnight-upload.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

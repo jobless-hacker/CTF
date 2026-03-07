@@ -4,7 +4,7 @@
   "title": "Unexpected Database Reachability",
   "difficulty": "medium",
   "points": 150,
-  "description": "A staging database service became reachable from outside its expected container network.\n\nDownload the case pack, review the incident handoff, inspect the container and host evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A staging database service became reachable from outside its expected container network.\n\nDownload the investigation pack, correlate compose baseline/current drift, container runtime events, host socket telemetry, external scans, flow data, governance findings, and change-control records, then determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-14-docker-misconfiguration.zip",

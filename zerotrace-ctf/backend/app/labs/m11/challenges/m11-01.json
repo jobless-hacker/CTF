@@ -1,0 +1,15 @@
+{
+  "id": "m11-01",
+  "slug": "m11-hidden-in-etc",
+  "title": "Misconfigured Include Chain",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/config_chain/.indicator",
+    "template": "{flag}"
+  },
+  "hints": [
+    "Search for include directives under /etc.",
+    "Use grep -R include /etc to trace the chain.",
+    "Inspect /etc/config_chain and read hidden files."
+  ]
+}

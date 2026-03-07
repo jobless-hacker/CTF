@@ -1,0 +1,11 @@
+{
+  "/": {
+    "usr": {
+      "bin": {
+        "ping": "ELF ping placeholder\n",
+        "traceroute": "ELF traceroute placeholder\n",
+        "nettool": "ELF nettool placeholder\n"
+      }
+    }
+  }
+}

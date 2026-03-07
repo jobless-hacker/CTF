@@ -1,0 +1,20 @@
+{
+  "id": "m12-02",
+  "slug": "m12-02-suid-binary-discovery",
+  "title": "SUID Binary Discovery",
+  "startPath": "/",
+  "flag": {
+    "path": "/usr/local/bin/admin_helper",
+    "template": "#!/bin/sh\necho admin helper\n"
+  },
+  "hints": [
+    "Search for SUID files.",
+    "Use find / -perm -4000.",
+    "Identify the risky helper binary."
+  ],
+  "permissions": {
+    "/usr/local/bin/backup": "0755",
+    "/usr/local/bin/monitor": "0755",
+    "/usr/local/bin/admin_helper": "4755"
+  }
+}

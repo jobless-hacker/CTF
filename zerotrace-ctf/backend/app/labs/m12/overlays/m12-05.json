@@ -1,0 +1,13 @@
+{
+  "/": {
+    "var": {
+      "www": {
+        "html": {
+          "index.html": "<html><body>Welcome</body></html>\n",
+          "login.php": "<?php echo 'Login'; ?>\n",
+          "config.php": "<?php\n$db_host = 'localhost';\n$db_user = 'app';\n?>\n"
+        }
+      }
+    }
+  }
+}

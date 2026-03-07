@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m5-07-strange-process",
+  "title": "Strange Process",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Host monitoring identified an unknown process causing sustained CPU exhaustion and suspicious outbound traffic on a Linux production node.\n\nDownload the investigation pack and correlate process inventory, `ps` snapshots, CPU usage timelines, network connection logs, process alerts, SIEM events, and policy/runbook context to identify the suspicious process.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-07-strange-process.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

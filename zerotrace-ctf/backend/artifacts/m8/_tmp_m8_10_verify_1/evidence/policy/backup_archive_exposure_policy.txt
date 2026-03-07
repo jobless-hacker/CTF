@@ -1,0 +1,5 @@
+﻿Backup Archive Exposure Policy (Excerpt)
+
+1) Full historical backup archives must remain private and access-controlled.
+2) Public access to full archives is prohibited for all environments.
+3) SOC/CloudSec must identify and report exposed full backup archive names.

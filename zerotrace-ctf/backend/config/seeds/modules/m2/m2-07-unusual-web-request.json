@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m2-07-unusual-web-request",
+  "title": "Unusual Web Request",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "SOC telemetry indicates a workstation requested suspicious executable and script content from an external website and triggered endpoint alerts.\n\nDownload the investigation pack and correlate proxy requests, DNS queries, firewall egress, endpoint download history, EDR web alerts, domain reputation context, web policy, and SIEM timeline to identify the malicious domain.\n\nFlag Format\nCTF{domain}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-07-unusual-web-request.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

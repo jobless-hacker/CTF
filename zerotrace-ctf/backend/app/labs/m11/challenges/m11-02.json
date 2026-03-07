@@ -1,0 +1,15 @@
+{
+  "id": "m11-02",
+  "slug": "m11-forgotten-config",
+  "title": "Forgotten MySQL Backup",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/mysql/.dev_backup",
+    "template": "# dev troubleshooting backup\ndb_user=root\ndb_pass={flag}\n"
+  },
+  "hints": [
+    "Inspect MySQL config files under /etc/mysql.",
+    "List hidden files with ls -a.",
+    "Read the .dev_backup file."
+  ]
+}

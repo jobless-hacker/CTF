@@ -1,0 +1,3 @@
+﻿daily_backup.tar
+full_backup_2025.zip
+logs_archive.tar

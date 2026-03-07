@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m2-08-internal-audit-trail",
+  "title": "Internal Audit Trail",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Audit telemetry indicates confidential payroll data was accessed and exported by a user outside the authorized department.\n\nDownload the investigation pack and correlate portal audit records, file server access, database query logs, UEBA alerts, identity directory context, access-approval registry, payroll policy, and SIEM timeline to identify the insider account.\n\nFlag Format\nCTF{username}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-08-internal-audit-trail.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

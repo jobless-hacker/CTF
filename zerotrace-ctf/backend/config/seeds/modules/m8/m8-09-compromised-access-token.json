@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m8-09-compromised-access-token",
+  "title": "Compromised Access Token",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud API telemetry indicates an access token may have leaked and been reused by unauthorized clients.\n\nDownload the investigation pack and correlate token audit logs, API access logs, token introspection records, session activity logs, security alerts, SIEM timeline, and policy/runbook context to identify the exposed token.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-09-compromised-access-token.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

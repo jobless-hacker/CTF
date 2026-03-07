@@ -1,0 +1,80 @@
+{
+  "/": {
+    "etc": {
+      "motd": "Authorized access only. Activity is monitored.\n",
+      "hosts": "127.0.0.1 localhost\n10.10.10.10 internal-api.local\n172.16.5.12 db.internal.local\n",
+      "passwd": "root:x:0:0:root:/root:/bin/bash\nplayer:x:1000:1000:Player:/home/player:/bin/bash\ndev:x:1001:1001:Developer:/home/dev:/bin/bash\n",
+      "resolv.conf": "nameserver 10.10.0.53\nsearch internal.local\n",
+      "nginx": {
+        "nginx.conf": "user nginx;\nworker_processes auto;\ninclude /etc/nginx/sites-enabled/*.conf;\ninclude /etc/config_chain/main.conf;\n",
+        "sites-enabled": {
+          "default.conf": "server {\n  listen 80;\n  server_name internal-app.local;\n  root /var/www/html;\n  index index.html login.php;\n}\n"
+        }
+      },
+      "mysql": {
+        "mysql.conf": "bind-address = 127.0.0.1\nport = 3306\n",
+        "mysqld.cnf": "[mysqld]\nuser=mysql\nsocket=/var/run/mysqld/mysqld.sock\n",
+        ".dev_backup": "# dev troubleshooting backup\ndb_user=root\ndb_pass=dev-placeholder\n"
+      },
+      "config_chain": {
+        "main.conf": "# legacy migration\ninclude /etc/config_chain/legacy.conf\n",
+        "legacy.conf": "# deprecated file\ninclude /etc/config_chain/.indicator\n",
+        ".indicator": "indicator=base\n"
+      },
+      "ssh": {
+        "sshd_config": "PermitRootLogin no\nPasswordAuthentication no\n"
+      }
+    },
+    "var": {
+      "log": {
+        "app.log": "2026-03-08T09:10:11Z info worker started pid=4221\n2026-03-08T09:12:02Z info healthcheck ok\n2026-03-08T09:16:09Z warn cache pressure detected\n",
+        "auth.log": "Mar 08 10:00:10 ssh login success user=player ip=10.0.0.10\nMar 08 10:05:18 ssh login failed user=root ip=185.90.12.44\n",
+        "syslog": "Mar 08 10:10:31 systemd[1]: Started nginx.service.\nMar 08 10:11:08 kernel: audit: apparmor=\"STATUS\" profile=\"nginx\"\n",
+        "nginx": {
+          "access.log": "10.0.0.15 - - [08/Mar/2026:09:10:01 +0530] \"GET / HTTP/1.1\" 200 812 \"-\" \"Mozilla/5.0\"\n10.0.0.19 - - [08/Mar/2026:09:11:22 +0530] \"GET /login.php HTTP/1.1\" 200 1442 \"-\" \"Mozilla/5.0\"\n",
+          "error.log": "2026/03/08 09:16:09 [warn] 4221#4221: upstream response buffered to temporary file\n"
+        },
+        "archive": {
+          "bigfile.log": "2026-03-08T00:00:00Z archive rotation started\n2026-03-08T00:00:01Z snapshot segment=001 size=64KB\n2026-03-08T00:00:02Z snapshot segment=002 size=64KB\n2026-03-08T00:00:03Z snapshot segment=003 size=64KB\n2026-03-08T00:00:04Z snapshot segment=004 size=64KB\n2026-03-08T00:00:05Z snapshot segment=005 size=64KB\n2026-03-08T00:00:06Z snapshot segment=006 size=64KB\n2026-03-08T00:00:07Z snapshot segment=007 size=64KB\n2026-03-08T00:00:08Z snapshot segment=008 size=64KB\n2026-03-08T00:00:09Z snapshot segment=009 size=64KB\n2026-03-08T00:00:10Z snapshot segment=010 size=64KB\n2026-03-08T00:00:11Z snapshot segment=011 size=64KB\n2026-03-08T00:00:12Z snapshot segment=012 size=64KB\n2026-03-08T00:00:13Z snapshot segment=013 size=64KB\n2026-03-08T00:00:14Z snapshot segment=014 size=64KB\n2026-03-08T00:00:15Z snapshot segment=015 size=64KB\n2026-03-08T00:00:16Z snapshot segment=016 size=64KB\n2026-03-08T00:00:17Z snapshot segment=017 size=64KB\n2026-03-08T00:00:18Z snapshot segment=018 size=64KB\n2026-03-08T00:00:19Z snapshot segment=019 size=64KB\n2026-03-08T00:00:20Z snapshot segment=020 size=64KB\n2026-03-08T00:00:21Z snapshot segment=021 size=64KB\n2026-03-08T00:00:22Z snapshot segment=022 size=64KB\n2026-03-08T00:00:23Z snapshot segment=023 size=64KB\n2026-03-08T00:00:24Z snapshot segment=024 size=64KB\n2026-03-08T00:00:25Z snapshot segment=025 size=64KB\n2026-03-08T00:00:26Z snapshot segment=026 size=64KB\n2026-03-08T00:00:27Z snapshot segment=027 size=64KB\n2026-03-08T00:00:28Z snapshot segment=028 size=64KB\n2026-03-08T00:00:29Z snapshot segment=029 size=64KB\n2026-03-08T00:00:30Z snapshot segment=030 size=64KB\n"
+        }
+      },
+      "www": {
+        "html": {
+          "index.html": "<html><body>Welcome</body></html>\n",
+          "login.php": "<?php echo 'Login'; ?>\n",
+          "config.php": "<?php $db_host='127.0.0.1'; $db_user='app'; ?>\n",
+          "assets": {
+            "style.css": "body{font-family:monospace;background:#021;color:#8ff;}\n"
+          },
+          "secret.txt": "staging-note: review pending\n"
+        }
+      }
+    },
+    "tmp": {
+      "cache.tmp": "tmp cache segment\n",
+      "upload.tmp": "pending upload chunk\n",
+      "cleanup.log": "tmp cleanup task running every 10m\n",
+      ".cache_marker": "cache=ephemeral\n",
+      ".session_token": "session=temp-placeholder\n"
+    },
+    "opt": {
+      "backups": {
+        "readme.txt": "backup directory for monthly rotations\n",
+        "backup_2021.tar": "legacy archive 2021\n",
+        "backup_old.tar": "legacy archive old\n",
+        "config_backup.tar": "backup archive placeholder\n"
+      }
+    },
+    "home": {
+      "dev": {
+        ".bash_history": "cd /var/www/html\nvim config.php\ncat /home/dev/.env\n",
+        "project_notes.txt": "TODO: remove debug includes before release.\n",
+        "README.md": "Developer sandbox home.\n",
+        ".env": "API_KEY=dev-placeholder\nDB_HOST=localhost\n"
+      },
+      "player": {
+        "notes.txt": "check nginx includes\n"
+      }
+    }
+  }
+}

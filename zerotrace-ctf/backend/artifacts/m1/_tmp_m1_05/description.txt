@@ -1,0 +1,6 @@
+﻿Challenge: Web Server Crash
+
+A web service became unavailable after overload errors.
+Review the case pack, correlate the monitoring and host evidence, and determine which CIA pillar was violated.
+
+Flag format: CTF{pillar}

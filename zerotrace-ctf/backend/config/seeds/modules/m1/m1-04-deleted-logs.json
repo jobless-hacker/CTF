@@ -4,7 +4,7 @@
   "title": "Deleted Logs",
   "difficulty": "easy",
   "points": 100,
-  "description": "Authentication logs were truncated after privileged access on a server.\n\nDownload the case pack, review the incident ticket, compare the host and log evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "SOC suspects tampering of Linux authentication logs after privileged access.\n\nDownload the case pack and investigate multi-source host telemetry (high-volume auth.log, auditd syscall records, rsyslog truncation messages, SIEM normalized events, shell history, and file-metadata timeline).\n\nExpect realistic noise and false positives. Identify the *primary* CIA pillar violated.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-04-deleted-logs.zip",

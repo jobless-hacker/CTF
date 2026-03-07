@@ -1,0 +1,9 @@
+{
+  "/": {
+    "home": {
+      "player": {
+        "notes.txt": "Investigate nginx include chain from /etc/nginx/nginx.conf.\n"
+      }
+    }
+  }
+}

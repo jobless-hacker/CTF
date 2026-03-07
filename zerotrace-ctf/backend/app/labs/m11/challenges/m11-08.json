@@ -1,0 +1,15 @@
+{
+  "id": "m11-08",
+  "slug": "m11-hidden-environment",
+  "title": "Developer Environment Leak",
+  "startPath": "/home/dev",
+  "flag": {
+    "path": "/home/dev/.env",
+    "template": "API_KEY={flag}\nDB_HOST=localhost\n"
+  },
+  "hints": [
+    "Developer secrets are often in hidden dotfiles.",
+    "Inspect /home/dev with ls -a.",
+    "Read the .env file carefully."
+  ]
+}

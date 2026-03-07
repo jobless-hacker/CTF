@@ -386,7 +386,10 @@ def test_player_view_published_success(
     assert body["difficulty"] == "medium"
     assert body["points"] == 150
     assert body["is_published"] is True
+    assert body["attempt_locked"] is False
     assert body["lab_available"] is False
+    assert body["lab_start_path"] is None
+    assert body["lab_hints"] is None
     assert body["attachment_url"] is None
     assert "description" in body
     assert "created_at" in body
@@ -403,6 +406,38 @@ def test_artifact_download_route_returns_attachment(client: TestClient) -> None:
     assert "m2-01-after-hours-access.zip" in response.headers["content-disposition"]
     assert "application/octet-stream" in response.headers["content-type"]
     assert response.content.startswith(b"PK")
+
+
+def test_m1_challenge_detail_shows_attempt_locked_after_first_submission(
+    client: TestClient,
+    test_session: Session,
+    seed_roles: dict[str, object],
+) -> None:
+    track = _seed_track(test_session)
+    auth_data = _create_admin_and_player_tokens(client, test_session, seed_roles)
+    created = _create_challenge(
+        client,
+        auth_data["admin_token"],
+        str(track.id),
+        slug="m1-refresh-lock",
+        title="M1 Refresh Lock",
+    )
+    _set_flag(client, auth_data["admin_token"], created["id"], "ZTCTF{m1_refresh_lock}")
+    _publish_challenge(client, auth_data["admin_token"], created["id"])
+
+    submit_response = client.post(
+        "/challenges/m1-refresh-lock/submit",
+        json={"flag": "ZTCTF{wrong_first_try}"},
+        headers=auth_headers(auth_data["player_token"]),
+    )
+    assert submit_response.status_code == 200
+
+    detail_response = client.get(
+        "/challenges/m1-refresh-lock",
+        headers=auth_headers(auth_data["player_token"]),
+    )
+    assert detail_response.status_code == 200
+    assert detail_response.json()["attempt_locked"] is True
 
 
 def test_player_submit_correct_flag(

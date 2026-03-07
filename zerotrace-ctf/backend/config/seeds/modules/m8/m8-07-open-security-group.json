@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m8-07-open-security-group",
+  "title": "Open Security Group",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud posture telemetry indicates internet-exposed ingress on a sensitive management port.\n\nDownload the investigation pack and correlate security group inventory, rule exports, VPC flow logs, CloudTrail ingress events, configuration audits, security alerts, SIEM timeline, and policy/runbook context to identify the sensitive open port.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-07-open-security-group.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

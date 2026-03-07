@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m3-07-cloud-access-leak",
+  "title": "Cloud Access Leak",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud security monitoring detected exposed credential material committed to a repository config file, followed by suspicious external cloud API usage.\n\nDownload the investigation pack and correlate leaked config content, repository file index, commit history/diff telemetry, secret scanner alerts, CloudTrail activity, cloud credential policy, and SIEM timeline to identify the exposed AWS secret key.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-07-cloud-access-leak.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

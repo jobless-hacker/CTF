@@ -1,0 +1,16 @@
+{
+  "/": {
+    "etc": {
+      "sudoers.d": {
+        "devops": "dev ALL=(ALL) NOPASSWD: /usr/local/bin/backup.sh\n"
+      }
+    },
+    "usr": {
+      "local": {
+        "bin": {
+          "backup.sh": "#!/bin/sh\n/usr/bin/tar -czf /opt/backups/config_backup.tar /etc\n"
+        }
+      }
+    }
+  }
+}

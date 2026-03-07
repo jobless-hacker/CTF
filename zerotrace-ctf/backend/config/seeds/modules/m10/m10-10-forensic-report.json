@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m10-10-forensic-report",
+  "title": "Forensic Report",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Incident attribution records contain the attacker alias hidden inside large forensic evidence streams.\n\nDownload the investigation pack and correlate incident-report data, case-timeline exports, entity-resolution logs, intel-attribution records, attribution-matrix telemetry, SIEM timeline events, and analyst notes to identify the attacker name.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-10-forensic-report.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

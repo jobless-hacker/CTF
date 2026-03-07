@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m8-08-misconfigured-storage-policy",
+  "title": "Misconfigured Storage Policy",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud storage posture monitoring indicates a bucket policy may contain a dangerous wildcard value.\n\nDownload the investigation pack and correlate bucket policy versions, policy simulation output, CloudTrail policy-change events, object access logs, policy audit logs, security alerts, SIEM timeline, and policy/runbook context to identify the risky policy value.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-08-misconfigured-storage-policy.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

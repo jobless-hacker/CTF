@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m5-10-unauthorized-ssh-key",
+  "title": "Unauthorized SSH Key",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "SOC monitoring detected unauthorized modifications to a production account's `authorized_keys` file followed by suspicious SSH key-based access.\n\nDownload the investigation pack and correlate SSH key inventory, authorized_keys snapshot, file-integrity events, auth logs, fingerprint catalog data, security alerts, SIEM timeline, and policy/runbook context to identify the attacker key owner.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-10-unauthorized-ssh-key.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 2,
+  "slug": "m2-02-login-storm",
+  "title": "Login Storm",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Authentication monitoring triggered after a sustained failed-login storm against an admin account.\n\nDownload the investigation pack and correlate failed-auth streams, auth API attempts, WAF alerts, account lockout records, source context, and SIEM timeline evidence to identify the attack type.\n\nFlag Format\nCTF{attack_type}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-02-login-storm.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

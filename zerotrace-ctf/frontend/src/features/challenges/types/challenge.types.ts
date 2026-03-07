@@ -11,6 +11,8 @@ export interface ChallengeDetail {
   is_published: boolean
   attempt_locked: boolean
   lab_available: boolean
+  lab_start_path: string | null
+  lab_hints: string[] | null
   attachment_url: string | null
   created_at: string
   updated_at: string

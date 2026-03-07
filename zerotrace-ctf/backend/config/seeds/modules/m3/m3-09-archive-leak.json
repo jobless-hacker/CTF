@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m3-09-archive-leak",
+  "title": "Archive Leak",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Data-protection monitoring detected a leaked breach archive with signs of restricted strategic content and confirmed external downloads.\n\nDownload the investigation pack and correlate archive manifest, extracted archive contents, forensics extraction logs, document registry, DLP alerts, storage download telemetry, classification policy, and SIEM timeline to identify the strategic company document filename.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-09-archive-leak.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

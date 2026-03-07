@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m9-10-public-code-leak",
+  "title": "Public Code Leak",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Public repository artifacts may expose developer identity details during investigation.\n\nDownload the investigation pack and correlate repository commit-history exports, git-audit logs, contributor-graph data, code-search evidence, SIEM timeline events, and analyst notes to identify the developer username.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-10-public-code-leak.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

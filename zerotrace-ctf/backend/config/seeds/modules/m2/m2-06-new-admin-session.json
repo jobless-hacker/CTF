@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m2-06-new-admin-session",
+  "title": "New Admin Session",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Identity governance monitoring detected an unexpected privileged account creation event followed by immediate admin session activity.\n\nDownload the investigation pack and correlate identity change records, directory audit events, command execution telemetry, privileged session logs, change registry, governance baseline policy, and SIEM timeline to identify the suspicious admin account.\n\nFlag Format\nCTF{account_name}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-06-new-admin-session.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m6-06-c2-communication",
+  "title": "C2 Communication",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Network telemetry indicates periodic outbound heartbeat traffic from a potentially infected endpoint.\n\nDownload the investigation pack and correlate packet export, DNS lookups, flow records, endpoint connection telemetry, detection alerts, SIEM timeline, and policy/runbook context to identify the command-and-control server IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-06-c2-communication.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

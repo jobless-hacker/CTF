@@ -1,0 +1,13 @@
+{
+  "order": 1,
+  "slug": "m3-01-public-spreadsheet",
+  "title": "Public Spreadsheet",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A restricted CRM contact export was accidentally published to a public location and externally downloaded.\n\nDownload the investigation pack and correlate leaked spreadsheet content, cloud object listing, public share access logs, DLP exposure alerts, CRM export audit, data policy, and SIEM timeline to identify the email belonging to Bob.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-01-public-spreadsheet.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

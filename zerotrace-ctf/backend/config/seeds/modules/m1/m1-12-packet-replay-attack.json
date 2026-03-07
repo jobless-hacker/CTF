@@ -4,7 +4,7 @@
   "title": "Repeated Payment Authorizations",
   "difficulty": "medium",
   "points": 150,
-  "description": "A payment workflow produced multiple successful authorizations for what should have been a single order.\n\nDownload the case pack, review the incident handoff, inspect the transaction and gateway evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A payment workflow produced multiple successful authorizations for what should have been a single order.\n\nDownload the investigation pack, correlate API gateway traffic, authorization records, ledger postings, idempotency-cache state, cache failover logs, and fraud findings, then determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-12-packet-replay-attack.zip",

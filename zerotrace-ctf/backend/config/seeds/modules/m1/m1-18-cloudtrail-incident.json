@@ -4,7 +4,7 @@
   "title": "Unexpected Cloud Access Event",
   "difficulty": "medium",
   "points": 150,
-  "description": "A cloud audit event shows external access to a sensitive storage object.\n\nDownload the case pack, review the incident handoff, inspect the cloud audit and storage evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "Cloud security telemetry shows external access to a restricted object in an S3 archive bucket.\n\nDownload the investigation pack and correlate CloudTrail events, S3 access logs, bucket-policy history, object inventory, identity activity, GuardDuty/Macie findings, and change-approval records to determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-18-cloudtrail-incident.zip",

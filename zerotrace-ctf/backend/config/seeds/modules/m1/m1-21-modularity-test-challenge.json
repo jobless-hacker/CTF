@@ -1,0 +1,13 @@
+{
+  "order": 21,
+  "slug": "m1-modularity-test-challenge",
+  "title": "M1: CIA Triad - Modularity Test Challenge",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "This is a modular seeding validation challenge.\n\nDownload the case pack and identify which CIA pillar is impacted based on the provided investigation evidence.\n\nFlag Format\nCTF{pillar}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m1/m1-21-modularity-test-challenge.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

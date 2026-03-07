@@ -1,0 +1,20 @@
+{
+  "id": "m12-05",
+  "slug": "m12-05-writable-web-configuration",
+  "title": "Writable Web Configuration",
+  "startPath": "/var/www/html",
+  "flag": {
+    "path": "/var/www/html/config.php",
+    "template": "<?php\n$db_host = 'localhost';\n$db_user = 'app';\n?>\n"
+  },
+  "hints": [
+    "Review file permissions in web root.",
+    "Use ls -la /var/www/html.",
+    "Identify the writable config file."
+  ],
+  "permissions": {
+    "/var/www/html/index.html": "0644",
+    "/var/www/html/login.php": "0644",
+    "/var/www/html/config.php": "0666"
+  }
+}

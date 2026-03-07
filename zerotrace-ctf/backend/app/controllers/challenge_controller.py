@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app.core.settings import get_settings
 from app.models.challenge import Challenge
 from app.models.user import User
+from app.repositories import challenge_repository
 from app.schemas.challenge import (
     ChallengeActionMessageResponse,
     ChallengeLabCommandRequest,
@@ -189,7 +190,7 @@ def list_track_challenges(session: Session, track_slug: str) -> list[ChallengeSu
     ]
 
 
-def get_public_challenge(session: Session, slug: str) -> ChallengeDetailResponse:
+def get_public_challenge(session: Session, slug: str, current_user: User) -> ChallengeDetailResponse:
     try:
         public_challenge = _challenge_service.get_public_challenge(session, slug)
     except ChallengeNotFoundError:
@@ -208,6 +209,15 @@ def get_public_challenge(session: Session, slug: str) -> ChallengeDetailResponse
             detail="Challenge retrieval failed.",
         ) from None
 
+    attempt_locked = False
+    if public_challenge.slug.lower().startswith("m1-") and current_user.id is not None:
+        attempt_locked = challenge_repository.has_attempt_for_user_and_challenge(
+            session=session,
+            user_id=current_user.id,
+            challenge_id=public_challenge.id,
+        )
+    has_lab = _challenge_lab_service.has_lab(public_challenge.slug)
+
     return ChallengeDetailResponse(
         id=public_challenge.id,
         track_id=public_challenge.track_id,
@@ -217,7 +227,18 @@ def get_public_challenge(session: Session, slug: str) -> ChallengeDetailResponse
         difficulty=public_challenge.difficulty,
         points=public_challenge.points,
         is_published=public_challenge.is_published,
-        lab_available=_challenge_lab_service.has_lab(public_challenge.slug),
+        attempt_locked=attempt_locked,
+        lab_available=has_lab,
+        lab_start_path=(
+            _challenge_lab_service.get_default_cwd(public_challenge.slug)
+            if has_lab
+            else None
+        ),
+        lab_hints=(
+            _challenge_lab_service.get_lab_hints(public_challenge.slug)
+            if has_lab
+            else None
+        ),
         attachment_url=public_challenge.attachment_url,
         created_at=public_challenge.created_at,
         updated_at=public_challenge.updated_at,

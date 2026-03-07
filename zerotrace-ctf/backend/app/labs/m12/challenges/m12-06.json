@@ -1,0 +1,20 @@
+{
+  "id": "m12-06",
+  "slug": "m12-06-suspicious-log-permissions",
+  "title": "Suspicious Log Permissions",
+  "startPath": "/var/log",
+  "flag": {
+    "path": "/var/log/debug.log",
+    "template": "2026-03-08T11:02:01Z debug temporary auth trace\n"
+  },
+  "hints": [
+    "Inspect /var/log permissions.",
+    "Use ls -la /var/log.",
+    "Find the log writable by all users."
+  ],
+  "permissions": {
+    "/var/log/auth.log": "0640",
+    "/var/log/syslog": "0644",
+    "/var/log/debug.log": "0666"
+  }
+}

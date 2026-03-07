@@ -4,7 +4,7 @@
   "title": "Firewall DDoS Alert",
   "difficulty": "easy",
   "points": 100,
-  "description": "A firewall reported a large inbound surge before the customer portal began failing health checks.\n\nDownload the case pack, review the incident handoff, correlate the perimeter and service-health evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A firewall reported a large inbound surge before the customer portal began failing health checks.\n\nDownload the investigation pack, correlate edge-firewall telemetry, NetFlow trends, top talkers, WAF noise, load balancer health, uptime probes, and SIEM alerts, then determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-09-firewall-ddos-alert.zip",

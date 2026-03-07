@@ -19,6 +19,37 @@ interface LabHistoryEntry {
   exitCode: number
 }
 
+const M11_HINTS = [
+  "Search under /etc for included configuration files.",
+  "Use grep recursively to find the word 'include'.",
+  "Inspect /etc/.config_chain and list hidden files.",
+]
+
+const normalizeLabPath = (rawPath?: string | null) => {
+  const value = rawPath?.trim()
+  if (!value) {
+    return "/"
+  }
+  return value.startsWith("/") ? value : `/${value}`
+}
+
+const getInitialLabCwd = (challengeSlug?: string, labStartPath?: string | null) => {
+  if (labStartPath && labStartPath.trim().length > 0) {
+    return normalizeLabPath(labStartPath)
+  }
+  return challengeSlug?.toLowerCase().startsWith("m11-") ? "/etc" : "/"
+}
+
+const createInitialLabHistory = (cwd: string): LabHistoryEntry[] => [
+  {
+    id: Date.now(),
+    cwd,
+    command: "help",
+    output: "Type `help` to list supported commands.",
+    exitCode: 0,
+  },
+]
+
 const getAttemptLockStorageKey = (slug: string, userId?: string) =>
   `zerotrace.m1_attempt_locked.${(userId ?? "anon").trim().toLowerCase()}.${slug.trim().toLowerCase()}`
 
@@ -103,19 +134,12 @@ export const ChallengeDetailPage = () => {
   )
   const [result, setResult] = useState<SubmitFlagResponse | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
-  const [labCwd, setLabCwd] = useState("/etc")
+  const [labCwd, setLabCwd] = useState(() => getInitialLabCwd(slug))
   const [labCommand, setLabCommand] = useState("")
   const [labValidationError, setLabValidationError] = useState<string | null>(null)
   const [copyStatus, setCopyStatus] = useState<string | null>(null)
-  const [labHistory, setLabHistory] = useState<LabHistoryEntry[]>([
-    {
-      id: 1,
-      cwd: "/etc",
-      command: "help",
-      output: "Type `help` to list supported commands.",
-      exitCode: 0,
-    },
-  ])
+  const [labHintLevel, setLabHintLevel] = useState(0)
+  const [labHistory, setLabHistory] = useState<LabHistoryEntry[]>(() => createInitialLabHistory(getInitialLabCwd(slug)))
 
   useEffect(() => {
     if (!slug) {
@@ -151,6 +175,16 @@ export const ChallengeDetailPage = () => {
   useEffect(() => {
     setCopyStatus(null)
   }, [slug])
+
+  useEffect(() => {
+    const nextCwd = getInitialLabCwd(slug, data?.lab_start_path)
+    setLabCwd(nextCwd)
+    setLabCommand("")
+    setLabValidationError(null)
+    setLabHintLevel(0)
+    resetLabError()
+    setLabHistory(createInitialLabHistory(nextCwd))
+  }, [slug, data?.lab_start_path])
 
   if (!slug) {
     return (
@@ -231,11 +265,42 @@ export const ChallengeDetailPage = () => {
 
   const handleLabCommandSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    await runLabCommand(labCommand)
+  }
+
+  const runLabCommand = async (rawCommand: string) => {
     setLabValidationError(null)
     resetLabError()
 
+    const incomingCommand = rawCommand.trim()
+    const normalizedCommand = incomingCommand.toLowerCase()
+
+    if (normalizedCommand === "clear") {
+      setLabHistory([])
+      setLabCommand("")
+      return
+    }
+
+    if (normalizedCommand === "history") {
+      setLabHistory((previous) => {
+        const lines = previous.map((entry, index) => `${index + 1}  ${entry.command}`)
+        return [
+          ...previous,
+          {
+            id: Date.now() + previous.length,
+            cwd: labCwd,
+            command: incomingCommand,
+            output: lines.length > 0 ? lines.join("\n") : "No command history for this session.",
+            exitCode: 0,
+          },
+        ]
+      })
+      setLabCommand("")
+      return
+    }
+
     const parsed = challengeLabCommandSchema.safeParse({
-      command: labCommand,
+      command: rawCommand,
       cwd: labCwd,
     })
     if (!parsed.success) {
@@ -246,16 +311,20 @@ export const ChallengeDetailPage = () => {
     const submittedCommand = parsed.data.command
     try {
       const response = await executeLabCommand(parsed.data)
-      setLabHistory((previous) => [
-        ...previous,
-        {
-          id: Date.now() + previous.length,
-          cwd: labCwd,
-          command: submittedCommand,
-          output: response.output,
-          exitCode: response.exit_code,
-        },
-      ])
+      if (response.output === "__CLEAR__") {
+        setLabHistory([])
+      } else {
+        setLabHistory((previous) => [
+          ...previous,
+          {
+            id: Date.now() + previous.length,
+            cwd: labCwd,
+            command: submittedCommand,
+            output: response.output,
+            exitCode: response.exit_code,
+          },
+        ])
+      }
       setLabCwd(response.cwd)
       setLabCommand("")
     } catch (requestError) {
@@ -270,6 +339,54 @@ export const ChallengeDetailPage = () => {
         },
       ])
     }
+  }
+
+  const resetLabSession = () => {
+    const initialCwd = getInitialLabCwd(data.slug, data.lab_start_path)
+    setLabCwd(initialCwd)
+    setLabCommand("")
+    setLabValidationError(null)
+    setLabHintLevel(0)
+    resetLabError()
+    setLabHistory(createInitialLabHistory(initialCwd))
+  }
+
+  const isM11Lab = data.slug.toLowerCase().startsWith("m11-")
+  const configuredHints = (data.lab_hints ?? (isM11Lab ? M11_HINTS : [])).filter(
+    (hint) => typeof hint === "string" && hint.trim().length > 0,
+  )
+  const revealedHints = configuredHints.slice(0, labHintLevel)
+
+  const handleHintClick = () => {
+    if (configuredHints.length === 0) {
+      setLabHistory((previous) => [
+        ...previous,
+        {
+          id: Date.now() + previous.length,
+          cwd: labCwd,
+          command: "hint",
+          output: "Hints are currently available for M11 labs only.",
+          exitCode: 0,
+        },
+      ])
+      return
+    }
+
+    if (labHintLevel >= configuredHints.length) {
+      setLabHistory((previous) => [
+        ...previous,
+        {
+          id: Date.now() + previous.length,
+          cwd: labCwd,
+          command: "hint",
+          output: "All hints are already unlocked.",
+          exitCode: 0,
+        },
+      ])
+      return
+    }
+
+    setLabHintLevel((previous) => previous + 1)
   }
 
   const handleBackClick = () => {
@@ -340,6 +457,21 @@ export const ChallengeDetailPage = () => {
             Interactive read-only lab for this challenge.
           </p>
 
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button type="button" className="zt-button zt-button--ghost" onClick={() => { void runLabCommand("help") }}>
+              Help
+            </button>
+            <button type="button" className="zt-button zt-button--ghost" onClick={() => { void runLabCommand("clear") }}>
+              Clear
+            </button>
+            <button type="button" className="zt-button zt-button--ghost" onClick={handleHintClick}>
+              Hint
+            </button>
+            <button type="button" className="zt-button zt-button--ghost" onClick={resetLabSession}>
+              Reset Lab
+            </button>
+          </div>
+
           <div className="mt-4 max-h-96 overflow-y-auto rounded-lg border border-cyber-border bg-black/70 p-4 font-mono text-xs leading-6 text-cyber-text">
             {labHistory.map((entry) => (
               <div key={entry.id} className="mb-3">
@@ -370,6 +502,22 @@ export const ChallengeDetailPage = () => {
               {isLabPending ? "Running..." : "Run"}
             </button>
           </form>
+          <p className="mt-2 text-xs text-cyber-textMuted">
+            Examples: help, ls -a, grep -R include /etc, find /opt -name "*.tar"
+          </p>
+
+          {revealedHints.length > 0 ? (
+            <div className="mt-4 rounded-lg border border-cyber-border bg-black/40 p-4">
+              <p className="zt-subheading">Hints</p>
+              <div className="mt-2 space-y-1 text-xs text-cyber-text">
+                {revealedHints.map((hint, index) => (
+                  <p key={hint}>
+                    {index + 1}. {hint}
+                  </p>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="mt-3 space-y-2">
             {labValidationError ? <div className="zt-alert zt-alert--error">{labValidationError}</div> : null}

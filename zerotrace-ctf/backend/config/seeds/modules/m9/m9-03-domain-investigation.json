@@ -1,0 +1,13 @@
+{
+  "order": 3,
+  "slug": "m9-03-domain-investigation",
+  "title": "Domain Investigation",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A suspicious domain was flagged by OSINT enrichment and requires registrar attribution.\n\nDownload the investigation pack and correlate domain inventory exports, WHOIS batch logs, RDAP responses, passive DNS context, SIEM timeline events, and analyst notes to identify the registrar.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-03-domain-investigation.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m4-07-kubernetes-restart-loop",
+  "title": "Kubernetes Restart Loop",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A production Kubernetes workload entered a repeated restart cycle, causing service degradation.\n\nDownload the investigation pack and correlate kubelet logs, pod event stream, container status matrix, probe failures, resource metrics, cluster alerts, deployment context, runbook guidance, and SIEM timeline to identify the Kubernetes error.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-07-kubernetes-restart-loop.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,9 @@
+{
+  "/": {
+    "home": {
+      "player": {
+        "notes.txt": "Audit old production archives in /opt/backups.\n"
+      }
+    }
+  }
+}

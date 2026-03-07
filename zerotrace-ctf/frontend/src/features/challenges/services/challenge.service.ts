@@ -22,6 +22,8 @@ const normalizeChallengeDetail = (payload: ChallengeDetail): ChallengeDetail => 
   is_published: payload.is_published,
   attempt_locked: payload.attempt_locked,
   lab_available: payload.lab_available,
+  lab_start_path: payload.lab_start_path ?? null,
+  lab_hints: payload.lab_hints ?? null,
   attachment_url: payload.attachment_url,
   created_at: payload.created_at,
   updated_at: payload.updated_at,

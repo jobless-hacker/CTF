@@ -1,0 +1,15 @@
+{
+  "id": "m11-05",
+  "slug": "m11-webroot-secret",
+  "title": "Exposed Webroot File",
+  "startPath": "/var/www/html",
+  "flag": {
+    "path": "/var/www/html/secret.txt",
+    "template": "internal debug flag\n\n{flag}\n"
+  },
+  "hints": [
+    "Start from the web root.",
+    "List files under /var/www/html.",
+    "Inspect secret.txt."
+  ]
+}

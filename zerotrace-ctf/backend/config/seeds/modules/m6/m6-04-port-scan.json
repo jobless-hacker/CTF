@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "slug": "m6-04-port-scan",
+  "title": "Port Scan",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Perimeter telemetry indicates rapid multi-port probing against internal services from an external source.\n\nDownload the investigation pack and correlate firewall drops, connection-attempt summary, IDS alerts, flow records, scan detection alerts, SIEM timeline, and policy/runbook context to identify the scanning source IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-04-port-scan.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

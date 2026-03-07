@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m5-05-suid-binary",
+  "title": "SUID Binary",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Security monitoring flagged potential Linux privilege escalation linked to suspicious SUID binary usage on a production node.\n\nDownload the investigation pack and correlate SUID inventory scans, permission snapshots, execution audit logs, privilege-escalation alerts, SIEM timeline, and policy/runbook context to identify the risky SUID binary.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-05-suid-binary.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

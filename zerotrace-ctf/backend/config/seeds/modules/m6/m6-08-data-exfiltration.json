@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m6-08-data-exfiltration",
+  "title": "Data Exfiltration",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Network and DLP telemetry indicates a high-volume outbound transfer to an unmanaged external destination.\n\nDownload the investigation pack and correlate NetFlow, egress firewall telemetry, proxy transfer logs, endpoint transfer summary, DLP alerts, SIEM timeline, and policy/runbook context to identify the exfiltration destination IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-08-data-exfiltration.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m5-08-suspicious-download",
+  "title": "Suspicious Download",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "SOC telemetry detected a shell-triggered script download from an untrusted source on a Linux production host.\n\nDownload the investigation pack and correlate shell command logs, wget execution records, DNS and proxy telemetry, file-write audit events, security alerts, SIEM timeline, and policy/runbook context to identify the malicious domain.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-08-suspicious-download.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

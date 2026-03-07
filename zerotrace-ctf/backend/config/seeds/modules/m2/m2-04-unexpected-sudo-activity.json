@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "slug": "m2-04-unexpected-sudo-activity",
+  "title": "Unexpected Sudo Activity",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A production Linux host triggered privileged-access alerts indicating that a restricted developer account may have executed root-level commands.\n\nDownload the investigation pack and correlate sudo activity, PAM auth logs, session command history, auditd execve records, privileged-access policy baseline, change-window registry, and SIEM timeline to identify which account escalated privileges.\n\nFlag Format\nCTF{username}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-04-unexpected-sudo-activity.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

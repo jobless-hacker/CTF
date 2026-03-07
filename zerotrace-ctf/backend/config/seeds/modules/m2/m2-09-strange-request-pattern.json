@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m2-09-strange-request-pattern",
+  "title": "Strange Request Pattern",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Security telemetry indicates unusual authentication requests that appear to bypass login logic.\n\nDownload the investigation pack and correlate web access logs, WAF detections, auth-service behavior, database query audit trails, raw request corpus, secure coding policy, and SIEM timeline to identify the vulnerability being exploited.\n\nFlag Format\nCTF{vulnerability}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-09-strange-request-pattern.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

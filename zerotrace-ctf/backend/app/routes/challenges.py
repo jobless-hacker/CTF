@@ -81,9 +81,9 @@ def list_track_challenges(
 def get_public_challenge(
     slug: str,
     session: Session = Depends(get_db),
-    _: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ) -> ChallengeDetailResponse:
-    return challenge_controller.get_public_challenge(session=session, slug=slug)
+    return challenge_controller.get_public_challenge(session=session, slug=slug, current_user=current_user)
 
 
 @router.post("/challenges/{slug}/submit", response_model=SubmitFlagResponse)

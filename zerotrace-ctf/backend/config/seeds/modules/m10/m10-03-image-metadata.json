@@ -1,0 +1,13 @@
+{
+  "order": 3,
+  "slug": "m10-03-image-metadata",
+  "title": "Image Metadata",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Recovered photo evidence must be attributed to the capture device using forensic metadata correlation.\n\nDownload the investigation pack and correlate image inventory exports, EXIF scan logs, XMP parse output, device fingerprint telemetry, SIEM timeline events, and analyst notes to identify the device used.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-03-image-metadata.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

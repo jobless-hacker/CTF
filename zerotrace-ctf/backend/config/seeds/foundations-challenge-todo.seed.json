@@ -6,7 +6,7 @@
     "description": "Core cybersecurity fundamentals and analyst mindset.",
     "is_active": true
   },
-  "xp_total": 4800,
+  "xp_total": 13800,
   "modules": [
     {
       "code": "M1",
@@ -73,6 +73,9 @@
         },
         {
           "source_file": "modules/m1/m1-20-dns-amplification-attack.json"
+        },
+        {
+          "source_file": "modules/m1/m1-21-modularity-test-challenge.json"
         }
       ]
     },
@@ -83,280 +86,338 @@
       "xp_budget": 1300,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m2-01-after-hours-access",
-          "title": "After-Hours Access",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "The SOC team noticed successful SSH logins to production outside business hours.\n\nDownload the case pack and identify the suspicious external IP address from the authentication logs.\n\nFlag Format\nCTF{suspicious_ip}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-01-after-hours-access.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-01-after-hours-access.json"
         },
         {
-          "order": 2,
-          "slug": "m2-02-login-storm",
-          "title": "Login Storm",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "Authentication monitoring triggered after repeated failed login attempts against an admin account.\n\nDownload the case pack and identify the attack type based on the credential-attempt pattern.\n\nFlag Format\nCTF{attack_type}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-02-login-storm.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-02-login-storm.json"
         },
         {
-          "order": 3,
-          "slug": "m2-03-unknown-process",
-          "title": "Unknown Process",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "Endpoint telemetry on a server includes a process that does not belong to the approved runtime baseline.\n\nDownload the case pack and identify the suspicious process name.\n\nFlag Format\nCTF{process_name}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-03-unknown-process.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-03-unknown-process.json"
         },
         {
-          "order": 4,
-          "slug": "m2-04-unexpected-sudo-activity",
-          "title": "Unexpected Sudo Activity",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A developer account executed privileged commands that were outside normal duties.\n\nDownload the case pack and identify which account escalated privileges.\n\nFlag Format\nCTF{username}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-04-unexpected-sudo-activity.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-04-unexpected-sudo-activity.json"
         },
         {
-          "order": 5,
-          "slug": "m2-05-midnight-upload",
-          "title": "Midnight Upload",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Network monitoring detected large outbound transfer activity during off-hours.\n\nDownload the case pack and identify the file that was exfiltrated.\n\nFlag Format\nCTF{filename}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-05-midnight-upload.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-05-midnight-upload.json"
         },
         {
-          "order": 6,
-          "slug": "m2-06-new-admin-session",
-          "title": "New Admin Session",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Administrative audit activity shows an unexpected privileged account creation event.\n\nDownload the case pack and identify the suspicious admin account.\n\nFlag Format\nCTF{account_name}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-06-new-admin-session.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-06-new-admin-session.json"
         },
         {
-          "order": 7,
-          "slug": "m2-07-unusual-web-request",
-          "title": "Unusual Web Request",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Proxy telemetry shows a workstation requesting a suspicious executable from an external website.\n\nDownload the case pack and identify the malicious domain.\n\nFlag Format\nCTF{domain}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-07-unusual-web-request.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-07-unusual-web-request.json"
         },
         {
-          "order": 8,
-          "slug": "m2-08-internal-audit-trail",
-          "title": "Internal Audit Trail",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "An audit event shows confidential payroll document access by a user outside the authorized department.\n\nDownload the case pack and identify the insider account.\n\nFlag Format\nCTF{username}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-08-internal-audit-trail.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-08-internal-audit-trail.json"
         },
         {
-          "order": 9,
-          "slug": "m2-09-strange-request-pattern",
-          "title": "Strange Request Pattern",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Web access logs include unusual login query input that bypasses expected authentication behavior.\n\nDownload the case pack and identify the vulnerability being exploited.\n\nFlag Format\nCTF{vulnerability}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-09-strange-request-pattern.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-09-strange-request-pattern.json"
         },
         {
-          "order": 10,
-          "slug": "m2-10-shell-history-review",
-          "title": "Shell History Review",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Incident responders recovered shell history from a compromised account.\n\nDownload the case pack and identify the command used to download the malicious script.\n\nFlag Format\nCTF{command}",
-          "include_module_context": false,
-          "include_submission_footer": false,
-          "attachment_url": "/artifacts/m2/m2-10-shell-history-review.zip",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m2/m2-10-shell-history-review.json"
         }
       ]
     },
     {
       "code": "M3",
       "order": 3,
-      "name": "Confidentiality",
-      "xp_budget": 100,
+      "name": "Data Leak Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m3-the-data-leak",
-          "title": "The Data Leak",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "The SOC team detected suspicious activity in the company document server.\n\nInvestigate the server logs and determine which CIA pillar was violated.\n\nDownloadable File\nserver_access.log\n\nSubmit the flag in format:\nCTF{pillar}",
-          "include_module_context": false,
-          "attachment_url": "/artifacts/m3/server_access.log",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m3/m3-01-public-spreadsheet.json"
+        },
+        {
+          "source_file": "modules/m3/m3-02-github-credentials.json"
+        },
+        {
+          "source_file": "modules/m3/m3-03-misconfigured-storage.json"
+        },
+        {
+          "source_file": "modules/m3/m3-04-database-dump.json"
+        },
+        {
+          "source_file": "modules/m3/m3-05-pastebin-leak.json"
+        },
+        {
+          "source_file": "modules/m3/m3-06-internal-document.json"
+        },
+        {
+          "source_file": "modules/m3/m3-07-cloud-access-leak.json"
+        },
+        {
+          "source_file": "modules/m3/m3-08-log-file-exposure.json"
+        },
+        {
+          "source_file": "modules/m3/m3-09-archive-leak.json"
+        },
+        {
+          "source_file": "modules/m3/m3-10-web-backup-exposure.json"
         }
       ]
     },
     {
       "code": "M4",
       "order": 4,
-      "name": "Availability",
-      "xp_budget": 100,
+      "name": "System Down",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m4-system-down",
-          "title": "System Down",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "A core authentication service was knocked offline for two hours. Identify the CIA principle impacted most.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m4/m4-01-web-server-crash.json"
+        },
+        {
+          "source_file": "modules/m4/m4-02-traffic-flood.json"
+        },
+        {
+          "source_file": "modules/m4/m4-03-disk-full.json"
+        },
+        {
+          "source_file": "modules/m4/m4-04-service-failure.json"
+        },
+        {
+          "source_file": "modules/m4/m4-05-database-overload.json"
+        },
+        {
+          "source_file": "modules/m4/m4-06-container-crash.json"
+        },
+        {
+          "source_file": "modules/m4/m4-07-kubernetes-restart-loop.json"
+        },
+        {
+          "source_file": "modules/m4/m4-08-dns-outage.json"
+        },
+        {
+          "source_file": "modules/m4/m4-09-load-balancer-failure.json"
+        },
+        {
+          "source_file": "modules/m4/m4-10-ransomware-lockdown.json"
         }
       ]
     },
     {
       "code": "M5",
       "order": 5,
-      "name": "Risk Modeling",
-      "xp_budget": 100,
+      "name": "Linux Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m5-threat-vs-risk",
-          "title": "Threat vs Risk",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "Classify scenario elements into threat, vulnerability, and risk impact categories using standard risk terminology.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m5/m5-01-suspicious-user.json"
+        },
+        {
+          "source_file": "modules/m5/m5-02-ssh-login-trail.json"
+        },
+        {
+          "source_file": "modules/m5/m5-03-bash-history-review.json"
+        },
+        {
+          "source_file": "modules/m5/m5-04-cron-persistence.json"
+        },
+        {
+          "source_file": "modules/m5/m5-05-suid-binary.json"
+        },
+        {
+          "source_file": "modules/m5/m5-06-hidden-file.json"
+        },
+        {
+          "source_file": "modules/m5/m5-07-strange-process.json"
+        },
+        {
+          "source_file": "modules/m5/m5-08-suspicious-download.json"
+        },
+        {
+          "source_file": "modules/m5/m5-09-log-tampering.json"
+        },
+        {
+          "source_file": "modules/m5/m5-10-unauthorized-ssh-key.json"
         }
       ]
     },
     {
       "code": "M6",
       "order": 6,
-      "name": "Vulnerability",
-      "xp_budget": 100,
+      "name": "Network Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m6-identify-the-vulnerability",
-          "title": "Identify the Vulnerability",
-          "difficulty": "easy",
-          "points": 100,
-          "description": "Review a short infrastructure scenario and identify which weakness is the actual vulnerability, not the threat actor or impact.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m6/m6-01-suspicious-connection.json"
+        },
+        {
+          "source_file": "modules/m6/m6-02-dns-beaconing.json"
+        },
+        {
+          "source_file": "modules/m6/m6-03-plaintext-credentials.json"
+        },
+        {
+          "source_file": "modules/m6/m6-04-port-scan.json"
+        },
+        {
+          "source_file": "modules/m6/m6-05-malware-download.json"
+        },
+        {
+          "source_file": "modules/m6/m6-06-c2-communication.json"
+        },
+        {
+          "source_file": "modules/m6/m6-07-suspicious-dns-query.json"
+        },
+        {
+          "source_file": "modules/m6/m6-08-data-exfiltration.json"
+        },
+        {
+          "source_file": "modules/m6/m6-09-infected-host.json"
+        },
+        {
+          "source_file": "modules/m6/m6-10-lateral-movement.json"
         }
       ]
     },
     {
       "code": "M7",
       "order": 7,
-      "name": "Attack Surface",
-      "xp_budget": 150,
+      "name": "Web Security Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m7-attack-surface-mapping",
-          "title": "Attack Surface Mapping",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Map external and internal attack surfaces across web, API, exposed SSH, and human phishing vectors.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m7/m7-01-suspicious-login-query.json"
+        },
+        {
+          "source_file": "modules/m7/m7-02-reflected-script.json"
+        },
+        {
+          "source_file": "modules/m7/m7-03-file-path-access.json"
+        },
+        {
+          "source_file": "modules/m7/m7-04-broken-authentication.json"
+        },
+        {
+          "source_file": "modules/m7/m7-05-exposed-admin-panel.json"
+        },
+        {
+          "source_file": "modules/m7/m7-06-file-upload-abuse.json"
+        },
+        {
+          "source_file": "modules/m7/m7-07-api-data-exposure.json"
+        },
+        {
+          "source_file": "modules/m7/m7-08-command-injection.json"
+        },
+        {
+          "source_file": "modules/m7/m7-09-insecure-cookie.json"
+        },
+        {
+          "source_file": "modules/m7/m7-10-sensitive-backup.json"
         }
       ]
     },
     {
       "code": "M8",
       "order": 8,
-      "name": "Threat Actors",
-      "xp_budget": 150,
+      "name": "Cloud Security Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m8-insider-alert",
-          "title": "Insider Alert",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Investigate suspicious privileged activity and identify why the event pattern points to insider threat behavior.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m8/m8-01-public-storage-bucket.json"
+        },
+        {
+          "source_file": "modules/m8/m8-02-leaked-cloud-credentials.json"
+        },
+        {
+          "source_file": "modules/m8/m8-03-public-database-snapshot.json"
+        },
+        {
+          "source_file": "modules/m8/m8-04-overprivileged-iam-role.json"
+        },
+        {
+          "source_file": "modules/m8/m8-05-exposed-api-key.json"
+        },
+        {
+          "source_file": "modules/m8/m8-06-suspicious-cloudtrail-event.json"
+        },
+        {
+          "source_file": "modules/m8/m8-07-open-security-group.json"
+        },
+        {
+          "source_file": "modules/m8/m8-08-misconfigured-storage-policy.json"
+        },
+        {
+          "source_file": "modules/m8/m8-09-compromised-access-token.json"
+        },
+        {
+          "source_file": "modules/m8/m8-10-exposed-backup-archive.json"
         }
       ]
     },
     {
       "code": "M9",
       "order": 9,
-      "name": "Kill Chain",
-      "xp_budget": 150,
+      "name": "OSINT Investigation",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m9-kill-chain-breakdown",
-          "title": "Kill Chain Breakdown",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Given an intrusion timeline, map each attacker action to the correct kill chain stage.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m9/m9-01-image-metadata.json"
+        },
+        {
+          "source_file": "modules/m9/m9-02-suspicious-username.json"
+        },
+        {
+          "source_file": "modules/m9/m9-03-domain-investigation.json"
+        },
+        {
+          "source_file": "modules/m9/m9-04-document-metadata.json"
+        },
+        {
+          "source_file": "modules/m9/m9-05-website-archive.json"
+        },
+        {
+          "source_file": "modules/m9/m9-06-social-media-leak.json"
+        },
+        {
+          "source_file": "modules/m9/m9-07-hidden-image-info.json"
+        },
+        {
+          "source_file": "modules/m9/m9-08-email-exposure.json"
+        },
+        {
+          "source_file": "modules/m9/m9-09-subdomain-discovery.json"
+        },
+        {
+          "source_file": "modules/m9/m9-10-public-code-leak.json"
         }
       ]
     },
     {
       "code": "M10",
       "order": 10,
-      "name": "MITRE ATT&CK",
-      "xp_budget": 150,
+      "name": "Digital Forensics",
+      "xp_budget": 1250,
       "challenges": [
         {
-          "order": 1,
-          "slug": "m10-mitre-mapper",
-          "title": "MITRE Mapper",
-          "difficulty": "medium",
-          "points": 150,
-          "description": "Map observed attacker behavior to MITRE ATT&CK tactics and techniques at a foundational level.\n\nFormat: CTF{Answer}",
-          "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
-          "publish": true
+          "source_file": "modules/m10/m10-01-suspicious-file-type.json"
+        },
+        {
+          "source_file": "modules/m10/m10-02-hidden-archive.json"
+        },
+        {
+          "source_file": "modules/m10/m10-03-image-metadata.json"
+        },
+        {
+          "source_file": "modules/m10/m10-04-timeline-event.json"
+        },
+        {
+          "source_file": "modules/m10/m10-05-base64-artifact.json"
+        },
+        {
+          "source_file": "modules/m10/m10-06-suspicious-executable.json"
+        },
+        {
+          "source_file": "modules/m10/m10-07-deleted-file-trace.json"
+        },
+        {
+          "source_file": "modules/m10/m10-08-hex-artifact.json"
+        },
+        {
+          "source_file": "modules/m10/m10-09-stego-image.json"
+        },
+        {
+          "source_file": "modules/m10/m10-10-forensic-report.json"
         }
       ]
     }

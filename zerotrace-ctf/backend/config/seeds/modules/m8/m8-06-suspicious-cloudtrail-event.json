@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m8-06-suspicious-cloudtrail-event",
+  "title": "Suspicious CloudTrail Event",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud audit telemetry indicates an unusual successful console login from an external source.\n\nDownload the investigation pack and correlate CloudTrail events, console login audit logs, GeoIP enrichment data, GuardDuty findings, MFA policy audits, SIEM timeline, and policy/runbook context to identify the suspicious IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-06-suspicious-cloudtrail-event.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

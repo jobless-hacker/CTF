@@ -36,6 +36,7 @@ def settings_override(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, 
     monkeypatch.setenv("AUTH_RATE_LIMIT_ENABLED", "false")
     monkeypatch.setenv("LAB_COMMAND_RATE_LIMIT_ENABLED", "false")
     monkeypatch.setenv("RATE_LIMIT_BACKEND", "memory")
+    monkeypatch.setenv("SEED_SYNC_WATCH_ENABLED", "false")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

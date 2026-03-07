@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m7-10-sensitive-backup",
+  "title": "Sensitive Backup",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Web surface telemetry indicates a backup archive may be directly accessible from the production site root.\n\nDownload the investigation pack and correlate file inventory logs, discovery scan output, access logs, directory snapshot evidence, config audit logs, security alerts, SIEM timeline, and policy/runbook context to identify the exposed backup file.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-10-sensitive-backup.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

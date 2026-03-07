@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m10-06-suspicious-executable",
+  "title": "Suspicious Executable",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A suspicious binary sample requires file-format attribution using realistic forensic triage evidence.\n\nDownload the investigation pack and correlate signature bytes, triage inventory exports, header scan logs, string extraction telemetry, PE analysis records, SIEM timeline events, and analyst notes to identify the file format.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-06-suspicious-executable.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

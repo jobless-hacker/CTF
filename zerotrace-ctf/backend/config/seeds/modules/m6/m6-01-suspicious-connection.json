@@ -1,0 +1,13 @@
+{
+  "order": 1,
+  "slug": "m6-01-suspicious-connection",
+  "title": "Suspicious Connection",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "SOC monitoring identified repeated outbound TLS sessions from an internal workstation to an unknown external endpoint.\n\nDownload the investigation pack and correlate packet-capture export data, netflow, firewall egress, DNS telemetry, network alerts, SIEM timeline, and policy/runbook context to identify the suspicious external IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-01-suspicious-connection.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

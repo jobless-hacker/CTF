@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m10-07-deleted-file-trace",
+  "title": "Deleted File Trace",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Filesystem cleanup activity contains deletion traces that hide a sensitive-file removal event.\n\nDownload the investigation pack and correlate filesystem log extracts, deletion journal exports, fs-audit traces, recovery-catalog output, index-correlation telemetry, SIEM timeline events, and analyst notes to identify the deleted sensitive file.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-07-deleted-file-trace.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

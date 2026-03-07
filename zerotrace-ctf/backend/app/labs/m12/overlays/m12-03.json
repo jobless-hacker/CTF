@@ -1,0 +1,12 @@
+{
+  "/": {
+    "home": {
+      "dev": {
+        ".ssh": {
+          "id_rsa": "-----BEGIN OPENSSH PRIVATE KEY-----\nplaceholder\n-----END OPENSSH PRIVATE KEY-----\n",
+          "id_rsa.pub": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDemo dev@local\n"
+        }
+      }
+    }
+  }
+}

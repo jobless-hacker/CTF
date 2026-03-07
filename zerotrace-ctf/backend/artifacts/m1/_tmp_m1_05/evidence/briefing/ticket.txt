@@ -1,0 +1,9 @@
+﻿Incident Ticket: INC-2026-0328
+Priority: P1
+Queue: Web Operations
+
+Summary:
+Customers reported that the internal employee portal started returning 503 errors at 09:12 UTC.
+
+Analyst task:
+Review the outage evidence, determine what security property was most affected, and classify the incident accordingly.

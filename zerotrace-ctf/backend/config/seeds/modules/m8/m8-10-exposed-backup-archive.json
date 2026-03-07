@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m8-10-exposed-backup-archive",
+  "title": "Exposed Backup Archive",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Cloud backup telemetry indicates a historical full backup archive may be publicly accessible.\n\nDownload the investigation pack and correlate backup inventory logs, backup catalog classification, object access logs, CloudTrail events, policy audits, security alerts, SIEM timeline, and policy/runbook context to identify the exposed full backup archive.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-10-exposed-backup-archive.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

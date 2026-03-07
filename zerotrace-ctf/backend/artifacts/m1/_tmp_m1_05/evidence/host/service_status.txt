@@ -1,0 +1,11 @@
+﻿$ systemctl status portal-api.service
+
+portal-api.service - Portal API service
+   Loaded: loaded (/etc/systemd/system/portal-api.service; enabled)
+   Active: activating (auto-restart) (Result: exit-code) since Fri 2026-03-06 09:12:02 UTC; 3s ago
+  Process: 2241 ExecStart=/usr/bin/python3 /srv/portal/app.py (code=exited, status=1/FAILURE)
+ Main PID: 2241 (code=exited, status=1/FAILURE)
+
+Mar 06 09:11:58 web-02 app.py[2241]: worker pool saturated, request queue length exceeded threshold
+Mar 06 09:12:01 web-02 systemd[1]: portal-api.service: Main process exited, code=exited, status=1/FAILURE
+Mar 06 09:12:02 web-02 systemd[1]: portal-api.service: Failed with result 'exit-code'.

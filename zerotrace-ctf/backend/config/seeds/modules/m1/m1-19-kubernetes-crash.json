@@ -4,7 +4,7 @@
   "title": "Kubernetes Service Instability",
   "difficulty": "medium",
   "points": 150,
-  "description": "A Kubernetes workload began restarting repeatedly and service quality degraded sharply.\n\nDownload the case pack, review the incident handoff, inspect the Kubernetes health evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A Kubernetes payment workload entered restart loops and service health collapsed after an emergency rollout.\n\nDownload the investigation pack and correlate Kubernetes events, pod restart telemetry, kubelet logs, metrics samples, ingress probe results, deployment revision history, and change records to determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-19-kubernetes-crash.zip",

@@ -1,0 +1,18 @@
+{
+  "id": "m12-04",
+  "slug": "m12-04-misconfigured-cron-script",
+  "title": "Misconfigured Cron Script",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/cron.hourly/cleanup.sh",
+    "template": "#!/bin/sh\n/usr/bin/find /tmp -type f -mtime +1 -delete\n"
+  },
+  "hints": [
+    "Check hourly cron jobs.",
+    "Use ls -la /etc/cron.hourly.",
+    "Find the script writable by everyone."
+  ],
+  "permissions": {
+    "/etc/cron.hourly/cleanup.sh": "0777"
+  }
+}

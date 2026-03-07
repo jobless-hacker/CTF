@@ -8,6 +8,11 @@ from app.core.settings import get_settings
 from app.middleware import register_middleware
 from app.observability.integrity import IntegritySchedulerHandle, start_integrity_scheduler, stop_integrity_scheduler
 from app.routes import api_router
+from app.services.seed_sync_watcher import (
+    SeedSyncWatcherHandle,
+    start_seed_sync_watcher,
+    stop_seed_sync_watcher,
+)
 
 
 settings = get_settings()
@@ -49,9 +54,12 @@ def download_artifact(artifact_path: str) -> FileResponse:
 @app.on_event("startup")
 async def startup_observability_tasks() -> None:
     app.state.integrity_scheduler = start_integrity_scheduler()
+    app.state.seed_sync_watcher = start_seed_sync_watcher()
 
 
 @app.on_event("shutdown")
 async def shutdown_observability_tasks() -> None:
     handle: IntegritySchedulerHandle | None = getattr(app.state, "integrity_scheduler", None)
+    watcher_handle: SeedSyncWatcherHandle | None = getattr(app.state, "seed_sync_watcher", None)
     await stop_integrity_scheduler(handle)
+    await stop_seed_sync_watcher(watcher_handle)

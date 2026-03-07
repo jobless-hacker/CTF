@@ -1,0 +1,15 @@
+{
+  "id": "m11-03",
+  "slug": "m11-lost-backup",
+  "title": "Forgotten Production Backup",
+  "startPath": "/",
+  "flag": {
+    "path": "/opt/backups/config_backup.tar",
+    "template": "production configuration backup\n{flag}\n"
+  },
+  "hints": [
+    "Audit backup archives under /opt.",
+    "Use find /opt -name \"*.tar\".",
+    "Inspect config_backup.tar."
+  ]
+}

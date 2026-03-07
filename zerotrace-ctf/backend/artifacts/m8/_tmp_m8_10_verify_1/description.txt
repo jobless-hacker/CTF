@@ -1,0 +1,10 @@
+﻿Challenge: M8-10 Exposed Backup Archive (Real-World Investigation Pack)
+
+Scenario:
+Cloud backup telemetry indicates a historical full backup archive may be publicly accessible.
+
+Task:
+Analyze the investigation pack and identify the full backup archive.
+
+Flag format:
+CTF{answer}

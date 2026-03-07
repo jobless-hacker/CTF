@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m3-05-pastebin-leak",
+  "title": "Pastebin Leak",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Leak monitoring detected public paste content exposing VPN credentials, followed by suspicious VPN authentication attempts.\n\nDownload the investigation pack and correlate paste capture, OSINT feed hits, VPN auth attempts, identity directory context, DLP leak alerts, credential policy, and SIEM timeline to identify the leaked VPN username.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-05-pastebin-leak.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

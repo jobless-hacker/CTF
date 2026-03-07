@@ -1,0 +1,19 @@
+{
+  "id": "m12-08",
+  "slug": "m12-08-misconfigured-sudo-access",
+  "title": "Misconfigured Sudo Access",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/sudoers.d/devops",
+    "template": "dev ALL=(ALL) NOPASSWD: /usr/local/bin/backup.sh\n"
+  },
+  "hints": [
+    "Review sudo policy snippets.",
+    "Read /etc/sudoers.d/devops.",
+    "Identify the script allowed without password."
+  ],
+  "permissions": {
+    "/etc/sudoers.d/devops": "0440",
+    "/usr/local/bin/backup.sh": "0755"
+  }
+}

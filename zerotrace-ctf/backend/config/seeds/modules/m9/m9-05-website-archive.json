@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m9-05-website-archive",
+  "title": "Website Archive",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Archive intelligence indicates a legacy web portal may still be discoverable in historical datasets.\n\nDownload the investigation pack and correlate wayback index exports, archive crawler logs, historical DNS records, certificate transparency extracts, SIEM timeline events, and analyst notes to identify the old portal domain.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-05-website-archive.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m4-09-load-balancer-failure",
+  "title": "Load Balancer Failure",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Load balancer health checks reported backend instability and traffic shifting during an outage.\n\nDownload the investigation pack and correlate LB health checks, proxy upstream logs, backend pool stats, service probe results, target registration events, alert feed, backend config, runbook guidance, and SIEM timeline to identify the affected backend service.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-09-load-balancer-failure.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

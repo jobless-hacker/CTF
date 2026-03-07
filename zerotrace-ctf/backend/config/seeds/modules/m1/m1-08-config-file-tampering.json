@@ -4,7 +4,7 @@
   "title": "Unexpected Redirect After Reload",
   "difficulty": "easy",
   "points": 100,
-  "description": "A web portal began redirecting users to an unexpected external destination after a configuration reload.\n\nDownload the case pack, review the incident handoff, compare the baseline and modified configuration, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A web portal began redirecting users to an unexpected external destination after a configuration reload.\n\nDownload the investigation pack, correlate config baseline/current diffs, file-watch audit logs, NGINX traffic/reload evidence, synthetic validation checks, and change-control records, then determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-08-config-file-tampering.zip",

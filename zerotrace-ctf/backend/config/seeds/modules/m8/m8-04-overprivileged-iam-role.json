@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "slug": "m8-04-overprivileged-iam-role",
+  "title": "Overprivileged IAM Role",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Cloud IAM posture monitoring indicates a production role may include dangerously broad permissions.\n\nDownload the investigation pack and correlate IAM role inventory, policy documents, access advisor data, IAM simulator logs, security alerts, SIEM timeline, and policy/runbook context to identify the dangerous permission value.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m8/m8-04-overprivileged-iam-role.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 2,
+  "slug": "m4-02-traffic-flood",
+  "title": "Traffic Flood",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Edge infrastructure monitoring detected a high-volume distributed traffic surge, and customer traffic became unavailable.\n\nDownload the investigation pack and correlate firewall events, edge rate telemetry, netflow summaries, IDS alerts, load balancer health, mitigation notes, runbook guidance, and SIEM timeline to identify the attack type.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-02-traffic-flood.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

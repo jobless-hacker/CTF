@@ -4,7 +4,7 @@
   "title": "Mis-sent Email",
   "difficulty": "easy",
   "points": 100,
-  "description": "A support mailbox sent a spreadsheet to an unexpected external recipient.\n\nDownload the case pack, review the incident handoff, inspect the email and DLP evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A support mailbox sent a sensitive spreadsheet to an external domain that looked similar to an internal review alias.\n\nDownload the investigation pack, correlate EML headers, SMTP gateway logs, DLP events, message trace exports, mailbox audit logs, and allowlist data, then determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-07-mis-sent-email.zip",

@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "slug": "m7-05-exposed-admin-panel",
+  "title": "Exposed Admin Panel",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "Web surface telemetry indicates potentially sensitive management paths are publicly exposed.\n\nDownload the investigation pack and correlate directory listing output, discovery scan results, access logs, route manifest records, robots snapshot, security alerts, SIEM timeline, and policy/runbook context to identify the sensitive directory.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-05-exposed-admin-panel.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

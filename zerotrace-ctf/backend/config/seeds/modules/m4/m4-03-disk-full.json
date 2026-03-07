@@ -1,0 +1,13 @@
+{
+  "order": 3,
+  "slug": "m4-03-disk-full",
+  "title": "Disk Full",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A production node became unavailable during peak traffic, and storage telemetry captured write failures across services.\n\nDownload the investigation pack and correlate disk usage trends, system journal errors, application write failures, top disk consumers, logrotate behavior, storage alerts, runtime config, runbook guidance, and SIEM timeline to identify the outage root cause.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-03-disk-full.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

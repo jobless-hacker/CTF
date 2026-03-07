@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m10-08-hex-artifact",
+  "title": "Hex Artifact",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A memory-carved hex sequence must be decoded into an ASCII indicator using realistic forensic telemetry.\n\nDownload the investigation pack and correlate hex dump evidence, memory-segment exports, hexdump capture logs, ASCII candidate decoding records, pattern-correlation telemetry, SIEM timeline events, and analyst notes to identify the ASCII word.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-08-hex-artifact.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

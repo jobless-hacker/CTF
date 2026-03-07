@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m7-07-api-data-exposure",
+  "title": "API Data Exposure",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "API monitoring indicates a production endpoint returned restricted credential data in a client response.\n\nDownload the investigation pack and correlate gateway logs, response samples, schema audit logs, DLP alerts, SIEM timeline, OpenAPI snapshot, patch diff, and policy/runbook context to identify the exposed sensitive field.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-07-api-data-exposure.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m7-08-command-injection",
+  "title": "Command Injection",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Diagnostics endpoint telemetry indicates crafted input attempted to execute shell commands on the server.\n\nDownload the investigation pack and correlate gateway logs, app request parameter logs, WAF alerts, host execution audit logs, request capture, security alerts, SIEM timeline, and policy/runbook context to identify the injected command.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m7/m7-08-command-injection.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

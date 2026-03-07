@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "slug": "m4-04-service-failure",
+  "title": "Service Failure",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A web outage alert triggered service-state investigation across systemd, host journals, probes, and alert pipelines.\n\nDownload the investigation pack and correlate systemctl snapshots, journal service logs, service health matrix, port probe results, alert feed, unit configuration, runbook guidance, and SIEM timeline to identify which service failed.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m4/m4-04-service-failure.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

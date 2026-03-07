@@ -1,0 +1,10 @@
+﻿Incident: INC-2026-5810
+Severity: High
+Queue: SOC + CloudSec
+
+Summary:
+Potential public exposure of full historical backup archive in cloud storage.
+
+Scope:
+- Bucket: corp-backups
+- Objective: identify exposed full backup archive name

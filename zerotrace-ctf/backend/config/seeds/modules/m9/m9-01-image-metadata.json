@@ -1,0 +1,13 @@
+{
+  "order": 1,
+  "slug": "m9-01-image-metadata",
+  "title": "Image Metadata",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A recovered image from an OSINT lead may expose location through residual metadata.\n\nDownload the investigation pack and correlate camera roll inventory, EXIF parsing logs, geotag extraction outputs, reverse geocode lookups, SIEM timeline events, and analyst notes to identify the city where the target photo was taken.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-01-image-metadata.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

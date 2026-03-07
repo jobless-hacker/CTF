@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "slug": "m9-08-email-exposure",
+  "title": "Email Exposure",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "An email investigation requires identifying source infrastructure from header traces.\n\nDownload the investigation pack and correlate mail-gateway logs, SMTP trace records, parsed header outputs, SPF/DKIM/DMARC audit logs, SIEM timeline events, and analyst notes to identify the sending IP.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-08-email-exposure.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

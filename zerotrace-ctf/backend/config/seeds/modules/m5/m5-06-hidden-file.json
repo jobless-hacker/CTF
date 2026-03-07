@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m5-06-hidden-file",
+  "title": "Hidden File",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "File integrity telemetry flagged suspicious hidden-file activity on a Linux production node, including hidden executable creation and execution in a user home directory.\n\nDownload the investigation pack and correlate home inventory, recursive hidden-file scans, file hash catalog, inotify events, security alerts, SIEM timeline, and policy/runbook context to identify the suspicious hidden file.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-06-hidden-file.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

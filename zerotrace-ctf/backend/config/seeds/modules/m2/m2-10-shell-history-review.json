@@ -1,0 +1,13 @@
+{
+  "order": 10,
+  "slug": "m2-10-shell-history-review",
+  "title": "Shell History Review",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Incident responders recovered shell history and endpoint telemetry from a compromised account showing a suspicious script download-and-execution chain.\n\nDownload the investigation pack and correlate shell history, process execution audit, network egress, file modification timeline, EDR command alerts, hardening policy, and SIEM timeline to identify the command used to download the malicious script.\n\nFlag Format\nCTF{command}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m2/m2-10-shell-history-review.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

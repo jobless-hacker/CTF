@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m3-06-internal-document",
+  "title": "Internal Document",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "Document protection monitoring detected that a confidential internal strategy file was shared externally and then downloaded from a public path.\n\nDownload the investigation pack and correlate leaked document content, repository index context, public share access logs, outbound mail traces, DLP document alerts, identity context, confidential document policy, and SIEM timeline to identify the confidential project name.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m3/m3-06-internal-document.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

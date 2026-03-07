@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "slug": "m5-09-log-tampering",
+  "title": "Log Tampering",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "SOC analysts detected suspicious privileged actions and possible Linux log destruction attempts during an active incident window.\n\nDownload the investigation pack and correlate syslog/auth timelines, log-management audit records, hash-baseline integrity checks, tampering alerts, SIEM events, and policy/runbook context to identify the altered log indicator.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m5/m5-09-log-tampering.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

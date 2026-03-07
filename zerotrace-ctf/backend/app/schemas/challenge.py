@@ -80,7 +80,10 @@ class ChallengeDetailResponse(BaseModel):
     difficulty: ChallengeDifficulty
     points: int
     is_published: bool
+    attempt_locked: bool
     lab_available: bool
+    lab_start_path: str | None
+    lab_hints: list[str] | None
     attachment_url: str | None
     created_at: datetime
     updated_at: datetime

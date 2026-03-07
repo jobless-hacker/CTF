@@ -169,6 +169,11 @@ class ChallengeService:
             )
             raise FlagNotSetError("Challenge flag is not set.")
 
+        if self._is_single_attempt_m1_challenge(challenge):
+            # Serialize submissions per user to prevent refresh/double-submit races
+            # from bypassing the "has prior attempt" check.
+            self._lock_user_submission_scope(session=session, user_id=user.id)
+
         if self._is_single_attempt_m1_challenge(challenge) and challenge_repository.has_attempt_for_user_and_challenge(
             session=session,
             user_id=user.id,
@@ -529,3 +534,11 @@ class ChallengeService:
     @classmethod
     def _is_single_attempt_m1_challenge(cls, challenge: Challenge) -> bool:
         return challenge.slug.lower().startswith(cls._M1_SINGLE_ATTEMPT_PREFIX)
+
+    @staticmethod
+    def _lock_user_submission_scope(session: Session, user_id: UUID) -> None:
+        session.execute(
+            select(User.id)
+            .where(User.id == user_id)
+            .with_for_update()
+        ).scalar_one_or_none()

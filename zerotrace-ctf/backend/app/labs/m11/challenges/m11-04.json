@@ -1,0 +1,15 @@
+{
+  "id": "m11-04",
+  "slug": "m11-strange-include",
+  "title": "Suspicious Application Config",
+  "startPath": "/etc",
+  "flag": {
+    "path": "/etc/app/secret.conf",
+    "template": "internal_api_key={flag}\n"
+  },
+  "hints": [
+    "Inspect /etc/app for include chains.",
+    "Read /etc/app/app.conf first.",
+    "Follow includes to secret.conf."
+  ]
+}

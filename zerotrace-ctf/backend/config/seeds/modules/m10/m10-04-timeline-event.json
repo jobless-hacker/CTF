@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "slug": "m10-04-timeline-event",
+  "title": "Timeline Event",
+  "difficulty": "easy",
+  "points": 100,
+  "description": "A reconstructed incident timeline includes a suspicious privileged action hidden inside high-volume forensic telemetry.\n\nDownload the investigation pack and correlate session timeline exports, authentication traces, change-audit records, shell audit logs, SIEM timeline events, and analyst notes to identify the suspicious action.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m10/m10-04-timeline-event.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

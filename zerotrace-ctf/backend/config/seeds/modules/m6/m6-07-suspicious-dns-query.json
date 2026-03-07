@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "slug": "m6-07-suspicious-dns-query",
+  "title": "Suspicious DNS Query",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "DNS telemetry indicates tunneling-like query behavior consistent with staged exfiltration.\n\nDownload the investigation pack and correlate DNS packet export, query summary, resolver logs, endpoint DNS process activity, detection alerts, SIEM timeline, and policy/runbook context to identify the exfiltration domain.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m6/m6-07-suspicious-dns-query.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}

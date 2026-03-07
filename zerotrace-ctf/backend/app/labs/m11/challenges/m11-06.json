@@ -1,0 +1,15 @@
+{
+  "id": "m11-06",
+  "slug": "m11-temporary-clue",
+  "title": "Temporary Session Artifact",
+  "startPath": "/tmp",
+  "flag": {
+    "path": "/tmp/.session_token",
+    "template": "session={flag}\n"
+  },
+  "hints": [
+    "Investigate temporary artifacts under /tmp.",
+    "Use ls -a /tmp.",
+    "Read .session_token."
+  ]
+}

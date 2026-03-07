@@ -1,0 +1,9 @@
+﻿Health Monitor Alert
+
+Service: portal.company.local
+Alert: service health threshold breached
+Start time: 2026-03-06 09:12:04 UTC
+Successful checks (5m): 18%
+Failed checks (5m): 82%
+HTTP 503 responses (5m): 913
+User impact: most requests failing during the alert window

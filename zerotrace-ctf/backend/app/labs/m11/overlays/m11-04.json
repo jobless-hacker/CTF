@@ -1,0 +1,16 @@
+{
+  "/": {
+    "etc": {
+      "app": {
+        "app.conf": "app_name=internal_portal\ninclude /etc/app/logging.conf\ninclude /etc/app/secret.conf\n",
+        "logging.conf": "log_level=info\nlog_path=/var/log/app.log\n",
+        "secret.conf": "internal_api_key=placeholder\n"
+      }
+    },
+    "home": {
+      "player": {
+        "notes.txt": "Custom app config loads extra files from /etc/app.\n"
+      }
+    }
+  }
+}

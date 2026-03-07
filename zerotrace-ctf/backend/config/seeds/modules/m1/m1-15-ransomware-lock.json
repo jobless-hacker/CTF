@@ -4,7 +4,7 @@
   "title": "Files Suddenly Unusable",
   "difficulty": "medium",
   "points": 150,
-  "description": "Employees reported that business documents on a workstation suddenly became unreadable and a recovery note appeared.\n\nDownload the case pack, review the incident handoff, inspect the host impact evidence, and determine which CIA pillar was violated.\n\nFlag Format\nCTF{pillar}",
+  "description": "A finance workstation triggered a suspected ransomware event and critical business files became unusable.\n\nDownload the investigation pack and correlate process telemetry, file-impact timelines, EDR alerts, SMB activity, service-desk impact, snapshot state, and SOC recovery logs to determine which CIA pillar was primarily impacted.\n\nFlag Format\nCTF{pillar}",
   "include_module_context": false,
   "include_submission_footer": false,
   "attachment_url": "/artifacts/m1/m1-15-ransomware-lock.zip",

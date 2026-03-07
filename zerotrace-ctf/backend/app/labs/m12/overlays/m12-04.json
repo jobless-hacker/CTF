@@ -1,0 +1,9 @@
+{
+  "/": {
+    "etc": {
+      "cron.hourly": {
+        "cleanup.sh": "#!/bin/sh\n/usr/bin/find /tmp -type f -mtime +1 -delete\n"
+      }
+    }
+  }
+}

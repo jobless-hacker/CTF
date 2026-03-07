@@ -1,0 +1,6 @@
+﻿Exposed Backup Archive Triage Runbook (Excerpt)
+
+1) Correlate backup inventory, catalog classification, and cloud access records.
+2) Confirm public access through CloudTrail and object access logs.
+3) Validate policy violations and SIEM normalized archive name.
+4) Submit exposed full backup archive filename.

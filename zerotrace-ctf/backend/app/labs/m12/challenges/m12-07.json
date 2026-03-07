@@ -1,0 +1,20 @@
+{
+  "id": "m12-07",
+  "slug": "m12-07-writable-system-binary",
+  "title": "Writable System Binary",
+  "startPath": "/usr/bin",
+  "flag": {
+    "path": "/usr/bin/nettool",
+    "template": "ELF binary placeholder\n"
+  },
+  "hints": [
+    "Audit binaries in /usr/bin.",
+    "Use ls -la /usr/bin.",
+    "Identify the world-writable binary."
+  ],
+  "permissions": {
+    "/usr/bin/ping": "0755",
+    "/usr/bin/traceroute": "0755",
+    "/usr/bin/nettool": "0777"
+  }
+}

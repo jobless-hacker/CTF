@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "slug": "m9-06-social-media-leak",
+  "title": "Social Media Leak",
+  "difficulty": "medium",
+  "points": 150,
+  "description": "A public post may reveal sensitive location context during an OSINT investigation.\n\nDownload the investigation pack and correlate social feed exports, post content logs, hashtag aggregations, geolocation inference outputs, entity-link evidence, SIEM timeline events, and analyst notes to identify the location mentioned.\n\nFlag Format\nCTF{answer}",
+  "include_module_context": false,
+  "include_submission_footer": false,
+  "attachment_url": "/artifacts/m9/m9-06-social-media-leak.zip",
+  "flag": "REDACTED_USE_PRIVATE_FLAGS_FILE",
+  "publish": true
+}
