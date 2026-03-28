@@ -37,6 +37,7 @@ body {
   color: #e6f1ff;
   font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
   background: #03060a;
+  overflow-x: clip;
 }
 
 body::after {
@@ -447,11 +448,23 @@ h6 {
     @apply mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4;
   }
 
+  .zt-topbar-left {
+    @apply flex min-w-0 flex-1 flex-wrap items-center gap-3;
+  }
+
+  .zt-topbar-right {
+    @apply flex min-w-0 flex-wrap items-center justify-end gap-2;
+  }
+
   .zt-brand {
     @apply flex items-center gap-2 text-lg font-semibold uppercase;
     color: var(--zt-accent);
     text-shadow: 0 0 14px rgba(49, 255, 188, 0.45);
     letter-spacing: 0.08em;
+  }
+
+  .zt-brand-text {
+    @apply min-w-0 truncate;
   }
 
   .zt-brand-mark {
@@ -503,7 +516,7 @@ h6 {
   }
 
   .zt-main {
-    @apply px-6 py-8;
+    @apply px-4 py-6 md:px-6 md:py-8;
   }
 
   .zt-page {
@@ -698,7 +711,7 @@ h6 {
   }
 
   .zt-grid-3 {
-    @apply grid grid-cols-1 gap-4 md:grid-cols-3;
+    @apply grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3;
   }
 
   .zt-stat-card {
@@ -750,7 +763,7 @@ h6 {
   }
 
   .zt-form-grid {
-    @apply grid grid-cols-1 gap-4 md:grid-cols-2;
+    @apply grid grid-cols-1 gap-4 lg:grid-cols-2;
   }
 
   .zt-input,
@@ -780,6 +793,10 @@ h6 {
     border-color: transparent;
     letter-spacing: 0.06em;
     clip-path: polygon(7% 0, 100% 0, 93% 100%, 0 100%);
+    min-height: 2.75rem;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 
   .zt-button:disabled {
@@ -860,6 +877,8 @@ h6 {
     background: var(--zt-surface);
     box-shadow: var(--zt-shadow);
     position: relative;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   .zt-table-wrap::before {
@@ -899,10 +918,12 @@ h6 {
   }
 
   .zt-sidebar {
-    @apply w-72 border-r p-5;
+    @apply w-full border-b p-4 md:w-72 md:border-b-0 md:border-r md:p-5;
     background: rgba(3, 12, 10, 0.9);
     border-color: var(--zt-border);
-    box-shadow: inset -1px 0 0 rgba(49, 255, 188, 0.16);
+    box-shadow:
+      inset 0 -1px 0 rgba(49, 255, 188, 0.16),
+      inset -1px 0 0 rgba(49, 255, 188, 0.16);
   }
 
   .zt-sidebar-link {
@@ -923,5 +944,143 @@ h6 {
     border-color: var(--zt-border-strong);
     color: var(--zt-accent);
     background: var(--zt-accent-soft);
+  }
+}
+
+@media (max-width: 1024px) {
+  .zt-topbar {
+    padding: 0.9rem 1rem;
+  }
+
+  .zt-topbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .zt-topbar-left,
+  .zt-topbar-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .zt-nav {
+    width: 100%;
+  }
+
+  .zt-user-chip {
+    max-width: 11rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .zt-auth-content {
+    padding: 1.25rem 1rem;
+    align-items: flex-start;
+  }
+
+  .zt-auth-frame {
+    padding: 1rem;
+  }
+
+  .zt-auth-panel {
+    padding: 1rem;
+  }
+
+  .zt-topbar {
+    padding: 0.75rem;
+  }
+
+  .zt-brand {
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+  }
+
+  .zt-brand-mark {
+    height: 1.75rem;
+    width: 1.75rem;
+    font-size: 0.7rem;
+  }
+
+  .zt-nav {
+    gap: 0.45rem;
+  }
+
+  .zt-nav-link {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .zt-main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .zt-page {
+    gap: 1rem;
+  }
+
+  .zt-heading {
+    font-size: 1.25rem;
+  }
+
+  .zt-subheading {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .zt-pill {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .zt-pagination {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .zt-pagination .zt-button {
+    flex: 1 1 9rem;
+  }
+
+  .zt-sidebar {
+    box-shadow: inset 0 -1px 0 rgba(49, 255, 188, 0.16);
+  }
+}
+
+@media (max-width: 480px) {
+  .zt-brand-text {
+    display: none;
+  }
+
+  .zt-nav {
+    flex-wrap: wrap;
+  }
+
+  .zt-nav-link {
+    font-size: 0.68rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .zt-user-chip {
+    max-width: 8.25rem;
+    font-size: 0.68rem;
+    padding: 0.32rem 0.55rem;
+  }
+
+  .zt-button {
+    width: 100%;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    min-height: 2.55rem;
+    font-size: 0.72rem;
+  }
+
+  .zt-heading {
+    font-size: 1.1rem;
+  }
+
+  .zt-table {
+    min-width: 640px;
   }
 }

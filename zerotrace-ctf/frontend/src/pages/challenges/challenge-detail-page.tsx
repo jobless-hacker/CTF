@@ -50,6 +50,12 @@ const createInitialLabHistory = (cwd: string): LabHistoryEntry[] => [
   },
 ]
 
+const createLabSessionNonce = () => {
+  const nowFragment = Date.now().toString(36)
+  const randomFragment = Math.random().toString(36).slice(2, 12)
+  return `${nowFragment}_${randomFragment}`
+}
+
 const getAttemptLockStorageKey = (slug: string, userId?: string) =>
   `zerotrace.m1_attempt_locked.${(userId ?? "anon").trim().toLowerCase()}.${slug.trim().toLowerCase()}`
 
@@ -135,6 +141,7 @@ export const ChallengeDetailPage = () => {
   const [result, setResult] = useState<SubmitFlagResponse | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [labCwd, setLabCwd] = useState(() => getInitialLabCwd(slug))
+  const [labSessionNonce, setLabSessionNonce] = useState(() => createLabSessionNonce())
   const [labCommand, setLabCommand] = useState("")
   const [labValidationError, setLabValidationError] = useState<string | null>(null)
   const [copyStatus, setCopyStatus] = useState<string | null>(null)
@@ -179,12 +186,13 @@ export const ChallengeDetailPage = () => {
   useEffect(() => {
     const nextCwd = getInitialLabCwd(slug, data?.lab_start_path)
     setLabCwd(nextCwd)
+    setLabSessionNonce(createLabSessionNonce())
     setLabCommand("")
     setLabValidationError(null)
     setLabHintLevel(0)
     resetLabError()
     setLabHistory(createInitialLabHistory(nextCwd))
-  }, [slug, data?.lab_start_path])
+  }, [slug, data?.lab_start_path, lockIdentity])
 
   if (!slug) {
     return (
@@ -243,7 +251,10 @@ export const ChallengeDetailPage = () => {
     }
 
     try {
-      const response = await mutateAsync(parsed.data)
+      const response = await mutateAsync({
+        ...parsed.data,
+        lab_session_nonce: isTerminalLabChallenge ? labSessionNonce : undefined,
+      })
       setResult(response)
       if (isM1SingleAttemptChallenge) {
         setIsLocallyAttemptLocked(true)
@@ -302,6 +313,7 @@ export const ChallengeDetailPage = () => {
     const parsed = challengeLabCommandSchema.safeParse({
       command: rawCommand,
       cwd: labCwd,
+      lab_session_nonce: labSessionNonce,
     })
     if (!parsed.success) {
       setLabValidationError(parsed.error.issues[0]?.message ?? "Command is required.")
@@ -344,6 +356,7 @@ export const ChallengeDetailPage = () => {
   const resetLabSession = () => {
     const initialCwd = getInitialLabCwd(data.slug, data.lab_start_path)
     setLabCwd(initialCwd)
+    setLabSessionNonce(createLabSessionNonce())
     setLabCommand("")
     setLabValidationError(null)
     setLabHintLevel(0)
@@ -472,7 +485,7 @@ export const ChallengeDetailPage = () => {
             </button>
           </div>
 
-          <div className="mt-4 max-h-96 overflow-y-auto rounded-lg border border-cyber-border bg-black/70 p-4 font-mono text-xs leading-6 text-cyber-text">
+          <div className="mt-4 max-h-96 overflow-x-auto overflow-y-auto rounded-lg border border-cyber-border bg-black/70 p-4 font-mono text-xs leading-6 text-cyber-text">
             {labHistory.map((entry) => (
               <div key={entry.id} className="mb-3">
                 <div className="text-cyber-neon">
@@ -480,7 +493,7 @@ export const ChallengeDetailPage = () => {
                 </div>
                 {entry.output ? (
                   <pre
-                    className={`mt-1 whitespace-pre-wrap ${entry.exitCode === 0 ? "text-cyber-text" : "text-red-300"}`}
+                    className={`mt-1 overflow-x-auto whitespace-pre-wrap break-words ${entry.exitCode === 0 ? "text-cyber-text" : "text-red-300"}`}
                   >
                     {entry.output}
                   </pre>
@@ -502,7 +515,7 @@ export const ChallengeDetailPage = () => {
               {isLabPending ? "Running..." : "Run"}
             </button>
           </form>
-          <p className="mt-2 text-xs text-cyber-textMuted">
+          <p className="mt-2 break-words text-xs text-cyber-textMuted">
             Examples: help, ls -a, grep -R include /etc, find /opt -name "*.tar"
           </p>
 

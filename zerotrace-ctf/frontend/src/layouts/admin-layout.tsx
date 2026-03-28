@@ -8,12 +8,12 @@ export const AdminLayout = () => {
       <div className="zt-app-glow-right" aria-hidden />
       <div className="zt-app-glow-left" aria-hidden />
 
-      <div className="zt-app-content flex min-h-screen">
+      <div className="zt-app-content flex min-h-screen flex-col lg:flex-row">
         <aside className="zt-sidebar">
           <h2 className="zt-panel-title mb-2">Control Plane</h2>
           <p className="zt-subheading mb-6 mt-0">Operations, content governance, and telemetry.</p>
 
-          <nav className="space-y-2">
+          <nav className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
             <NavLink end to="/admin" className={({ isActive }) => `zt-sidebar-link ${isActive ? "zt-sidebar-link--active" : ""}`}>
               Dashboard
             </NavLink>

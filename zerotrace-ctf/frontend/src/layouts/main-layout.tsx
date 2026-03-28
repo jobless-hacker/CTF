@@ -21,10 +21,10 @@ export const MainLayout = () => {
       <div className="zt-app-content">
         <nav className="zt-topbar">
           <div className="zt-topbar-inner">
-            <div className="flex items-center gap-5">
+            <div className="zt-topbar-left">
               <NavLink to="/" className="zt-brand">
                 <span className="zt-brand-mark">ZT</span>
-                <span>ZeroTrace CTF</span>
+                <span className="zt-brand-text">ZeroTrace CTF</span>
               </NavLink>
 
               <div className="zt-nav">
@@ -50,7 +50,7 @@ export const MainLayout = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="zt-topbar-right">
               {isAuthenticated ? (
                 <>
                   <XPSummaryBadge />

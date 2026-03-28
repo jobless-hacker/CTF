@@ -63,7 +63,7 @@ export const TrackListPage = () => {
       </section>
 
       {filteredTracks.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           {filteredTracks.map((track) => (
             <Link key={track.slug} to={`/tracks/${track.slug}`} className="zt-card-link">
               <p className="zt-kicker">Track</p>

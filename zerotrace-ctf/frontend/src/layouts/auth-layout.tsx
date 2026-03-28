@@ -26,10 +26,10 @@ export const AuthLayout = ({ panelTitle, panelSubtitle, children, footer }: Auth
       <div className="zt-auth-content">
         <div className="zt-auth-shell">
           <header className="zt-auth-header">
-            <h1 className="zt-auth-brand font-orbitron text-6xl tracking-[0.4em] text-cyber-neon drop-shadow-[0_0_25px_rgba(0,255,156,0.8)] glitch-text">
+            <h1 className="zt-auth-brand font-orbitron text-3xl tracking-[0.22em] text-cyber-neon drop-shadow-[0_0_25px_rgba(0,255,156,0.8)] glitch-text sm:text-4xl sm:tracking-[0.28em] md:text-5xl md:tracking-[0.34em] lg:text-6xl lg:tracking-[0.4em]">
               ZEROTRACE CTF
             </h1>
-            <p className="text-xs tracking-[0.6em] text-cyber-textMuted uppercase">
+            <p className="text-[10px] tracking-[0.24em] text-cyber-textMuted uppercase sm:text-xs sm:tracking-[0.42em] md:tracking-[0.55em]">
               INFILTRATE • EXPLOIT • CAPTURE THE FLAG
             </p>
           </header>

@@ -27,6 +27,7 @@ export interface SubmitFlagResponse {
 export interface ChallengeLabCommandInput {
   command: string
   cwd: string
+  lab_session_nonce?: string
 }
 
 export interface ChallengeLabCommandResponse {
